@@ -1,4 +1,7 @@
+const express = require("express");
+const router = express.Router();
 const func = require("../function/user");
+
 router.route("/createUser").post(async (req, res) => {
   try {
     let response = await func.createUser(req.body);
@@ -17,7 +20,6 @@ router.route("/getUsers").post(async (req, res) => {
     res.status(500).json({ error: error });
   }
 });
-
 router.route("/getUserById").post(async (req, res) => {
   try {
     let response = await func.getUserById(req.body);

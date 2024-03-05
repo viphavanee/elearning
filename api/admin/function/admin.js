@@ -1,17 +1,18 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
-const createUser = async (data) => {
+const createAdmin = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
 
     const database = client.db("project1");
-    const collection = database.collection("users");
+    const collection = database.collection("admin");
 
     const validRoles = ["std", "admin"];
     if (!validRoles.includes(data.role)) {
       throw new Error("Invalid role");
     }
+
     const currentDate = new Date();
     const hashedPassword = await bcrypt.hash(data.password, 10);
     await collection.insertOne({
@@ -28,7 +29,7 @@ const createUser = async (data) => {
     return {
       status_code: "200",
       status_phrase: "ok",
-      message: `create user success`,
+      message: `create admin success`,
     };
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -39,26 +40,26 @@ const createUser = async (data) => {
     };
   }
 };
-const getUsers = async () => {
+const getAdmin = async () => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
 
     const database = client.db("project1");
-    const collection = database.collection("users");
+    const collection = database.collection("admin");
 
-    const users = await collection.find().toArray();
+    const admin = await collection.find().toArray();
 
     await client.close();
 
     return {
       status_code: "200",
       status_phrase: "ok",
-      message: `get users success`,
-      data: users,
+      message: `get admin success`,
+      data: admin,
     };
   } catch (error) {
-    console.error("Error getting users:", error);
+    console.error("Error getting admin:", error);
     return {
       status_code: "301",
       status_phrase: "fail",
@@ -66,31 +67,32 @@ const getUsers = async () => {
     };
   }
 };
-const getUserById = async (data) => {
+
+const getAdminById = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
     const database = client.db("project1");
-    const collection = database.collection("users");
+    const collection = database.collection("admin");
     const objectId = new ObjectId(data.id);
-    const user = await collection.findOne({ _id: objectId });
+    const admin = await collection.findOne({ _id: objectId });
     await client.close();
-    if (user) {
+    if (admin) {
       return {
         status_code: "200",
         status_phrase: "ok",
-        message: `get user by id success`,
-        data: user,
+        message: `get admin by id success`,
+        data: admin,
       };
     } else {
       return {
         status_code: "404",
         status_phrase: "not found",
-        message: `user with id ${data.id} not found`,
+        message: `admin with id ${data.id} not found`,
       };
     }
   } catch (error) {
-    console.error("Error getting user by id:", error);
+    console.error("Error getting admin by id:", error);
     return {
       status_code: "301",
       status_phrase: "fail",
@@ -100,7 +102,7 @@ const getUserById = async (data) => {
 };
 
 module.exports = {
-  createUser,
-  getUsers,
-  getUserById,
+  createAdmin,
+  getAdmin,
+  getAdminById
 };
