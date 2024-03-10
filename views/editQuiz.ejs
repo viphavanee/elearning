@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson</title>
+    <link href="./public/css/editLesson.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="title">
+        <h2>แก้ไขบทเรียน</h2>
+    </div>
+    <section>
+        <div class="container">
+            <form action="/lesson/edit/<%= editQuiz._id %>" method="POST" enctype="multipart/form-data">
+                <label for="exampleFormControlInput1" class="form-label">บทที่:</label>
+                <input type="text" name="lessonNum" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonNum %>" readonly>
+                <br>
+                <label for="exampleFormControlInput1" class="form-label">ชื่อควิซ:</label>
+                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
+                <br>
+                <label for="exampleFormControlInput1" class="form-label">จำนวนคำถาม:</label>
+                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
+                <br>
+                <label for="exampleFormControlInput1" class="form-label">เวลา(นาที):</label>
+                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
+                <br>
+                <label for="exampleFormControlInput1" class="form-label">คะแนน:</label>
+                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
+                <br>
+                <label> ประเภทแบบทดสอบ :</label>
+                <select name="status" id="status">
+                  <option value="pre-test">ก่อนเรียน</option>
+                  <option value="post-test">หลังเรียน</option>
+                </select>
+                <br>
+            
+                <div class="but">
+                    <button type="submit" class="btn btn-success">บันทึก</button>
+                    <a href="/quizManage" class="btn btn-secondary">ยกเลิก</a>
+                </div>
+            </form>
+            
+        </div>
+    </section>
+</body>
+
+</html>

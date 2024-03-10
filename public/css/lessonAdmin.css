@@ -1,0 +1,97 @@
+#lessonTable {
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+#lessonTable td,
+#lessonTable th {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#lessonTable tr {
+  background-color: #f2f2f2;
+}
+
+#lessonTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #4d4d4d;
+  color: white;
+}
+.headL {
+  margin-top: 30px;
+  text-align: center;
+  color: var(--black);
+}
+.headMain {
+  color: var(--black);
+}
+#butt {
+  width: 100px;
+  color: #333;
+  border: 1px solid rgb(98, 98, 98);
+  background-color: #ddd;
+}
+.butt a {
+  font-size: small;
+}
+
+.butt {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.container-ls {
+  padding: 50px;
+}
+.card-img-top {
+  width: 100px;
+}
+
+#btnManageL {
+  background-color: #333;
+  width: 50px;
+}
+#btnManageM {
+  color: #4a3802;
+  background-color: #ffc108;
+  width: 50px;
+}
+#btnManageR {
+  width: 50px;
+  background-color: #e74c3c;
+}
+.butAll {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.butAll a {
+  font-size: smaller;
+  padding: 5px 10px;
+}
+
+/* ของ create */
+#createBtn {
+  width: 100%;
+  background-color: #333;
+}
+
+/* edit */
+.img-fluid {
+  width: 100%;
+}
+
+#butEditL {
+  background-color: #333;
+}
+#butEditR {
+  background-color: #333;
+}
+

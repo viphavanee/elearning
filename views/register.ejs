@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ลงทะเบียน</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+  <link rel="stylesheet" href="./public/css/auth.css" />
+</head>
+<body>
+    <form action="/register" method="POST">
+      <h2>ลงทะเบียน</h2>
+      <div class="form-group">
+        <label for="fname">ชื่อ</label>
+        <input type="text" name="firstname" placeholder="กรอกชื่อ" />
+      </div>
+      <div class="form-group">
+        <label for="lname">นามสกุล</label>
+        <input type="text" name="lastname" placeholder="กรอกนามสกุล" />
+      </div>
+      <div class="form-group">
+        <label for="school">โรงเรียน</label>
+        <input type="text" name="school" placeholder="กรอกชื่อโรงเรียน" />
+      </div>
+      <div class="form-group">
+        <label for="email">อีเมล</label>
+        <input type="text" name="email" placeholder="กรอกอีเมล" />
+      </div>
+      <div class="form-group password">
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" name="password" placeholder="กรอกรหัสผ่าน" />
+        <i id="pass-toggle-btn" class="fa-solid fa-eye"></i>
+      </div>
+      <div class="form-group date">
+        <label for="date">วันเกิด</label>
+        <input type="date" name="birthDate" placeholder="Select your date" />
+      </div>
+      <div class="form-group gender">
+        <label for="role">กลุ่มผู้ใช้งาน</label>
+        <select name="role" id="role">
+          <option value="" selected disabled>เลือกกลุ่มผู้ใช้งาน</option>
+          <option value="student">นักเรียน</option>
+          <option value="teacher">คุณครู</option>
+        </select>
+      </div>
+      <div class="form-group submit-btn">
+        <input type="submit" name="submit" value="ยืนยันการลงทะเบียน" />
+      </div>
+      <div class="link-container">
+        <a href="#" class="noAc">มีบัญชีแล้ว?</a>
+        <a href="/login" class="link">เข้าสู่ระบบ</a>
+      </div>
+    </form>
+  <script src="/public/js/scrptForSS.js"></script>
+</body>
+
+</html>

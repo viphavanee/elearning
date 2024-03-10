@@ -1,30 +1,31 @@
 const { MongoClient, ObjectId } = require("mongodb");
-const bcrypt = require("bcrypt");
-const createAdmin = async (data) => {
+
+const createAttempt = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
 
     const database = client.db("project1");
-    const collection = database.collection("admin");
+    const collection = database.collection("attempts");
 
     const currentDate = new Date();
-    const hashedPassword = await bcrypt.hash(data.password, 10);
     await collection.insertOne({
-      firstname: data.firstname,
-      lastname: data.lastname,
-      email: data.email,
-      password: hashedPassword,
-      role: data.role,
+      attemptId: data.attemptId,
+      studentId: data.studentId,
+      quizId: data.quizId,
+      attemptDate: data.attemptDate,
+      attemptType: data.attemptType,
+      totalScore: data.totalScore,
+      checked: data.checked,
       createDate: currentDate,
-      updateDate: currentDate,
+      updateDate: currentDate
     });
 
     await client.close();
     return {
       status_code: "200",
       status_phrase: "ok",
-      message: `create admin success`,
+      message: `create attempt success`,
     };
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -35,26 +36,26 @@ const createAdmin = async (data) => {
     };
   }
 };
-const getAdmin = async () => {
+const getAttempt = async () => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
 
     const database = client.db("project1");
-    const collection = database.collection("admin");
+    const collection = database.collection("attempts");
 
-    const admin = await collection.find().toArray();
+    const attempt = await collection.find().toArray();
 
     await client.close();
 
     return {
       status_code: "200",
       status_phrase: "ok",
-      message: `get admin success`,
-      data: admin,
+      message: `get attempt success`,
+      data: attempt,
     };
   } catch (error) {
-    console.error("Error getting admin:", error);
+    console.error("Error getting attempt:", error);
     return {
       status_code: "301",
       status_phrase: "fail",
@@ -62,32 +63,31 @@ const getAdmin = async () => {
     };
   }
 };
-
-const getAdminById = async (data) => {
+const getAttemptById = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
     const database = client.db("project1");
-    const collection = database.collection("admin");
+    const collection = database.collection("attempts");
     const objectId = new ObjectId(data.id);
-    const admin = await collection.findOne({ _id: objectId });
+    const attempt = await collection.findOne({ _id: objectId });
     await client.close();
-    if (admin) {
+    if (attempt) {
       return {
         status_code: "200",
         status_phrase: "ok",
-        message: `get admin by id success`,
-        data: admin,
+        message: `get attempt by id success`,
+        data: getAttempt,
       };
     } else {
       return {
         status_code: "404",
         status_phrase: "not found",
-        message: `admin with id ${data.id} not found`,
+        message: `attempt with id ${data.id} not found`,
       };
     }
   } catch (error) {
-    console.error("Error getting admin by id:", error);
+    console.error("Error getting attempt by id:", error);
     return {
       status_code: "301",
       status_phrase: "fail",
@@ -97,7 +97,7 @@ const getAdminById = async (data) => {
 };
 
 module.exports = {
-  createAdmin,
-  getAdmin,
-  getAdminById
+  createAttempt,
+  getAttempt,
+  getAttemptById,
 };

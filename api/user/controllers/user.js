@@ -29,5 +29,16 @@ router.route("/getUserById").post(async (req, res) => {
     res.status(500).json({ error: error });
   }
 });
+router.route("/updateUserById/:id").put(async (req, res) => {
+  try {
+    const id = req.params.id;
+    const userData = req.body;
+    let response = await func.updateUserById(id, userData);
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
+  }
+});
 
 module.exports = router;

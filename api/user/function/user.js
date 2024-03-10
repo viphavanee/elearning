@@ -8,16 +8,14 @@ const createUser = async (data) => {
     const database = client.db("project1");
     const collection = database.collection("users");
 
-    const validRoles = ["std", "admin"];
-    if (!validRoles.includes(data.role)) {
-      throw new Error("Invalid role");
-    }
     const currentDate = new Date();
     const hashedPassword = await bcrypt.hash(data.password, 10);
     await collection.insertOne({
+      studentId: data.studentId,
       firstname: data.firstname,
       lastname: data.lastname,
       email: data.email,
+      school: data.school,
       password: hashedPassword,
       role: data.role,
       createDate: currentDate,
@@ -102,5 +100,5 @@ const getUserById = async (data) => {
 module.exports = {
   createUser,
   getUsers,
-  getUserById,
+  getUserById
 };

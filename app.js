@@ -6,9 +6,25 @@ const morgan = require("morgan")
 require("dotenv").config()
 const port = parseInt(process.env.PORT)
 const jwt = require("express-jwt")
+const session = require('express-session');
 const compression = require('compression')
 const cors = require("cors")
 const fs = require("fs")
+const path = require('path');
+
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(session({
+    secret: "node secret",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use("*", (req, res, next) => {
+    loggedIn = req.session.userId
+    next()
+})
 app.use(compression())
 app.use(
     morgan(
@@ -39,6 +55,8 @@ app.use(bodyParser.json({
 }))
 
 app.get("/", function (req, res, next) {
-    res.send(`listening port ${port}`)
+    res.render('login');
 })
+
+
 app.use(require('./router'))
