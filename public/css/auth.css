@@ -13,7 +13,16 @@ body {
   justify-content: center;
   min-height: 100vh;
   padding: 0 10px;
-  background: #1bb295;
+  /* background-image: url('your-gif-url.gif');
+  background-position: center;
+  background-size: cover;
+  overflow: hidden; */
+  background-image: url('https://img.freepik.com/premium-vector/people-using-sexed-app-human-biology-anatomy-lesson-sex-education-mental-physical-health-contraception-female-reproductive-system-concept-vector-illustration_48369-47260.jpg');
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: 85% center;
+  margin-right: 40%;
+  background-attachment: fixed;
 }
 .noAc {
   color: rgb(117, 117, 117);
@@ -41,7 +50,7 @@ form {
   max-width: 500px;
   width: 100%;
   border-radius: 7px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 form h2 {
@@ -118,10 +127,11 @@ form .password i {
   cursor: pointer;
   font-weight: 500;
   text-align: center;
-  background: #1bb295;
+  background: #6d7fd1;
   transition: 0.2s ease;
 }
 
 .submit-btn input:hover {
-  background: #179b81;
+  background: #ff497a;
+  opacity: 0.5;
 }

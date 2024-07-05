@@ -1,24 +1,35 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const { v4: uuidv4 } = require('uuid');
 
+
 const createQuiz = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
     const database = client.db("project1");
     const collection = database.collection("quiz");
+
+    // Check if a quiz for the specified lessonId already exists
+    const existingQuiz = await collection.findOne({ lessonId: data.lessonId, isDeleted: false });
+    if (existingQuiz) {
+      await client.close();
+      return {
+        status_code: "400",
+        status_phrase: "fail",
+        message: `Quiz for this lesson already exists`,
+      };
+    }
+
     const currentDate = new Date();
-    const quizId = uuidv4();
     await collection.insertOne({
-      quizId: quizId,
       lessonId: data.lessonId,
       quizName: data.quizName,
-      status: data.status,
       numberOfQuestions: data.numberOfQuestions,
       timeInMinutes: data.timeInMinutes,
       score: data.score,
       createDate: currentDate,
-      updateDate: currentDate
+      updateDate: currentDate,
+      isDeleted: false
     });
 
     await client.close();
@@ -36,6 +47,7 @@ const createQuiz = async (data) => {
     };
   }
 };
+
 const getQuiz = async () => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -70,14 +82,16 @@ const getQuizById = async (data) => {
     const objectId = new ObjectId(data.id);
     const quiz = await collection.findOne({ _id: objectId, isDeleted: { $ne: true } });
     await client.close();
+
     if (quiz) {
       return {
         status_code: "200",
         status_phrase: "ok",
         message: `get quiz by id success`,
-        data: getQuiz,
+        data: quiz,
       };
     } else {
+      console.log(`quiz with id ${data.id} not found`);
       return {
         status_code: "404",
         status_phrase: "not found",
@@ -94,33 +108,36 @@ const getQuizById = async (data) => {
   }
 };
 
+
 const updateQuiz = async (data) => {
   try {
-    const { id, status, lessonId, quizName, numberOfQuestions, timeInMinutes, score } = data;
     const client = new MongoClient(process.env.uri);
     await client.connect();
     const database = client.db("project1");
     const collection = database.collection("quiz");
 
-    const objectId = new ObjectId(id);
+    const objectId = new ObjectId(data.id);
     const currentDate = new Date();
 
-    let updateStatus;
-    if (status === "pre" || status === "post") {
-      updateStatus = status;
-    } else {
-      throw new Error("Invalid status value");
+    let newQuizData = {};
+
+    if (data.newquizName) {
+      newQuizData.quizName = data.newquizName;
+    }
+    if (data.newtimeInMinutes) {
+      newQuizData.timeInMinutes = data.newtimeInMinutes;
+    }
+    if (data.newscore) {
+      newQuizData.score = data.newscore;
+    }
+    if (data.newlessonId) {
+      newQuizData.lessonId = data.newlessonId;
     }
 
     const updateData = {
       $set: {
-        status: updateStatus,
-        lessonId: lessonId,
-        quizName: quizName,
-        numberOfQuestions: numberOfQuestions,
-        timeInMinutes: timeInMinutes,
-        score: score,
-        updateDate:currentDate
+        updateDate: currentDate,
+        ...newQuizData
       }
     };
 
@@ -130,17 +147,18 @@ const updateQuiz = async (data) => {
     );
 
     await client.close();
+
     if (result.matchedCount === 1) {
       return {
         status_code: "200",
         status_phrase: "ok",
-        message: `update quiz success for quiz with id ${id}`,
+        message: `update quiz success for quiz with id ${data.id}`,
       };
     } else {
       return {
         status_code: "404",
         status_phrase: "not found",
-        message: `quiz with id ${id} not found or is already deleted`,
+        message: `quiz with id ${data.id} not found or is already deleted`,
       };
     }
   } catch (error) {
@@ -148,10 +166,11 @@ const updateQuiz = async (data) => {
     return {
       status_code: "301",
       status_phrase: "fail",
-      message: `error: ${error.message}`,
+      message: `error`,
     };
   }
 };
+
 
 
 const softDelete = async (data) => {
@@ -190,6 +209,8 @@ const softDelete = async (data) => {
     };
   }
 };
+
+
 
 module.exports = {
   createQuiz,

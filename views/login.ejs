@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <form action="/login/adminChecked" method="POST">
+  <form action="/login/userChecked" method="POST">
     <h2>เข้าสู่ระบบ</h2>
     <div class="form-group">
       <label for="email">อีเมล</label>
@@ -27,12 +27,13 @@
       <input type="submit" name="submit" value="เข้าสู่ระบบ" />
     </div>
     <div class="link-container">
-    <a href="#" class="noAc">ยังไม่มีบัญชีผู้ใช้งาน?</a>
-    <a href="/register" class="link">ลงทะเบียน</a>
-  </div>
+      <a href="#" class="noAc">ยังไม่มีบัญชีผู้ใช้งาน?</a>
+      <a href="/register" class="link">ลงทะเบียน</a>
+    </div>
   </form>
 
   <script src="./public/js/script.js"></script>
+  <script src="/public/js/userLogin.js"></script>
 </body>
 
 </html>

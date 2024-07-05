@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 10px;
+  /* background-image: url('your-gif-url.gif');
+  background-position: center;
+  background-size: cover;
+  overflow: hidden; */
+  background-image: url('https://t3.ftcdn.net/jpg/04/29/27/88/360_F_429278832_zyb19kcwalTomqDsKnKIW3RlXFWhcecS.jpg');
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: 89% center;
+  margin-right: 40%;
+  background-attachment: fixed;
+}
+.noAc {
+  color: rgb(117, 117, 117);
+  text-decoration: none;
+  cursor: default;
+}
+.link {
+  color: black;
+  text-decoration: none;
+}
+.link-container {
+  display: flex;
+  justify-content: center;
+}
+.noAc,
+.link {
+  margin: 0 5px;
+}
+.link:hover {
+  color: red;
+}
+form {
+  padding: 25px;
+  background: #fff;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 7px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+form h2 {
+  font-size: 27px;
+  text-align: center;
+  margin: 0px 0 30px;
+}
+
+form .form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+form label {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 7px;
+}
+
+form input,
+form select {
+  height: 45px;
+  padding: 10px;
+  width: 100%;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #bfbfbf;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #9a9a9a;
+}
+
+form input.error,
+form select.error {
+  border-color: #f91919;
+  background: #f9f0f1;
+}
+
+form small {
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+  color: #f91919;
+}
+
+form .password i {
+  position: absolute;
+  right: 0px;
+  height: 45px;
+  top: 28px;
+  font-size: 13px;
+  line-height: 45px;
+  width: 45px;
+  cursor: pointer;
+  color: #939393;
+  text-align: center;
+}
+
+.submit-btn {
+  margin-top: 30px;
+}
+
+.submit-btn input {
+  color: white;
+  border: none;
+  height: auto;
+  font-size: 16px;
+  padding: 13px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  text-align: center;
+  background: #6d7fd1;
+  transition: 0.2s ease;
+}
+
+.submit-btn input:hover {
+    background: #ff497a;
+    opacity: 0.5;
+}

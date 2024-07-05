@@ -2,15 +2,16 @@ const express = require("express");
 const router = express.Router();
 const func = require("../function/lesson");
 const multer = require("multer");
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.route("/").get(async(req, res) => {
+
+router.route("/").get(async (req, res) => {
   try {
     const response = await func.getLesson();
-    if (response.status_code === "200") {
-      const lessons = response.data;
+    if (response.status_code === "200") {//Login  ->  token sign -> localStorage
+      const lessons = response.data;      //Client -> Middleware -> API -> DB -> API -> Client
+      console.log(lessons)
       res.render("lesson", { lessons });
     } else {
       res.status(500).json({ error: response.message });
@@ -21,7 +22,23 @@ router.route("/").get(async(req, res) => {
   }
 });
 
-router.route("/createLesson").get(async(req, res) => {
+router.route("/Std").get(async (req, res) => {
+  try {
+    let response = await func.getLesson();
+    if (response.status_code === "200") {
+      const lessons = response.data;
+      res.render("lessonStd", { lessons });
+    } else {
+      res.status(500).json({ error: response.message });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error });
+  }
+});
+
+
+router.route("/createLesson").get(async (req, res) => {
   res.render("createLesson");
 });
 
@@ -52,7 +69,7 @@ router.route("/lesson/:id").get(async (req, res) => {
   }
 });
 
-router.route("/edit/:id").get(async (req, res) => {
+router.route("/viewLesson/:id").get(async (req, res) => {
   try {
     const lessonId = req.params.id;
     if (!lessonId) {
@@ -60,8 +77,28 @@ router.route("/edit/:id").get(async (req, res) => {
       return res.status(400).json({ error: "Invalid lesson ID" });
     }
 
+    const lesson = await func.getLessonById({ id: lessonId });
+
+    if (lesson.status_code === "200") {
+      res.render("viewLesson", { lesson: lesson.data });
+    } else {
+      res.status(404).json({ error: "lesson not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+router.route("/edit/:id").get(async (req, res) => {
+  try {
+    const lessonId = req.params.id;
+    if (!lessonId) {
+      console.error("Invalid lesson ID:", lessonId);
+      return res.status(400).json({ error: "Invalid lesson ID" });
+    }
     const editLesson = await func.getLessonById({ id: lessonId });
-    
     if (editLesson.status_code === "200") {
       res.render("editLesson", { editLesson: editLesson.data });
     } else {
@@ -86,11 +123,13 @@ router.route("/edit/:id").post(upload.single("newImage"), async (req, res) => {
       newImage = req.file.buffer.toString("base64");
     }
 
+    const newContent = req.body.newContent
     const newLessonName = req.body.newLessonName;
     const updateResult = await func.updateLessonImage({
       id: lessonId,
       newImage,
       newLessonName,
+      newContent
     });
 
     if (updateResult.status_code === "200") {

@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+
+
+#createLessonForm {
+    padding: 25px;
+    background: #fff;
+    margin-left: 89px;
+    width: 85%;
+    border-radius: 7px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+#createLessonForm h2 {
+    font-size: 27px;
+    text-align: center;
+    margin: 0px 0 30px;
+}
+
+#createLessonForm .form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+#createLessonForm label {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+#createLessonForm .bx,
+#createLessonForm select {
+    height: 45px;
+    padding: 10px;
+    width: 100%;
+    font-size: 15px;
+    outline: none;
+    background: #fff;
+    border-radius: 3px;
+    border: 1px solid #bfbfbf;
+}
+
+#createLessonForm input:focus,
+#createLessonForm select:focus {
+    border-color: #9a9a9a;
+}
+
+#createLessonForm input.error,
+#createLessonForm select.error {
+    border-color: #f91919;
+    background: #f9f0f1;
+}
+
+#createLessonForm small {
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+    color: #f91919;
+}
+
+.submit-btn {
+    margin-top: 30px;
+}
+
+.submit-btn input[type="submit"] {
+    background-color: #4e73df;
+    color: #ffffff;
+    border: none;
+    width: 300px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit-btn {
+    display: flex;
+    justify-content: center;
+}

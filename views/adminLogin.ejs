@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+  <link rel="stylesheet" href="./public/css/auth.css" />
+</head>
+
+<body>
+  <form action="/login/adminChecked" method="POST">
+    <h2>เข้าสู่ระบบ Admin</h2>
+    <div class="form-group">
+      <label for="email">อีเมล</label>
+      <input type="text" name="email" placeholder="กรอกอีเมล" />
+    </div>
+    <div class="form-group password">
+      <label for="password">รหัสผ่าน</label>
+      <input type="password" name="password" placeholder="กรอกรหัสผ่าน" />
+      <i id="pass-toggle-btn" class="fa-solid fa-eye"></i>
+    </div>
+    </div>
+    <div class="form-group submit-btn">
+      <input type="submit" name="submit" value="เข้าสู่ระบบ" />
+    </div>
+    <div class="link-container">
+      <a href="#" class="noAc">ยังไม่มีบัญชีผู้ใช้งาน?</a>
+      <a href="/register" class="link">ลงทะเบียน</a>
+    </div>
+  </form>
+
+  <script src="./public/js/script.js"></script>
+  <script src="/public/js/adminLogin.js"></script>
+</body>
+
+</html>

@@ -2,51 +2,171 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson</title>
-    <link href="./public/css/editLesson.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>เพิ่มแบบทดสอบ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="title">
-        <h2>แก้ไขบทเรียน</h2>
-    </div>
-    <section>
-        <div class="container">
-            <form action="/lesson/edit/<%= editQuiz._id %>" method="POST" enctype="multipart/form-data">
-                <label for="exampleFormControlInput1" class="form-label">บทที่:</label>
-                <input type="text" name="lessonNum" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonNum %>" readonly>
-                <br>
-                <label for="exampleFormControlInput1" class="form-label">ชื่อควิซ:</label>
-                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
-                <br>
-                <label for="exampleFormControlInput1" class="form-label">จำนวนคำถาม:</label>
-                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
-                <br>
-                <label for="exampleFormControlInput1" class="form-label">เวลา(นาที):</label>
-                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
-                <br>
-                <label for="exampleFormControlInput1" class="form-label">คะแนน:</label>
-                <input type="text" name="lessonName" class="form-control w-100" id="exampleFormControlInput1" value="<%= editQuiz.lessonName %>">
-                <br>
-                <label> ประเภทแบบทดสอบ :</label>
-                <select name="status" id="status">
-                  <option value="pre-test">ก่อนเรียน</option>
-                  <option value="post-test">หลังเรียน</option>
-                </select>
-                <br>
-            
-                <div class="but">
-                    <button type="submit" class="btn btn-success">บันทึก</button>
-                    <a href="/quizManage" class="btn btn-secondary">ยกเลิก</a>
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link" href="/lesson">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/quizAdmin">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/newsAdmin">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-user-group"></i>
+                    <span>จัดการผู้ใช้งาน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
+                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="container-fluid">
+                    <form action="/quizAdmin/edit/<%= editquiz._id %>" method="POST">
+                        <h2>แก้ไขแบบทดสอบ</h2>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="name">บทที่</label><br>
+                                <input type="text" name="newlessonId" class="bx" placeholder="บทที่"
+                                    value="<%= editquiz.lessonId %>" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="name">ชื่อแบบทดสอบ</label><br>
+                                <input type="text" name="newquizName" class="bx" placeholder="ชื่อแบบทดสอบ" required
+                                    value="<%= editquiz.quizName %>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="name">จำนวนคำถาม</label><br>
+                                <input type="number" name="newnumberOfQuestions" class="bx" placeholder="จำนวนคำถาม"
+                                    required value="<%= editquiz.numberOfQuestions %>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="name">เวลา (นาที)</label><br>
+                                <input type="number" name="newtimeInMinutes" class="bx" placeholder="เวลา (นาที)"
+                                    value="<%= editquiz.timeInMinutes %>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="name">คะแนน</label><br>
+                                <input type="number" name="newscore" class="bx" placeholder="คะแนน"
+                                    value="<%= editquiz.score %>">
+                            </div>
+                        </div>
+                      
+                        <div class="form-group submit-btn">
+                            <button type="submit" class="btn btn-success">บันทึก</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            
+            </div>
         </div>
-    </section>
+    </div>
+    <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+    <script src="/public/js/tinymceInit.js"></script>
+    <script src="/public/js/script.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/js/getdata.js"></script>
 </body>
 
 </html>

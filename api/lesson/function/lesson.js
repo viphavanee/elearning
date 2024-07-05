@@ -151,24 +151,33 @@ const updateLessonImage = async (data) => {
     const currentDate = new Date();
 
     let newImageData = {};
+    let newLessonData = {};
+
     if (data.newImage) {
       newImageData.image = data.newImage;
     }
     if (data.newLessonName) {
-      newImageData.lessonName = data.newLessonName;
+      newLessonData.lessonName = data.newLessonName;
     }
+    if (data.newContent) {
+      newLessonData.content = data.newContent;
+    }
+
     const updateData = {
       $set: {
         updateDate: currentDate,
-        ...newImageData 
+        ...newImageData,
+        ...newLessonData
       }
     };
+
     const result = await collection.updateOne(
       { _id: objectId, isDeleted: { $ne: true } },
       updateData
     );
 
     await client.close();
+
     if (result.matchedCount === 1) {
       return {
         status_code: "200",
@@ -191,6 +200,7 @@ const updateLessonImage = async (data) => {
     };
   }
 };
+
 
 
 
