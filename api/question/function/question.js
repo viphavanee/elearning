@@ -118,8 +118,6 @@ const getQuestionByQId = async (data) => {
     await client.connect();
     const database = client.db("project1");
     const collection = database.collection("questions");
-
-    console.log("Querying for quizId:", data.quizId);
     const question = await collection.find({ quizId: data.quizId, isDeleted: { $ne: true } }).toArray();
     await client.close();
 

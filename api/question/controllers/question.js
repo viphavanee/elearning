@@ -66,6 +66,34 @@ router.route("/getQuestion/:id").get(async (req, res) => {
   }
 });
 
+
+
+router.route("/pre/:id").get(async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    if (!quizId) {
+      console.error("Invalid quiz ID:", quizId);
+      return res.status(400).json({ error: "Invalid quiz ID" });
+    }
+
+    const quiz = await quizFunc.getQuizById({ id: quizId });
+
+    if (quiz.status_code === "200") {
+      const question = await func.getQuestionByQId({ quizId: quizId });
+      if (question.status_code === "200") {
+        console.log(question.data)
+        res.render("questionPre", { question: question.data, quizData: quiz.data });
+      } else {
+        res.status(404).json({ error: "Question not found" });
+      }
+    } else {
+      res.status(404).json({ error: `Quiz with id ${quizId} not found` });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 router.route("/:id").get(async (req, res) => {
   try {
     const quizId = req.params.id;

@@ -9,18 +9,7 @@ const createAttemptDetail = async (data) => {
     const collection = database.collection("attemptDetails");
 
     const currentDate = new Date();
-    await collection.insertOne({
-      attemptDetailId: data.attemptDetailId,
-      questionId: data.questionId,
-      attemptId: data.attemptId,
-      questionNumber: data.questionNumber,
-      question: data.question,
-      userAnswer: data.userAnswer,
-      correctAnswer: data.correctAnswer,
-      score: data.score,
-      createDate: currentDate,
-      updateDate: currentDate
-    });
+    await collection.insertMany(data);
 
     await client.close();
     return {

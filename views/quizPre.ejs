@@ -8,6 +8,7 @@
     <title>ห้องเรียน</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="/public/css/form.css">
     <link rel="stylesheet" href="/public/css/table.css">
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -105,12 +106,26 @@
                         </li>
                     </ul>
                 </nav>
-                
-               
+                <h2 class="ml-3 my-3">
+                    แบบทดสอบก่อนเรียนบทที่ <%= quiz.lessonId %>
+                </h2>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="card p-5 text-center">
+                        <h3>
+                            Pre-test
+                        </h3>
+                        <h3>
+                            บทที่ <%= quiz.lessonId %> - <%= quiz.quizName %>
+                        </h3>
+                        <p>ข้อสอบมีทั้งหมด <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</p>
+                        <p>มีเวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes%> นาที</p>
+                        <a class="btn btn-primary" href="/question/pre/<%= quiz._id %>">เริ่มทำข้อสอบ</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -123,6 +138,7 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
+    
 
 
 </body>

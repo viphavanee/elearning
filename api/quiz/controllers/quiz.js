@@ -65,6 +65,26 @@ router.route("/createQuiz").post(async (req, res) => {
 
 
 
+router.route("/pre/:id").get(async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    if (!quizId) {
+      console.error("Invalid Quiz ID:", quizId);
+      return res.status(400).json({ error: "Invalid news ID" });
+    }
+
+    const quiz = await func.getQuizById({ id: quizId });
+
+    if (quiz.status_code === "200") {
+      res.render("quizPre", { quiz: quiz.data });
+    } else {
+      res.status(404).json({ error: "Quiz not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 router.route("/edit/:id").get(async (req, res) => {
   try {
     const quizId = req.params.id;
