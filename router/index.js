@@ -7,10 +7,12 @@ router.use("/admin", require("../api/admin/routes.js"))
 router.use("/teacher", require("../api/teacher/routes.js"))
 router.use("/lesson", require("../api/lesson/routes.js"))
 router.use("/classroom", require("../api/classroom/routes.js"))
+router.use("/classroomAttempt", require("../api/classroom_attempt/route.js"))
 router.use("/theme", require("../api/theme/routes.js"))
 router.use("/question", require("../api/question/routes.js"))
 router.use("/attempt", require("../api/attempt/routes.js"))
 router.use("/attemptDetail", require("../api/attemptDetail/routes.js"))
 router.use("/newsAdmin", require("../api/news/routes.js"))
+router.use("/protected", require("../api/protected/routes.js"))
 
 module.exports = router

@@ -5,11 +5,12 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เนื้อหา</title>
+  <title>จัดการบทเรียน</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/public/css/form.css">
   <link rel="stylesheet" href="/public/css/table.css">
+  <link rel="stylesheet" href="/public/css/menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,6 +22,14 @@
     integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .lesson-image {
+      height: 200px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -29,6 +38,7 @@
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
         <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
       </a>
+
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
         <a class="nav-link" href="/index">
@@ -36,6 +46,7 @@
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider">
+
       <li class="nav-item active">
         <a class="nav-link" href="/lesson">
           <i class="fas fa-book"></i>
@@ -52,12 +63,7 @@
           <span>บทความ</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-chalkboard-user"></i>
-          <span>คะแนน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/user">
           <i class="fas fa-user-group"></i>
           <span>จัดการผู้ใช้งาน</span></a>
       </li>
@@ -93,8 +99,11 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -102,7 +111,7 @@
                   แก้ไขโปรไฟล์
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -113,63 +122,90 @@
         <div class="container-fluid">
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">จัดการบทเรียน</h6>
+              <h6 class="m-0 font-weight-bold text-dark">
+                จัดการบทเรียน
+              </h6>
             </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <a class="btn btn-primary" href="/lesson/createLesson" id="btnCreate">เพิ่มบทเรียน</a>
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>บทที่</th>
-                      <th>ชื่อบทเรียน</th>
-                      <th>รูปปก</th>
-                      <th colspan="3">Actions</th>
+              <a class="btn btn-primary" href="/lesson/createLesson" id="btnCreate">เพิ่มบทเรียน</a>
 
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (lessons && lessons.length> 0) { %> <% lessons.forEach(function(lesson) { %>
-                        <tr>
-                          <td>
-                            <%= lesson.lessonNum %>
-                          </td>
-                          <td>
-                            <%= lesson.lessonName %>
-                          </td>
-                          <td id="imgTable">
-                            <% if (lesson.image && lesson.image.length> 0) { %>
-                              <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top lesson-image"
-                                alt="Lesson Image" />
-                              <% } else { %>
-                                <img src="..." class="card-img-top" alt="ไม่พบรูป" />
-                                <% } %>
-                          </td>
-                          <td><a href="/lesson/viewLesson/<%= lesson._id %>"><i class="fas fa-eye" id="view"></i></a>
-                          </td>
-                          <td><a href="/lesson/edit/<%= lesson._id %>"><i class="fas fa-pen-square"
-                                id="edit"></i></i></i></a></td>
-                          <td><a href="/lesson/delete/<%= lesson._id %>"><i class="fas fa-trash" id="delete"
-                                onclick="return confirm('คุณต้องการลบบทเรียนนี้ใช่หรือไม่?')"></i></a></td>
-                        </tr>
-                        <% }); %>
+              <div class="row row-cols-1 row-cols-md-3 g-4">
+                <% if (lessons && lessons.length> 0) { %>
+                  <% lessons.forEach(function(lesson) { %>
+                    <div class="col" style="margin-top: 20px;">
+                      <div class="card h-100">
+                        <% if (lesson.image && lesson.image.length> 0) { %>
+                          <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top lesson-image"
+                            alt="Lesson Image" />
                           <% } else { %>
-                            <tr>
-                              <td colspan="4">No lessons available.</td>
-                            </tr>
+                            <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                             <% } %>
-                  </tbody>
-                </table>
+                              <div class="card-body">
+                                <h5 class="card-title">
+                                  บทที่ <%= lesson.lessonNum %>
+                                    <%= lesson.lessonName %>
+                                </h5>
+                              </div>
+                              <div class="card-footer d-flex justify-content-end">
+                                <a href="/lesson/viewLesson/<%= lesson._id %>"><i class="fas fa-eye" id="view"></i></a>
+                                <a href="/lesson/edit/<%= lesson._id %>"><i class="fas fa-pen-square"
+                                    id="edit"></i></i></i></a>
+                                <a href="/lesson/delete/<%= lesson._id %>/<%= lesson.lessonNum %>" class="delete-link">
+                                  <i class="fas fa-trash" id="delete"></i>
+                                </a>
+                              </div>
+                      </div>
+                    </div>
+                    <% }); %>
+                      <% } else { %>
+                        <p>No lessons available</p>
+                        <% } %>
               </div>
+
             </div>
-            <script src="/public/js/script.js"></script>
-            <script src="/public/vendor/jquery/jquery.min.js"></script>
-            <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/public/js/sb-admin-2.min.js"></script>
-            <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
-            <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-            <script src="/public/js/datatables-demo.js"></script>
+          </div>
+        </div>
+
+        <script src="/public/js/script.js"></script>
+        <script src="/public/vendor/jquery/jquery.min.js"></script>
+        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/public/js/sb-admin-2.min.js"></script>
+        <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/js/datatables-demo.js"></script>
+
+        <script src="/public/js/logout.js"></script>
+        <!-- get user data from token -->
+        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+        <script src="/public/js/profileDetail.js"></script>
+        <script type="application/javascript">
+          document.addEventListener("DOMContentLoaded", function () {
+            const deleteLinks = document.querySelectorAll(".delete-link");
+
+            deleteLinks.forEach(link => {
+              link.addEventListener("click", function (event) {
+                event.preventDefault();
+                const href = this.getAttribute("href");
+
+                Swal.fire({
+                  title: 'ต้องการลบบทเรียนนี้ใช่หรือไม่?',
+                  text: 'ข้อมูลที่เกี่ยวข้องกับบทเรียนนี้จะถูกลบด้วย เช่น แบบทดสอบ, คำถามของแบบทดสอบ',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'ใช่, ลบเลย!',
+                  cancelButtonText: 'ยกเลิก'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = href;
+                  }
+                });
+              });
+            });
+          });
+        </script>
 
 </body>
 

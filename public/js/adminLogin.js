@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const { token, redirect } = result;
 
                     // Store the token in localStorage
-                    localStorage.setItem('adminToken', token);
+                    localStorage.setItem('token', token);
 
                     // Redirect the user
                     window.location.href = redirect;

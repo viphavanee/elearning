@@ -50,14 +50,9 @@
         <a class="nav-link" href="/newsAdmin">
           <i class="fas fa-newspaper"></i>
           <span>บทความ</span></a>
-      </li>
+      </li> 
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-chalkboard-user"></i>
-          <span>คะแนน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/user">
           <i class="fas fa-user-group"></i>
           <span>จัดการผู้ใช้งาน</span></a>
       </li>
@@ -66,7 +61,6 @@
           <i class="fas fa-question"></i>
           <span>กระทู้ถาม-ตอบ</span></a>
       </li>
-
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
@@ -93,8 +87,11 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -102,12 +99,13 @@
                   แก้ไขโปรไฟล์
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
               </div>
             </li>
+
           </ul>
         </nav>
 
@@ -117,8 +115,8 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">บทที่</label>
-                <input type="text" class="form-control" class="bx" name="lessonNum" placeholder="บทที่"
-                  value="<%= editLesson.lessonNum %>" readonly>
+                <input type="text" class="form-control" class="bx" name="newLessonNum" placeholder="บทที่"
+                  value="<%= editLesson.lessonNum %>" required>
               </div>
               <div class="form-group col-md-6">
                 <label for="lastname">ชื่อบทเรียน</label>
@@ -130,10 +128,11 @@
             <div class="form-row">
               <div class="form-group col-md-12">
                 <label for="inputEmail4">เนื้อหา</label>
-                <textarea id="my-expressjs-tinymce-app"
-                  name="newContent" value="<%= editLesson.content %>"><%= decodeURIComponent(editLesson.content) %></textarea><br/>
+                <textarea id="my-expressjs-tinymce-app" name="newContent"
+                  value="<%= editLesson.content %>"><%= editLesson.content %></textarea><br />
+                <!-- <textarea id="my-expressjs-tinymce-app" name="newContent"
+                  value="<%= editLesson.content %>"><%= decodeURIComponent(escapedContent) %></textarea><br /> -->
               </div>
-
             </div>
             <div class="form-row">
               <div class="form-group col-md-12">
@@ -152,6 +151,8 @@
       </div>
     </div>
   </div>
+  <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
   <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
   <script src="/public/js/tinymceInit.js"></script>
   <script src="/public/js/script.js"></script>
@@ -160,6 +161,9 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/sb-admin-2.min.js"></script>
+  
+  <script src="/public/js/profileDetail.js"></script>
+  <script src="/public/js/adminLogout.js"></script>
 </body>
 
 </html>

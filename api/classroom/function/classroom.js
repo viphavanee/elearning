@@ -113,6 +113,70 @@ const getClassroomById = async (data) => {
   }
 };
 
+
+const getClassroomByRoomCode = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("classroom");
+    const userCollect = database.collection("users");
+    const objectId = new ObjectId(data.id);
+    const getUser = await userCollect.findOne({ _id: objectId });
+    const roomCode = getUser.roomCode;
+    const classroom = await collection.find({ roomCode, isDeleted: { $ne: true } }).toArray();
+    await client.close();
+    if (classroom) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get classroom by id success`,
+        data: classroom,
+      };
+    } else {
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `classroom with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting classroom by roomcode:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
+const getClassroombyTeacherId = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("classroom");
+    const teacherId = data.id;
+    const classroom = await collection.find({ teacherId: teacherId, isDeleted: { $ne: true } }).toArray();
+    await client.close();
+    if (classroom) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get classroom by id success`,
+        data: classroom,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting classroom by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
 const softDelete = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -214,6 +278,8 @@ module.exports = {
   createClassroom,
   getClassroom,
   getClassroomById,
+  getClassroombyTeacherId,
   softDelete,
-  updateClassroomImage
+  updateClassroomImage,
+  getClassroomByRoomCode
 };

@@ -1,0 +1,17 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 99;
+}
+#content-wrapper {
+  margin-left: 224px; /* Adjust this value based on the width of your sidebar */
+  width: calc(100% - 224px);
+}
+.submit-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

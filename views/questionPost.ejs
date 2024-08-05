@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>แบบทดสอบหลังเรียน</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-house"></i>
+                    <span>หน้าแรก</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/lessonStd">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/quizStd">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/newsStd">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/scoreStd">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/QAstd">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+        </ul>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <!-- Search Form -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Divider -->
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- User Dropdown -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
+                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Page Content -->
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-dark">คำถามหลังเรียนบทที่ <%= quizData.lessonId %>
+                            </h6>
+                            <div id="countdown">เหลือเวลา <span id="time">
+                                    <%= quizData.timeInMinutes %> นาที 00
+                                        วินาที
+                                </span></div>
+                        </div>
+                        <div class="card-body">
+                            <form id="quizForm" action="/attempt/createAttempt" method="POST">
+                                <% if (question && question.length> 0) { %>
+                                    <% question.forEach((q, index)=> { %>
+                                        <div class="question-container <%= index === 0 ? 'active' : '' %>"
+                                            id="question_<%= q.questionNumber %>">
+                                            <p>ข้อที่ <%= q.questionNumber %>. <%= q.question %>
+                                            </p>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    name="answer_<%= q.questionNumber %>"
+                                                    id="choiceA_<%= q.questionNumber %>" value="choiceA">
+                                                <label class="form-check-label" for="choiceA_<%= q.questionNumber %>">
+                                                    <%= q.choiceA %>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    name="answer_<%= q.questionNumber %>"
+                                                    id="choiceB_<%= q.questionNumber %>" value="choiceB">
+                                                <label class="form-check-label" for="choiceB_<%= q.questionNumber %>">
+                                                    <%= q.choiceB %>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    name="answer_<%= q.questionNumber %>"
+                                                    id="choiceC_<%= q.questionNumber %>" value="choiceC">
+                                                <label class="form-check-label" for="choiceC_<%= q.questionNumber %>">
+                                                    <%= q.choiceC %>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                    name="answer_<%= q.questionNumber %>"
+                                                    id="choiceD_<%= q.questionNumber %>" value="choiceD">
+                                                <label class="form-check-label" for="choiceD_<%= q.questionNumber %>">
+                                                    <%= q.choiceD %>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% } %>
+                                                <input type="hidden" id="quizId" name="quizId"
+                                                    value="<%= quizData._id %>">
+                                                <input type="hidden" id="attemptType" name="attemptType" value="pre">
+                                                <input type="hidden" id="studentId" name="studentId" value="">
+                                                <input type="hidden" id="durationInSec" name="durationInSec" value="">
+                                                <div class="d-flex flex-column mt-4">
+                                                    <button type="button"
+                                                        class="btn btn-primary next-btn w-100 mb-2">ถัดไป</button>
+                                                    <button type="submit" id="submitBtn"
+                                                        class="btn btn-success submit-btn mb-2"
+                                                        style="display: none;">ส่งคำตอบ</button>
+                                                    <button type="button" class="btn btn-secondary prev-btn"
+                                                        disabled>ย้อนกลับ
+                                                    </button>
+                                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/public/vendor/jquery/jquery.min.js"></script>
+        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/public/js/sb-admin-2.min.js"></script>
+        <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+        <script>
+            function startTimer(duration, display) {
+                var timer = duration;
+                setInterval(function () {
+                    var minutes = parseInt(timer / 60, 10);
+                    var seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = minutes + " นาที " + seconds + " วินาที";
+                    var timeInMinutes = "<%= quizData.timeInMinutes %>";
+                    var durationInSeconds = 60 * timeInMinutes;
+                    $('#durationInSec').val(durationInSeconds - timer); // Update durationInSec hidden input
+
+                    if (--timer < 0) {
+                        timer = duration;
+                    }
+                }, 1000);
+            }
+
+            $(document).ready(function () {
+                var timeInMinutes = "<%= quizData.timeInMinutes %>";
+                var durationInSeconds = 60 * timeInMinutes; // Convert minutes to seconds
+                var display = document.querySelector('#time');
+                startTimer(durationInSeconds, display);
+
+                let currentQuestion = 1;
+                var totalQuestions = <%= question.length %>;
+
+                // Show the first question initially
+                showQuestion(currentQuestion);
+
+                // Next button click handler
+                $('.next-btn').click(function () {
+                    // Check if there are more questions to show
+                    if (currentQuestion < totalQuestions) {
+                        currentQuestion++;
+                        showQuestion(currentQuestion);
+                    }
+
+                    // Show submit button if we're on the last question
+                    if (currentQuestion === totalQuestions) {
+                        $('#submitBtn').show();
+                        $(this).hide(); // Hide the next button
+                    }
+
+                    // Enable the previous button since we're moving forward
+                    $('.prev-btn').prop('disabled', false);
+                });
+
+                // Back button click handler
+                $('.prev-btn').click(function () {
+                    if (currentQuestion > 0) {
+                        currentQuestion--;
+                        showQuestion(currentQuestion);
+                    }
+
+                    // Enable the next button since we're moving back
+                    $('.next-btn').prop('disabled', false);
+
+                    // Disable the previous button if we're at the first question
+                    if (currentQuestion === 0) {
+                        $(this).prop('disabled', true);
+                    }
+                });
+
+                // Function to show question by index
+                function showQuestion(index) {
+                    $('.question-container').removeClass('active');
+                    $('#question_' + index).addClass('active');
+                }
+
+                const token = localStorage.getItem('token'); // Assuming your token key is 'token'
+                const decodedToken = jwtDecode(token); // Adjust this according to your token structure
+                const userId = decodedToken.userId; // Assuming userId is a field in your token
+                $('#studentId').val(userId); // Set userId to the hidden input field
+            });
+        </script>
+</body>
+
+</html>

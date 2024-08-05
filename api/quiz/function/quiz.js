@@ -73,6 +73,7 @@ const getQuiz = async () => {
   }
 };
 
+
 const getQuizById = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -178,9 +179,16 @@ const softDelete = async (data) => {
     const client = new MongoClient(process.env.uri);
     await client.connect();
     const database = client.db("project1");
-    const collection = database.collection("quiz");
+    const quizCollection = database.collection("quiz");
+    const questionCollection = database.collection("questions");
     const objectId = new ObjectId(data.id);
-    const result = await collection.updateOne(
+    const quizId = data.id;
+
+    const questionDelete = await questionCollection.updateMany(
+      { quizId, isDeleted: { $ne: true } },
+      { $set: { isDeleted: true } }
+    );
+    const result = await quizCollection.updateOne(
       { _id: objectId, isDeleted: { $ne: true } },
       { $set: { isDeleted: true } }
     );
@@ -191,21 +199,21 @@ const softDelete = async (data) => {
       return {
         status_code: "200",
         status_phrase: "ok",
-        message: `soft delete success for quiz with id ${data}`,
+        message: `Soft delete success for quiz with id ${quizId}`,
       };
     } else {
       return {
         status_code: "404",
         status_phrase: "not found",
-        message: `quiz with id ${data} not found or is already deleted`,
+        message: `Quiz with id ${quizId} not found or is already deleted`,
       };
     }
   } catch (error) {
     console.error("Error soft deleting quiz:", error);
     return {
-      status_code: "301",
+      status_code: "500",
       status_phrase: "fail",
-      message: `error`,
+      message: `Internal server error`,
     };
   }
 };

@@ -21,6 +21,12 @@
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .News-image {
+      height: 200px;
+      object-fit: cover;
+    }
+    </style>
 </head>
 
 <body id="page-top">
@@ -52,12 +58,7 @@
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-chalkboard-user"></i>
-                    <span>คะแนน</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/user">
                     <i class="fas fa-user-group"></i>
                     <span>จัดการผู้ใช้งาน</span></a>
             </li>
@@ -94,8 +95,11 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
@@ -104,7 +108,8 @@
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -115,64 +120,64 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">จัดการบทเรียน</h6>
+                            <h6 class="m-0 font-weight-bold text-dark">
+                                จัดการบทความ
+                            </h6>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <a class="btn btn-primary" href="/newsAdmin/createNews" id="btnCreate">เพิ่มบทความ</a>
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ชื่อบทความ</th>
-                                            <th>รูปประกอบ</th>
-                                            <th>ดู</th>
-                                            <th>แก้ไข</th>
-                                            <th>ลบ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (news && news.length> 0) { %> <% news.forEach(function(news) { %>
-                                                <tr>
-                                                    <td>
-                                                        <%= news.title %>
-                                                    </td>
-                                                    <td id="imgTable">
-                                                        <% if (news.image && news.image.length> 0) { %>
-                                                            <img src="data:image/png;base64,<%= news.image %>"
-                                                                class="card-img-top lesson-image" alt="Lesson Image" />
-                                                            <% } else { %>
-                                                                <img src="..." class="card-img-top" alt="ไม่พบรูป" />
-                                                                <% } %>
-                                                    </td>
-                                                    <td><a href="/newsAdmin/viewNews/<%= news._id %>"><i
-                                                                class="fas fa-eye" id="view"></i></a>
-                                                    </td>
-                                                    <td><a href="/newsAdmin/edit/<%= news._id %>"><i
-                                                                class="fas fa-pen-square" id="edit"></i></i></i></a>
-                                                    </td>
-                                                    <td><a href="/newsAdmin/delete/<%= news._id %>"><i
-                                                                class="fas fa-trash" id="delete"
-                                                                onclick="return confirm('คุณต้องการลบบทเรียนนี้ใช่หรือไม่?')"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
+                            <a class="btn btn-primary" href="/newsAdmin/createNews" id="btnCreate">เพิ่มบทความ</a>
+
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <% if (news && news.length> 0) { %>
+                                    <% news.forEach(function(news) { %>
+                                        <div class="col" style="margin-top: 20px;">
+                                            <div class="card h-100">
+                                                <% if (news.image && news.image.length> 0) { %>
+                                                    <img src="data:image/png;base64,<%= news.image %>"
+                                                        class="card-img-top News-image" alt="News Image"/>
                                                     <% } else { %>
-                                                        <tr>
-                                                            <td colspan="4">No news available.</td>
-                                                        </tr>
+                                                        <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                         <% } %>
-                                    </tbody>
-                                </table>
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">
+                                                                    <%= news.title %>
+                                                                </h5>
+                                                                <p>วันที่โพสต์ข่าว : <%= news.date %>
+                                                                </p>
+                                                            </div>
+                                                            <div class="card-footer d-flex justify-content-end">
+                                                                <a href="/newsAdmin/viewNews/<%= news._id %>"><i
+                                                                        class="fas fa-eye" id="view"></i></a>
+                                                                <a href="/newsAdmin/edit/<%= news._id %>"><i
+                                                                        class="fas fa-pen-square"
+                                                                        id="edit"></i></i></i></a>
+                                                                <a href="/newsAdmin/delete/<%= news._id %>"><i
+                                                                        class="fas fa-trash" id="delete"
+                                                                        onclick="return confirm('คุณต้องการลบบทความนี้ใช่หรือไม่?')"></i></a>
+                                                            </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p>No News available</p>
+                                                <% } %>
                             </div>
+
                         </div>
-                        <script src="/public/js/script.js"></script>
-                        <script src="/public/vendor/jquery/jquery.min.js"></script>
-                        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-                        <script src="/public/js/sb-admin-2.min.js"></script>
-                        <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
-                        <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-                        <script src="/public/js/datatables-demo.js"></script>
+                    </div>
+                </div>
+                <script src="
+                        https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+                <script src="/public/js/script.js"></script>
+                <script src="/public/vendor/jquery/jquery.min.js"></script>
+                <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+                <script src="/public/js/sb-admin-2.min.js"></script>
+                <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+                <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+                <script src="/public/js/datatables-demo.js"></script>
+                <script src="/public/js/profileDetail.js"></script>
+                <script src="/public/js/adminLogout.js"></script>
 </body>
 
 </html>

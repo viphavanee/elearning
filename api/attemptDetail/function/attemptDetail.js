@@ -67,7 +67,39 @@ const getAttemptDetailById = async (data) => {
         status_code: "200",
         status_phrase: "ok",
         message: `get attemptDetail by id success`,
-        data: getAttemptDetail,
+        data: attemptDetail,
+      };
+    } else {
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `attemptDetail with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting attemptDetail by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+const getAttemptDetailByAttemptId = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("attemptDetails");
+    const attemptId = new ObjectId(data.id);
+    const attemptDetail = await collection.find({ attemptId: attemptId }).toArray();
+    await client.close();
+    if (attemptDetail) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get attemptDetail by id success`,
+        data: attemptDetail,
       };
     } else {
       return {
@@ -90,4 +122,5 @@ module.exports = {
   createAttemptDetail,
   getAttemptDetail,
   getAttemptDetailById,
+  getAttemptDetailByAttemptId
 };

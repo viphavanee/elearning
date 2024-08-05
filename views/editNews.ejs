@@ -36,36 +36,33 @@
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider">
-      <li class="nav-item">
+    
+    <li class="nav-item">
         <a class="nav-link" href="/lesson">
-          <i class="fas fa-book"></i>
-          <span>บทเรียน</span></a>
-      </li>
-      <li class="nav-item">
+            <i class="fas fa-book"></i>
+            <span>บทเรียน</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="/quizAdmin">
-          <i class="fas fa-book-open"></i>
-          <span>แบบทดสอบ</span></a>
-      </li>
-      <li class="nav-item active">
+            <i class="fas fa-book-open"></i>
+            <span>แบบทดสอบ</span></a>
+    </li>
+    <li class="nav-item active">
         <a class="nav-link" href="/newsAdmin">
-          <i class="fas fa-newspaper"></i>
-          <span>บทความ</span></a>
-      </li>
-      <li class="nav-item">
+            <i class="fas fa-newspaper"></i>
+            <span>บทความ</span></a>
+    </li>
+    
+    <li class="nav-item ">
+        <a class="nav-link" href="/user">
+            <i class="fas fa-user-group"></i>
+            <span>จัดการผู้ใช้งาน</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="#">
-          <i class="fas fa-chalkboard-user"></i>
-          <span>คะแนน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-user-group"></i>
-          <span>จัดการผู้ใช้งาน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-question"></i>
-          <span>กระทู้ถาม-ตอบ</span></a>
-      </li>
+            <i class="fas fa-question"></i>
+            <span>กระทู้ถาม-ตอบ</span></a>
+    </li>
 
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
@@ -93,8 +90,11 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -102,7 +102,7 @@
                   แก้ไขโปรไฟล์
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -136,7 +136,7 @@
             </div>
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label for="inputEmail4">รูปภาพประกอบ</label>
+                <label for="inputEmail4">รูปภาพประกอบ</label><br>
                 <% if (editNews.image) { %>
                   <img src="data:image/jpeg;base64,<%= editNews.image %>" alt="Image" class="img-fluid">
                   <% } %> <br>
@@ -144,7 +144,7 @@
               </div>
             </div>
             <div class="form-group submit-btn">
-              <button type="submit" class="btn btn-success" id="butEditL">บันทึก</button>
+              <button type="submit" class="btn btn-primary" id="butEditL">บันทึก</button>
             </div>
           </form>
         </div>
@@ -158,6 +158,11 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/sb-admin-2.min.js"></script>
+  <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+   
+        <script src="/public/js/profileDetail.js"></script>
+        <script src="/public/js/adminLogout.js"></script>
 </body>
 
 </html>

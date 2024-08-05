@@ -7,13 +7,18 @@ const createAttempt = async (data) => {
 
     const database = client.db("project1");
     const collection = database.collection("attempts");
-
+    const userCollect = database.collection("users");
+    const studentId = new ObjectId(data.studentId);
     const currentDate = new Date();
+    const getUserData = await userCollect.findOne({_id: studentId});
+    const roomCode = getUserData.roomCode;
+
     const result = await collection.insertOne({
       studentId: data.studentId,
       quizId: data.quizId,
       attemptType: data.attemptType,
       totalScore: data.totalScore,
+      roomCode,
       durationInSec: data.durationInSec,
       createAt: currentDate
     });
@@ -62,6 +67,35 @@ const getAttempt = async () => {
     };
   }
 };
+const getAttemptByRoomCode = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+
+    const database = client.db("project1");
+    const collection = database.collection("attempts");
+    const roomCode = data.roomCode;
+    const quizId = data.id;
+    const attempt = await collection.find({ roomCode, quizId }).toArray();
+
+    await client.close();
+
+    return {
+      status_code: "200",
+      status_phrase: "ok",
+      message: `get attempt success`,
+      data: attempt,
+    };
+  } catch (error) {
+    console.error("Error getting attempt:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
 const getAttemptById = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -77,6 +111,40 @@ const getAttemptById = async (data) => {
         status_phrase: "ok",
         message: `get attempt by id success`,
         data: getAttempt,
+      };
+    } else {
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `attempt with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting attempt by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
+const getAttemptByQuizId = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("attempts");
+    const quizId = data.id;
+    const attemptType = data.attemptType;
+    const attempts = await collection.find({ quizId: quizId, attemptType: attemptType }).toArray();
+    await client.close();
+    if (attempts.length > 0) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get attempt by id success`,
+        data: attempts,
       };
     } else {
       return {
@@ -138,5 +206,7 @@ module.exports = {
   createAttempt,
   getAttempt,
   getAttemptById,
-  updateAttempt
+  updateAttempt,
+  getAttemptByQuizId,
+  getAttemptByRoomCode
 };

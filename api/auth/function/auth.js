@@ -67,7 +67,8 @@ const userChecked = async (data) => {
     const payload = {
       userId: user._id,
       email: user.email,
-      role: user.role
+      role: user.role,
+      firstname: user.firstname
     };
 
     const token = generateToken(payload);
@@ -78,7 +79,7 @@ const userChecked = async (data) => {
       status_phrase: "ok",
       message: `Login success`,
       token: token,
-      redirect: user.role === 'student' ? '/classroom/std' : '/classroom'
+      redirect: user.role === 'student' ? '/classroom/std' : `/classroom/teacher/${user._id}`
     };
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -114,9 +115,10 @@ const adminChecked = async (data) => {
     }
 
     const payload = {
-      adminId: admin._id,
-      username: admin.username,
-      role: admin.role
+      userId: admin._id,
+      email: admin.email,
+      role: admin.role,
+      firstname: admin.firstname
     };
 
     const token = generateToken(payload);

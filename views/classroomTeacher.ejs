@@ -19,6 +19,8 @@
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body id="page-top">
@@ -35,40 +37,36 @@
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-book"></i>
-                    <span>หน้าแรก</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/lesson">
+                <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
                     <span>บทเรียน</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/quizAdmin">
+            <li class="nav-item">
+                <a class="nav-link" href="/quizAdmin/tchr">
                     <i class="fas fa-book-open"></i>
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/newsAdmin">
+                <a class="nav-link" href="/newsAdmin/tchr">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a id="attemptLink" class="nav-link" href="/attempt/list">
+                   <i class="fas fa-chalkboard-user"></i>
+                   <span>คะแนน</span></a>
+             </li>    
+            <li class="nav-item active">
+                <a id="classroomLink" class="nav-link" href="#">
                     <i class="fas fa-chalkboard-user"></i>
-                    <span>คะแนน</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user-group"></i>
-                    <span>จัดการผู้ใช้งาน</span></a>
+                    <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
+
 
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
@@ -95,24 +93,26 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false">
+                              <div class="d-flex flex-column align-items-end">
+                                <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                              </div>
+                              <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    แก้ไขโปรไฟล์
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                              <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                แก้ไขโปรไฟล์
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                              </a>
                             </div>
-                        </li>
+                          </li>
                     </ul>
                 </nav>
                 <div class="container-fluid">
@@ -124,7 +124,7 @@
                         </div>
                         <div class="card-body">
                             <button class="btn btn-primary" id="btnCreate" data-toggle="modal"
-                                data-target="#createQuestionModal">สร้างห้องเรียน</button>
+                                data-target="#createClassroomModal">สร้างห้องเรียน</button>
                             <div class="row row-cols-1 row-cols-md-3 g-4">
                                 <% if (classroom && classroom.length> 0) { %>
                                     <% classroom.forEach(function(classroom) { %>
@@ -132,14 +132,15 @@
                                             <div class="card h-100">
                                                 <% if (classroom.image && classroom.image.length> 0) { %>
                                                     <img src="data:image/png;base64,<%= classroom.image %>"
-                                                        class="card-img-top classroom-image" alt="classroom Image" />
+                                                        class="card-img-top classroom-image" alt="classroom Image"
+                                                        height="200px" />
                                                     <% } else { %>
                                                         <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                         <% } %>
                                                             <div class="card-body">
                                                                 <p class="text-secondary">
                                                                     CODE: <%= classroom.roomCode %>
-                                                                        </h5>
+
                                                                         <h5 class="card-title">
                                                                             <%= classroom.classroomName %>
                                                                         </h5>
@@ -155,17 +156,23 @@
                                                                                 <% } %>
                                                             </div>
                                                             <div class="card-footer d-flex justify-content-between">
+                                                                <a href="/classroom/id/<%= classroom._id %>"
+                                                                    class="btn btn-secondary">
+                                                                    <i class="fas fa-circle-info"></i> details
+                                                                </a>
                                                                 <button type="button" class="btn btn-primary edit-btn"
                                                                     data-toggle="modal"
                                                                     data-target="#editClassroomModal"
                                                                     data-id="<%= classroom._id %>">
                                                                     <i class="fas fa-pen-square"></i> Edit
                                                                 </button>
-                                                                <a href="/classroom/delete/<%= classroom._id %>"
-                                                                    class="btn btn-danger"
-                                                                    onclick="return confirm('คุณต้องการลบห้องเรียนนี้ใช่หรือไม่?')">
+                                                                <a href="#" class="btn btn-danger delete-btn"
+                                                                    data-id="<%= classroom._id %>"
+                                                                    data-teacher-id="<%= classroom.teacherId %>">
                                                                     <i class="fas fa-trash"></i> Delete
                                                                 </a>
+
+
                                                             </div>
                                             </div>
                                         </div>
@@ -182,12 +189,12 @@
         </div>
     </div>
     </div>
-    <div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
-        aria-labelledby="createQuestionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createClassroomModal" tabindex="-1" role="dialog"
+        aria-labelledby="createClassroomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createQuestionModalLabel">สร้างห้องเรียน</h5>
+                    <h5 class="modal-title" id="createClassroomModalLabel">สร้างห้องเรียน</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -211,7 +218,7 @@
             </div>
         </div>
     </div>
-    <script> //
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const editButtons = document.querySelectorAll('.edit-btn');
             editButtons.forEach(button => {
@@ -219,12 +226,23 @@
                     const classroomId = this.getAttribute('data-id');
                     try {
                         // Fetch the classroom data using the classroom ID
-                        const response = await fetch(`/classroom/getClassroomById/${classroomId}`);
-                        const classroom = await response.json();
+                        const response = await fetch(`/classroom/edit/${classroomId}`);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const classroomResponse = await response.json();
 
-                        // Populate the modal form with the classroom data
-                        document.getElementById('editClassroomName').value = classroom.classroomName;
-                        // You can continue populating other fields here if needed
+                        // Check if classroom data is available
+                        if (classroomResponse.data) {
+                            const classroom = classroomResponse.data;
+                            // Populate the modal form with the classroom data
+                            document.getElementById('editClassroomName').value = classroom.classroomName;
+                            document.getElementById('editClassroomId').value = classroom._id;
+                            document.getElementById('editClassroomTeacherId').value = classroom.teacherId;
+                            // You can continue populating other fields here if needed
+                        } else {
+                            console.error('Classroom data not available');
+                        }
 
                     } catch (error) {
                         console.error('Error fetching classroom data:', error);
@@ -232,8 +250,8 @@
                 });
             });
         });
-
     </script>
+
     <div class="modal fade" id="editClassroomModal" tabindex="-1" role="dialog"
         aria-labelledby="editClassroomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -255,6 +273,7 @@
                             <input type="file" id="editFeatureImage" name="image" class="form-control" />
                         </div>
                     </div>
+                    <input type="hidden" id="editClassroomId" name="classroomId" value="" />
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
                         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -276,7 +295,8 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
-
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const createForm = document.getElementById('createClassroomForm');
@@ -287,7 +307,8 @@
 
                 const formData = new FormData(createForm);
                 const token = localStorage.getItem('token');
-
+                const decodedToken = jwtDecode(token); // Adjust this according to your token structure
+                const userId = decodedToken.userId; // Assuming userId is a field in your token
                 try {
                     if (!token) {
                         throw new Error('Token not found in localStorage');
@@ -302,8 +323,8 @@
                     });
 
                     if (response.ok) {
-                        console.log('Classroom created successfully');
-                        $('#createQuestionModal').modal('hide');
+
+                        $('#createClassroomModal').modal('hide');
                         location.reload();
                         // Optionally, you can reload the classroom list or perform other actions
                     } else {
@@ -339,8 +360,16 @@
                     });
 
                     if (response.ok) {
-                        console.log('Classroom edited successfully');
-                        $('#editClassroomModal').modal('hide');
+                        Swal.fire({
+                            title: 'การอัพเดทห้องเรียนสำเร็จ',
+                            icon: 'success',
+                            confirmButtonText: 'ต่อไป',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $('#editClassroomModal').modal('hide');
+                                location.reload();
+                            }
+                        });
                         // Optionally, you can reload the classroom list or perform other actions
                     } else {
                         const errorData = await response.json();
@@ -354,6 +383,73 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default link behavior
+
+                    const classroomId = this.getAttribute('data-id');
+                    const teacherId = this.getAttribute('data-teacher-id');
+
+                    Swal.fire({
+                        title: "คุณต้องการลบห้องเรียนนี้ใช่หรือไม่?",
+                        text: "การลบจะไม่สามารถกู้คืนได้!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: 'ใช่',
+                        cancelButtonText: 'ไม่'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to delete URL if confirmed
+                            window.location.href = `/classroom/delete/${classroomId}/${teacherId}`;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+  
+   <script>
+    // Ensure the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+       const token = localStorage.getItem('token');
+       const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+       // Assuming userId is a field in your token
+       const userId = decodedToken.userId;
+       if (userId) {
+          // Set the href attribute with the userId
+          const classroomLink = document.getElementById('classroomLink');
+          const attemptLink = document.getElementById('attemptLink');
+          classroomLink.href = `/classroom/teacher/${userId}`;
+          attemptLink.href = `/attempt/list/${userId}`;
+       }
+    });
+ </script>
+ <script>
+      // Ensure the DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function () {
+         const token = localStorage.getItem('token');
+         const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+         // Assuming userId is a field in your token
+         const userId = decodedToken.userId;
+         if (userId) {
+            // Set the href attribute with the userId
+            const classroomLink = document.getElementById('classroomLink');
+            const attemptLink = document.getElementById('attemptLink');
+            classroomLink.href = `/classroom/teacher/${userId}`;
+            attemptLink.href = `/attempt/list/${userId}`;
+         }
+      });
+   </script>
+ <script src="/public/js/profileDetail.js"></script>
+ <script src="/public/js/logout.js"></script>
+    <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 </body>
 
 </html>

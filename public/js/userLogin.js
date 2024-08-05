@@ -20,10 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     const result = await response.json();
                     const { token, redirect } = result;
-
+                    
                     // Store the token in localStorage
-                    localStorage.setItem('token', token);
-
+                    localStorage.setItem('token', token);   
                     // Redirect the user
                     window.location.href = redirect;
                 } else {

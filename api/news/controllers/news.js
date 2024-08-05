@@ -20,6 +20,21 @@ router.route("/").get(async (req, res) => {
   }
 });
 
+router.route("/tchr").get(async (req, res) => {
+  try {
+    const response = await func.getNews();
+    if (response.status_code === "200") {
+      const news = response.data;
+      res.render("newsTchr", { news });
+    } else {
+      res.status(500).json({ error: response.message });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.route("/createNews").get(async (req, res) => {
   res.render("createNews");
 });

@@ -1,0 +1,136 @@
+Admin
+-กระทู้ (Delete)
+//จัดการ user (Edit, Delete)
+
+Teacher
+-กระทู้ (Reply, Delete)
+//ดูคะแนน Quiz
+-ติดตามผลการเรียน ***
+// จัดการ Classroom
+
+Student
+// Join ห้องเรียน
+- กระทู้ (Create, Edit, Delete own)
+- ค้นหาชื่อบทเรียน
+- ห้องเรียน (แสดงผล) **
+
+Global
+-ลืมรหัสผ่าน (nodemailer)
+-เปลี่ยนรหัสผ่าน (nodemailer)
+-Profile
+
+เพิ่มเติม
+-แจ้งเตือนก่อนกดส่งคำตอบ
+-แจ้งเตือนว่ายังไม่ได้เลือกคำตอบในข้อนั้นหรือคำตอบไม่ครบ
+-ต้องกดย้อนกลับไปหน้าข้อสอบตัวเดิมไม่ได้
+-บทเรียนต้องล็อคทำเป็น step ห้ามข้าม
+-ลบเลขข้อสอบออก ไม่จำเป็น
+-แยกผู้ใช้งาน ดึงข้อมูลผู้ใช้งาน
+
+
+
+Y-axis: Scores
+X-axis: Date
+
+Chart: AVG. score
+
+
+
+
+
+
+//Admin role check
+1. ถ้าไม่มี cdn ให้แปะ cdn
+
+   
+
+2.แปะสคริป
+
+    <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+______________________________________________________________________________________
+
+//Profile topbar
+
+1.เปลี่ยน Profile โดยใช้โค้ด
+
+    <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  แก้ไขโปรไฟล์
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+2.ใส่สคริป
+ <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+        <script src="/public/js/profileDetail.js"></script>
+        <script src="/public/js/logout.js"></script>
+
+3. Link script for teacher
+
+<script>
+      // Ensure the DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function () {
+         const token = localStorage.getItem('token');
+         const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+         // Assuming userId is a field in your token
+         const userId = decodedToken.userId;
+         if (userId) {
+            // Set the href attribute with the userId
+            const classroomLink = document.getElementById('classroomLink');
+            const attemptLink = document.getElementById('attemptLink');
+            classroomLink.href = `/classroom/std/${userId}`;
+            attemptLink.href = `/attempt/list/${userId}`;
+         }
+      });
+   </script>
+
+  4.sidebar teacher
+
+        
+         <li class="nav-item">
+            <a id="attemptLink" class="nav-link" href="/attempt/list">
+               <i class="fas fa-chalkboard-user"></i>
+               <span>คะแนน</span></a>
+         </li>
+
+
+5.Fixed topbar viewLesson.ejs
+
+
+6.Model กระทู้
+
+model blog {
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  header        String
+  message      String
+  createAt      datetime
+}
+
+model comment_blog {
+  id      Int    @id @default(autoincrement())
+  blogId  Int
+  message String
+  userId  Int
+  createAt      datetime
+}

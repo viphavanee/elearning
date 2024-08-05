@@ -5,21 +5,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>แบบทดสอบ</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>แบบทดสอบก่อนเรียน</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/public/css/form.css">
-    <link rel="stylesheet" href="/public/css/table.css">
-    <script src="
-    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .question-container {
             display: none;
@@ -39,39 +41,34 @@
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
             <hr class="sidebar-divider">
-            <li class="nav-item">
-                <a class="nav-link" href="/lesson">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    <i class="fa-solid fa-house"></i>
+                    <span>หน้าแรก</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/lessonStd">
                     <i class="fas fa-book"></i>
                     <span>บทเรียน</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/quizAdmin">
+            <li class="nav-item">
+                <a class="nav-link" href="/quizStd">
                     <i class="fas fa-book-open"></i>
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/newsAdmin">
+                <a class="nav-link" href="/newsStd">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/scoreStd">
                     <i class="fas fa-chalkboard-user"></i>
                     <span>คะแนน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user-group"></i>
-                    <span>จัดการผู้ใช้งาน</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/QAstd">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
@@ -143,7 +140,11 @@
                                     <% question.forEach((q, index)=> { %>
                                         <div class="question-container <%= index === 0 ? 'active' : '' %>"
                                             id="question_<%= q.questionNumber %>">
-                                            <p>ข้อที่ <%= q.questionNumber %>. <%= q.question %>
+                                            <p>
+                                                <span id="qIndex_<%= index + 1 %>">
+                                                    <%= index + 1 %>.
+                                                </span>
+                                                <%= q.question %>
                                             </p>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
@@ -207,6 +208,7 @@
         <script src="/public/js/sb-admin-2.min.js"></script>
         <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
         <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/js/tokenChecked.js"></script>
         <script src="
     https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
         <script>
@@ -236,22 +238,25 @@
                 var display = document.querySelector('#time');
                 startTimer(durationInSeconds, display);
 
-                let currentQuestion = 1;
-                var totalQuestions = <%= question.length %>;
+                let currentQuestionIndex = 0;
+                let questionNumbers = <%= JSON.stringify(question.map(q => q.questionNumber)) %>;
+                var totalQuestions = questionNumbers.length;
+
+                // Initially hide the submit button
+                $('#submitBtn').hide();
 
                 // Show the first question initially
-                showQuestion(currentQuestion);
+                showQuestion(questionNumbers[currentQuestionIndex]);
 
                 // Next button click handler
                 $('.next-btn').click(function () {
-                    // Check if there are more questions to show
-                    if (currentQuestion < totalQuestions) {
-                        currentQuestion++;
-                        showQuestion(currentQuestion);
+                    if (currentQuestionIndex < totalQuestions - 1) {
+                        currentQuestionIndex++;
+                        showQuestion(questionNumbers[currentQuestionIndex]);
                     }
 
                     // Show submit button if we're on the last question
-                    if (currentQuestion === totalQuestions) {
+                    if (currentQuestionIndex === totalQuestions - 1) {
                         $('#submitBtn').show();
                         $(this).hide(); // Hide the next button
                     }
@@ -262,32 +267,78 @@
 
                 // Back button click handler
                 $('.prev-btn').click(function () {
-                    if (currentQuestion > 0) {
-                        currentQuestion--;
-                        showQuestion(currentQuestion);
+                    if (currentQuestionIndex > 0) {
+                        currentQuestionIndex--;
+                        showQuestion(questionNumbers[currentQuestionIndex]);
                     }
 
-                    // Enable the next button since we're moving back
-                    $('.next-btn').prop('disabled', false);
+                    // Show the next button and hide the submit button if we're not on the last question
+                    if (currentQuestionIndex < totalQuestions - 1) {
+                        $('.next-btn').show();
+                        $('#submitBtn').hide();
+                    }
 
                     // Disable the previous button if we're at the first question
-                    if (currentQuestion === 0) {
+                    if (currentQuestionIndex === 0) {
                         $(this).prop('disabled', true);
                     }
                 });
 
-                // Function to show question by index
-                function showQuestion(index) {
+                // Function to show question by question number
+                function showQuestion(questionNumber) {
                     $('.question-container').removeClass('active');
-                    $('#question_' + index).addClass('active');
+                    $('#question_' + questionNumber).addClass('active');
                 }
 
                 const token = localStorage.getItem('token'); // Assuming your token key is 'token'
                 const decodedToken = jwtDecode(token); // Adjust this according to your token structure
                 const userId = decodedToken.userId; // Assuming userId is a field in your token
                 $('#studentId').val(userId); // Set userId to the hidden input field
+                $('#quizForm').on('submit', function (event) {
+
+                    event.preventDefault(); // Prevent form submission
+
+                    let isValid = true; // Track if the form is valid
+                    let emptyQuestions = []; // Store empty question indices
+
+                    questionNumbers.forEach((questionNumber, index) => {
+                        const answer = $(`input[name="answer_${questionNumber}"]:checked`).val();
+                        if (!answer) {
+                            isValid = false;
+                            emptyQuestions.push(index + 1); // Store the question index (1-based)
+                            $(`#qIndex_${index + 1}`).css('color', 'red'); // Highlight empty question index
+                        } else {
+                            $(`#qIndex_${index + 1}`).css('color', ''); // Reset color for answered questions
+                        }
+                    });
+
+                    if (!isValid) {
+                        // Use SweetAlert2 to show the alert
+                        Swal.fire({
+                            title: 'คำตอบไม่ครบถ้วน',
+                            text: `กรุณาตอบคำถามข้อที่ ${emptyQuestions.join(', ')}`,
+                            icon: 'warning',
+                            confirmButtonText: 'ตกลง'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'ยืนยันการส่งคำตอบ',
+                            text: 'คุณต้องการส่งคำตอบหรือไม่?',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'ใช่',
+                            cancelButtonText: 'ไม่'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.submit(); // Submit the form if confirmed
+                            }
+                        });
+                    }
+                });
+
             });
         </script>
+
 </body>
 
 </html>

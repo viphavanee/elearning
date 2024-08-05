@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ห้องเรียน</title>
+    <title>หน้าแรก</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
@@ -19,18 +19,7 @@
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <style>
-        .card-deck {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
 
-        .card {
-            width: 10%;
-            margin: 10px;
-        }
-    </style>
 </head>
 
 <body id="page-top">
@@ -42,19 +31,9 @@
             <hr class="sidebar-divider my-0">
             <hr class="sidebar-divider">
             <li class="nav-item active">
-                <a class="nav-link" href="/">
+                <a class="nav-link" href="/lesson/std">
                     <i class="fa-solid fa-house"></i>
                     <span>หน้าแรก</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/lesson/std">
-                    <i class="fas fa-book"></i>
-                    <span>บทเรียน</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/quizStd">
-                    <i class="fas fa-book-open"></i>
-                    <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/newsStd">
@@ -81,7 +60,8 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
                                 aria-label="Search" aria-describedby="basic-addon2">
@@ -116,28 +96,39 @@
                     </ul>
                 </nav>
                 <div class="container-fluid">
-                    <div class="box">
+                    <!-- <div class="box">
                         <div class="thumb">
                            <img src="" alt="">
                         </div>
                         <h3 class="title">complete HTML tutorial</h3>
-                     </div>
-                    <% if (lessons && lessons.length > 0) { %>
-                        <div class="card-deck">
+                     </div> -->
+                    <% if (lessons && lessons.length> 0) { %>
+                        <div class="row">
                             <% lessons.forEach(function(lesson) { %>
-                                <div class="card">
-                                    <% if (lesson.image && lesson.image.length > 0) { %>
-                                        <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top classroom-image" alt="classroom Image" />
-                                    <% } else { %>
-                                        <img src="..." class="card-img-top" alt="ไม่พบรูป" />
-                                    <% } %>
-                                    <div class="card-body">
-                                        <h5 class="card-title">บทที่ <%= lesson.lessonNum %> <%= lesson.lessonName %></h5>
-                                    </div>
+                                <div class="col-12 col-md-4 mb-4">
+                                    <!-- 1 column on mobile, 3 columns on medium and larger screens -->
+                                    <a href="/lesson/stdViewLesson/<%= lesson._id %>" class="card text-decoration-none">
+
+                                        <% if (lesson.image && lesson.image.length> 0) { %>
+                                            <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top"
+                                                alt="Classroom Image" />
+                                            <% } else { %>
+                                                <img src="..." class="card-img-top" alt="ไม่พบรูป" />
+                                                <% } %>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">
+                                                            บทที่ <%= lesson.lessonNum %>
+                                                                <%= lesson.lessonName %>
+                                                        </h5>
+                                                    </div>
+                                    </a>
                                 </div>
-                            <% }); %>
+                                <% }); %>
                         </div>
-                    <% } %>
+                        <% } else { %>
+                            <p>ไม่มีบทเรียน</p>
+                            <% } %>
+
                 </div>
             </div>
         </div>
@@ -155,7 +146,6 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
-
 
 </body>
 

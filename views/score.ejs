@@ -1,160 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>teachers</title>
-
-   <!-- font awesome cdn link  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>จัดการคะแนน</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/public/css/form.css">
+   <link rel="stylesheet" href="/public/css/table.css">
+   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+   <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+   <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
-<body>
 
-   <header class="header">
-      <section class="flex">
-         <a href="home.html" class="logo">Sexual learning</a>
-         <form action="search.html" method="post" class="search-form">
-            <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
-            <button type="submit" class="fas fa-search"></button>
-         </form>
-   
-         <div class="icons">
-            <div id="menu-btn" class="fas fa-bars"></div>
-            <div id="search-btn" class="fas fa-search"></div>
-            <div id="user-btn" class="fas fa-user"></div>
-            <div id="toggle-btn" class="fas fa-sun"></div>
-         </div>
-         <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
-            <h3 class="name">shaikh anas</h3>
-            <p class="role">studen</p>
-            <a href="profile.html" class="btn">แก้ไขโปรไฟล์</a>
-            <div class="flex-btn">
-               <a href="login.html" class="option-btn">login</a>
-               <a href="register.html" class="option-btn">register</a>
+<body id="page-top">
+   <div id="wrapper">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+            <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+         </a>
+         <hr class="sidebar-divider my-0">
+         <li class="nav-item">
+            <a class="nav-link" href="/index">
+               <i class="fas fa-fw fa-tachometer-alt"></i>
+               <span>Dashboard</span></a>
+         </li>
+         <hr class="sidebar-divider">
+         <li class="nav-item">
+            <a class="nav-link" href="/lesson/tchr">
+               <i class="fas fa-book"></i>
+               <span>บทเรียน</span></a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/quizAdmin/tchr">
+               <i class="fas fa-book-open"></i>
+               <span>แบบทดสอบ</span></a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/newsAdmin/tchr">
+               <i class="fas fa-newspaper"></i>
+               <span>บทความ</span></a>
+         </li>
+         <li class="nav-item active">
+            <a id="attemptLink" class="nav-link" href="/attempt/list">
+               <i class="fas fa-chalkboard-user"></i>
+               <span>คะแนน</span></a>
+         </li>
+         <li class="nav-item">
+            <a id="classroomLink" class="nav-link" href="#">
+               <i class="fas fa-chalkboard-user"></i>
+               <span>จัดการห้องเรียน</span></a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="#">
+               <i class="fas fa-question"></i>
+               <span>กระทู้ถาม-ตอบ</span></a>
+         </li>
+
+
+      </ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+         <div id="content">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+               <form class="form-inline">
+                  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                     <i class="fa fa-bars"></i>
+                  </button>
+               </form>
+               <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                  <div class="input-group">
+                     <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                        aria-label="Search" aria-describedby="basic-addon2">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary mr-auto" type="button">
+                           <i class="fas fa-search fa-sm"></i>
+                        </button>
+                     </div>
+                  </div>
+               </form>
+               <ul class="navbar-nav ml-auto">
+
+                  <div class="topbar-divider d-none d-sm-block"></div>
+                  <li class="nav-item dropdown no-arrow">
+                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <div class="d-flex flex-column align-items-end">
+                           <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                           <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                        </div>
+                        <i class="fa fa-user-circle-o fa-2x"></i>
+                     </a>
+                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">
+                           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                           แก้ไขโปรไฟล์
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
+                           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                           Logout
+                        </a>
+                     </div>
+                  </li>
+
+               </ul>
+            </nav>
+            <div class="container-fluid">
+               <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                     <h6 class="m-0 font-weight-bold text-dark">จัดการคะแนน</h6>
+                  </div>
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                           <thead>
+                              <tr>
+                                 <th>quiz name</th>
+                                 <th colspan="2">จัดการ</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <% if (quiz && quiz.length> 0) { %>
+                                 <% quiz.forEach(function(quiz) { %>
+                                    <tr>
+                                       <td>
+                                          <%= quiz.quizName %>
+                                       </td>
+                                       <td>
+                                          <a href="/attempt/list/<%= quiz._id %>/pre/<%= roomCode %>">pre</a>
+                                       </td>
+                                       <td>
+                                          <a href="">post</a>
+                                       </td>
+                                    </tr>
+                                    <% }); %>
+                                       <% } else { %>
+                                          <tr>
+                                             <td colspan="4">No score available.</td>
+                                          </tr>
+                                          <% } %>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
             </div>
+
          </div>
-      </section>
-   </header>   
-   
-   <div class="side-bar">
-      <div id="close-btn">
-         <i class="fas fa-times"></i>
       </div>
-   
-      <div class="profile">
-         <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name">shaikh anas</h3>
-         <p class="role">student</p>
-      </div>
-   
-      <nav class="navbar">
-         <a href="home.html"><i class="fas fa-home"></i><span>หน้าหลัก</span></a>
-         <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>บทเรียน</span></a>
-         <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>คะแนน</span></a>
-         <a href="about.html"><i class="fas fa-question"></i><span> กระทู้</span></a>
-         <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
-      </nav>
    </div>
 
-<section class="teachers">
+   <script src="/public/vendor/jquery/jquery.min.js"></script>
+   <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+   <script src="/public/js/sb-admin-2.min.js"></script>
+   <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+   <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+   <script src="/public/js/datatables-demo.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+   <script src="/public/js/tinymceInit.js"></script>
+   <script src="/public/js/script.js"></script>
+   <script src="/public/js/getdata.js"></script>
+   <script src="/public/js/profileDetail.js"></script>
+   <script src="/public/js/logout.js"></script>
 
-   <h1 class="heading">คะแนน</h1>
-   <div class="box-container">
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-2.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
+   <!-- getUserId -->
+   <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+   <script>
+      // Ensure the DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function () {
+         const token = localStorage.getItem('token');
+         const decodedToken = jwtDecode(token); // Decodes the JWT token
 
-     
+         // Assuming userId is a field in your token
+         const userId = decodedToken.userId;
+         if (userId) {
+            // Set the href attribute with the userId
+            const classroomLink = document.getElementById('classroomLink');
+            const attemptLink = document.getElementById('attemptLink');
+            classroomLink.href = `/classroom/teacher/${userId}`;
+            attemptLink.href = `/attempt/list/${userId}`;
+         }
+      });
+   </script>
+   <!-- end get userId -->
 
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-4.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-5.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-6.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-7.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-8.jpg" alt="">
-            <div>
-               <h3>john deo</h3>
-               <span>developer</span>
-            </div>
-         </div>
-         <p>total playlists : <span>4</span></p>
-         <p>total videos : <span>18</span></p>
-         <p>total likes : <span>1208</span></p>
-         <a href="teacher_profile.html" class="inline-btn">view profile</a>
-      </div>
-
-   </div>
-
-</section>
-<script src="js/script.js"></script>
+   
+   <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
+   <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 </body>
+
 </html>

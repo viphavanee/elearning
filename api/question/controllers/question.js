@@ -68,6 +68,23 @@ router.route("/getQuestion/:id").get(async (req, res) => {
 
 
 
+// Utility function to shuffle an array
+function shuffleArray(array) {
+  let currentIndex = array.length, randomIndex;
+
+  // While there remain elements to shuffle…
+  while (currentIndex !== 0) {
+    // Pick a remaining element…
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 router.route("/pre/:id").get(async (req, res) => {
   try {
     const quizId = req.params.id;
@@ -81,8 +98,10 @@ router.route("/pre/:id").get(async (req, res) => {
     if (quiz.status_code === "200") {
       const question = await func.getQuestionByQId({ quizId: quizId });
       if (question.status_code === "200") {
-        console.log(question.data)
-        res.render("questionPre", { question: question.data, quizData: quiz.data });
+        // Shuffle the questions
+        const shuffledQuestions = shuffleArray(question.data);
+        console.log(shuffledQuestions[0].questionNumber);
+        res.render("questionPre", { question: shuffledQuestions, quizData: quiz.data });
       } else {
         res.status(404).json({ error: "Question not found" });
       }
@@ -94,6 +113,8 @@ router.route("/pre/:id").get(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 router.route("/:id").get(async (req, res) => {
   try {
     const quizId = req.params.id;
@@ -109,6 +130,34 @@ router.route("/:id").get(async (req, res) => {
       if (question.status_code === "200") {
         console.log(question.data)
         res.render("questionAdmin", { question: question.data, quizData: quiz.data });
+      } else {
+        res.status(404).json({ error: "Question not found" });
+      }
+    } else {
+      res.status(404).json({ error: `Quiz with id ${quizId} not found` });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+router.route("/tchr/:id").get(async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    if (!quizId) {
+      console.error("Invalid quiz ID:", quizId);
+      return res.status(400).json({ error: "Invalid quiz ID" });
+    }
+
+    const quiz = await quizFunc.getQuizById({ id: quizId });
+
+    if (quiz.status_code === "200") {
+      const question = await func.getQuestionByQId({ quizId: quizId });
+      if (question.status_code === "200") {
+        console.log(question.data)
+        res.render("questionTchr", { question: question.data, quizData: quiz.data });
       } else {
         res.status(404).json({ error: "Question not found" });
       }
@@ -154,8 +203,6 @@ router.route("/edit/:id").post(async (req, res) => {
   }
 
 });
-
-
 
 router.route("/delete/:id").get(async (req, res) => {
   try {

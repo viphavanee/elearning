@@ -8,6 +8,7 @@
   <title>เนื้อหา</title>
   <link rel="stylesheet" href="/public/css/form.css">
   <link rel="stylesheet" href="/public/css/table.css">
+  <link rel="stylesheet" href="/public/css/menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,6 +22,7 @@
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
+
     .container {
       font-family: "Noto Sans Thai", sans-serif !important;
     }
@@ -28,14 +30,6 @@
     h1 {
       font-size: 1.5rem;
       margin: 3%;
-    }
-
-    #img_container img {
-      width: 40%;
-      margin-top: 3%;
-      margin-bottom: 3%;
-      margin: auto auto;
-      display: block;
     }
 
     .content {
@@ -74,12 +68,7 @@
           <span>บทความ</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="fas fa-chalkboard-user"></i>
-          <span>คะแนน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/user">
           <i class="fas fa-user-group"></i>
           <span>จัดการผู้ใช้งาน</span></a>
       </li>
@@ -92,7 +81,8 @@
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 shadow"
+          style="z-index: 5; padding-left: 300px;">
           <form class="form-inline">
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
               <i class="fa fa-bars"></i>
@@ -115,8 +105,11 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -124,35 +117,57 @@
                   แก้ไขโปรไฟล์
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
               </div>
             </li>
+
           </ul>
         </nav>
       </div>
       <div class="container mt-5">
-        <div class="text-1" style="text-align: center;">
+        <div class="h1 pt-5 text-center">
           <h1>
             <%= lesson.lessonName %>
           </h1>
         </div>
-        <div id="img_container">
-          <img src="data:image/jpeg;base64,<%= lesson.image %>" alt="Image">
+        <div class="container mt-5">
+          <div class="embed-responsive embed-responsive-16by9">
+            <% if (lesson && lesson.vdo_url) { %>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/<%=
+                lesson.vdo_url.includes('youtu.be') && lesson.vdo_url.includes('si=') 
+                  ? lesson.vdo_url.split('/')[3].split('?')[0]
+                  : lesson.vdo_url.includes('youtube.com/watch?v=') 
+                    ? lesson.vdo_url.split('v=')[1].split('&')[0]
+                    : lesson.vdo_url.includes('youtu.be') 
+                      ? lesson.vdo_url.split('/')[3]
+                      : ''
+              %>" title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <% } else { %>
+                <p>Video URL is not available.</p>
+                <% } %>
+          </div>
         </div>
+
         <div class="content">
           <p>
             <%- lesson.content %>
           </p>
         </div>
       </div>
+      <script src="
+      https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
       <script src="/public/js/script.js"></script>
       <script src="/public/vendor/jquery/jquery.min.js"></script>
       <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
       <script src="/public/js/sb-admin-2.min.js"></script>
+      <script src="/public/js/profileDetail.js"></script>
+      <script src="/public/js/adminLogout.js"></script>
 </body>
 
 </html>
