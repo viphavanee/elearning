@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link" href="/lesson">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/quizAdmin">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">
+                    <i class="fas fa-user-group"></i>
+                    <span>จัดการผู้ใช้งาน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme/admin">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/report/admin">
+                    <i class="bi bi-flag-fill"></i>
+                    <span>จัดการรายงาน</span></a>
+            </li>
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-dark">Dashboard</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="row">
+                                    <!-- First Column: Student Count -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-3">
+                                                    <p class="h2" style="color: #0F52BA;">
+                                                        <%= stdCount %>
+                                                    </p>
+                                                    <p class="h5">จำนวนนักเรียน</p>
+                                                </div>
+                                                <img src="/public/img/std.png" alt="student" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Second Column: Teacher Count -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-3">
+                                                    <p class="h2" style="color: #0F52BA;">
+                                                        <%= tchrCount %>
+                                                    </p>
+                                                    <p class="h5">จำนวนครู</p>
+                                                </div>
+                                                <img src="/public/img/tchr.png" alt="teacher" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-3">
+                                                    <p class="h2" style="color: #0F52BA;">
+                                                        <%= schoolCount %>
+                                                    </p>
+                                                    <p class="h5">จำนวนโรงเรียน</p>
+                                                </div>
+                                                <img src="/public/img/school.png" alt="teacher" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Third Column: Lesson Count -->
+                                    <div class="col-md-6">
+                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-3">
+                                                    <p class="h2" style="color: #0F52BA;">
+                                                        <%= lessonCount %>
+                                                    </p>
+                                                    <p class="h5">จำนวนบทเรียน</p>
+                                                </div>
+                                                <img src="/public/img/lesson.png" alt="lesson" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fourth Column: Classroom Count -->
+                                    <div class="col-md-6">
+                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-3">
+                                                    <p class="h2" style="color: #0F52BA">
+                                                        <%= classroomCount %>
+                                                    </p>
+                                                    <p class="h5">จำนวนห้องเรียน</p>
+                                                </div>
+                                                <img src="/public/img/classroom.png" alt="classroom" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pie chart -->
+                        <div class="card bg-light shadow-sm p-3 m-3">
+                            <div class="card-header">
+                                <h3 class="text-center fw-bold">สรุปผลการสอบ</h3>
+                            </div>
+                            <div class="d-flex w-100 justify-content-center mt-3">
+                                <div class="form-group">
+                                    <label for="lessonFilter">เลือกบทเรียน:</label>
+                                    <select class="form-control" id="lessonFilter">
+                                        <% lesson.forEach(function(lesson) { %>
+                                            <option value="<%= lesson.lessonNum %>">
+                                                <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-around mt-3">
+                                <div id="prePieChart" style="width: 45%;"></div>
+                                <div id="postPieChart" style="width: 45%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-light shadow-sm p-3 m-3">
+                            <div class="card-header">
+                                <h3 class="text-center fw-bold">เปรียบเทียบคะแนน</h3>
+                            </div>
+                                <div class="form-group">
+                                    <label for="lessonFilterBar">เลือกบทเรียน:</label>
+                                    <select class="form-control" id="lessonFilterBar">
+                                        <% lesson.forEach(function(lesson) { %>
+                                            <option value="<%= lesson.lessonNum %>">
+                                                <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <div id="scoreColumnChart" style="width: 80%;"></div>
+                                </div>
+                        </div>
+                        <div class="m-3">
+                            <p class="h5">ผู้ใช้งานใหม่</p>
+                            <table class="table table-bordered table-striped" id="userTable" width="100%"
+                                cellspacing="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ชื่อ</th>
+                                        <th>อีเมล</th>
+                                        <th>โรงเรียน</th>
+                                        <th>บทบาท</th>
+                                        <th>สร้างเมื่อ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (latestUser && latestUser.length> 0) { %>
+                                        <% latestUser.forEach(function(user) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= user.firstname %>
+                                                        <%= user.lastname %>
+                                                </td>
+                                                <td>
+                                                    <%= user.email %>
+                                                </td>
+                                                <td>
+                                                    <%= user.school %>
+                                                </td>
+                                                <td>
+                                                    <%= user.role %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(user.createDate).toLocaleString('th-TH', {
+                                                        year: 'numeric' , month: 'long' , day: 'numeric' ,
+                                                        hour: 'numeric' , minute: 'numeric' , second: 'numeric' ,
+                                                        hour12: false }) %>
+                                                </td>
+
+                                            </tr>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="5">No user available.</td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">คุณต้องการออกจากระบบหรือไม่?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+            </div>
+        </div>
+    </footer>
+    </div>
+    </div>
+
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/demo/datatables-demo.js"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/adminLogout.js"></script>
+
+    <script>
+        // Data from the server
+        const stdCount = <%- stdCount %>; // Correct syntax for embedded values
+        const attempts = <%- JSON.stringify(attempts) %>; // Remove extra semicolon
+
+        // Function to filter data and prepare chart data
+        function prepareChartData(lessonNum, attemptType) {
+            // Filter attempts by lessonNum and attemptType
+            const filteredAttempts = attempts.filter(
+                (item) => item.lessonNum === lessonNum && item.attemptType === attemptType
+            );
+
+            // Count Pass and Fail
+            const passCount = filteredAttempts.filter((item) => item.totalScore >= 5).length;
+            const failCount = filteredAttempts.filter((item) => item.totalScore < 5).length;
+
+            // Calculate Not Exam
+            const notExamCount = stdCount - (passCount + failCount);
+
+            return {
+                pass: passCount,
+                fail: failCount,
+                notExam: notExamCount,
+            };
+        }
+
+        // Function to render ApexCharts pie chart
+        function renderPieChart(chartData, elementId, titleText) {
+            const options = {
+                chart: {
+                    type: "pie",
+                    height: 350,
+                },
+                series: [chartData.pass, chartData.fail, chartData.notExam],
+                labels: ["ผ่าน", "ไม่ผ่าน", "ยังไม่สอบ"],
+                colors: ["#4CAF50", "#F44336", "#D3D3D3"],
+                title: {
+                    text: titleText,
+                    align: "center",
+                    margin: 10,
+                    style: {
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        color: "#333",
+                    },
+                },
+            };
+
+            const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
+            chart.render();
+            return chart;
+        }
+
+        // Initial rendering with default filters
+        const initialLessonNum = "1";
+        const preChartData = prepareChartData(initialLessonNum, "pre");
+        const postChartData = prepareChartData(initialLessonNum, "post");
+        const preChart = renderPieChart(preChartData, "prePieChart", "สรุปคะแนนก่อนเรียน");
+        const postChart = renderPieChart(postChartData, "postPieChart", "สรุปคะแนนหลังเรียน");
+
+        // Function to update charts when filters change
+        function updateChart() {
+            const lessonNum = document.getElementById("lessonFilter").value; // Correct selector for the filter
+            const preFilteredData = prepareChartData(lessonNum, "pre");
+            const postFilteredData = prepareChartData(lessonNum, "post");
+
+            preChart.updateSeries([preFilteredData.pass, preFilteredData.fail, preFilteredData.notExam]);
+            postChart.updateSeries([postFilteredData.pass, postFilteredData.fail, postFilteredData.notExam]);
+        }
+
+        // Event listener for lessonFilter change
+        const lessonFilter = document.getElementById("lessonFilter"); // Ensure lessonFilter is correctly selected
+        lessonFilter.addEventListener("change", updateChart);
+    </script>
+
+<script>
+    // Data from the server
+    const attemptsBar = <%- JSON.stringify(attempts) %>;
+
+    // Function to prepare min/max score data for both Pre and Post groups
+    function prepareColumnChartData(lessonNum) {
+        // Filter attempts by lesson number
+        const filteredAttempts = attemptsBar.filter(item => item.lessonNum === lessonNum);
+
+        // Extract scores for pre and post attempts
+        const preScores = filteredAttempts
+            .filter(item => item.attemptType === "pre")
+            .map(item => item.totalScore);
+        const postScores = filteredAttempts
+            .filter(item => item.attemptType === "post")
+            .map(item => item.totalScore);
+
+        // Calculate min/max values for Pre and Post
+        const minPre = preScores.length ? Math.min(...preScores) : 0;
+        const maxPre = preScores.length ? Math.max(...preScores) : 0;
+        const minPost = postScores.length ? Math.min(...postScores) : 0;
+        const maxPost = postScores.length ? Math.max(...postScores) : 0;
+
+        return {
+            pre: [minPre, maxPre], // Min and Max for Pre
+            post: [minPost, maxPost] // Min and Max for Post
+        };
+    }
+
+    // Function to render the column chart
+    function renderColumnChart(lessonNum) {
+        const chartData = prepareColumnChartData(lessonNum);
+
+        const options = {
+            chart: {
+                type: "bar",
+                height: 350
+            },
+            series: [
+                { name: "คะแนนต่ำสุด", data: [chartData.pre[0], chartData.post[0]] },
+                { name: "คะแนนสูงสุด", data: [chartData.pre[1], chartData.post[1]] }
+            ],
+            xaxis: {
+                categories: [`คะแนนสอบก่อนเรียน`, `คะแนนสอบหลังเรียน`]
+            },
+            colors: ["#FF5722", "#4CAF50"],
+            title: {
+                text: "เปรียบเทียบคะแนนต่ำสุดและสูงสุด (ก่อน/หลังเรียน)",
+                align: "center"
+            }
+        };
+
+        const chart = new ApexCharts(document.querySelector("#scoreColumnChart"), options);
+        chart.render();
+
+        return chart;
+    }
+
+    // Initialize chart with first lesson
+    const initialLessonNumBar = document.getElementById("lessonFilterBar").value;
+    let columnChart = renderColumnChart(initialLessonNumBar);
+
+    // Function to update chart when lesson filter changes
+    function updateColumnChart() {
+        const lessonNum = document.getElementById("lessonFilterBar").value;
+        const chartData = prepareColumnChartData(lessonNum);
+
+        columnChart.updateSeries([
+            { data: [chartData.pre[0], chartData.post[0]] }, // Min/Max Pre
+            { data: [chartData.pre[1], chartData.post[1]] } // Min/Max Post
+        ]);
+    }
+
+    // Event listener for lessonFilter change
+    document.getElementById("lessonFilterBar").addEventListener("change", updateColumnChart);
+</script>
+
+</body>
+
+</html>

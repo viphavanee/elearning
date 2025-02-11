@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>จัดการรายงาน</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link" href="/lesson">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/quizAdmin">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">
+                    <i class="fas fa-user-group"></i>
+                    <span>จัดการผู้ใช้งาน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme/admin">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/report/admin">
+                    <i class="bi bi-flag-fill"></i>
+                    <span>จัดการรายงาน</span></a>
+            </li>
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-dark">รายงานกระทู้</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <!-- Filter Dropdown -->
+                                <div class="d-flex mb-3 align-items-center justify-content-between">
+                                    <select id="themeFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
+                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
+                                        <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
+                                        <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
+                                    </select>
+                                </div>
+                                <!-- Theme Table -->
+                                <table class="table table-bordered" id="themeTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>วันที่แจ้ง</th>
+                                            <th>ชื่อกระทู้</th>
+                                            <th>สถานะ</th>
+                                            <th class="text-center">จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="themeTableBody">
+                                        <% if (theme && theme.length> 0) { %>
+                                            <% theme.forEach(function(theme) { %>
+                                                <% function formatDate(date) { const options={ day: '2-digit' ,
+                                                    month: '2-digit' , year: 'numeric' , hour: '2-digit' ,
+                                                    minute: '2-digit' }; return new Intl.DateTimeFormat('en-GB',
+                                                    options).format(new Date(date)); } %>
+                                                    <tr
+                                                        class="<%= theme.isDeleted ? 'deleted' : theme.isReport === 'reported' ? 'reported' : 'checked' %>">
+                                                        <td>
+                                                            <%= formatDate(theme.reportedAt) %>
+                                                        </td>
+                                                        <td>
+                                                            <%= theme.title %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (!theme.isDeleted) { %>
+                                                                <% if (theme.isReport==='reported' ) { %>
+                                                                    <span
+                                                                        class="d-flex align-items-center justify-content-center">
+                                                                        <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                            class="mr-2 bg-warning"></div>
+                                                                        ถูกรายงาน
+                                                                    </span>
+                                                                    <% } else if (theme.isReport==='checked' ) { %>
+                                                                        <span
+                                                                            class="d-flex align-items-center justify-content-center">
+                                                                            <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                class="mr-2 bg-success"></div>
+                                                                            ตรวจสอบแล้ว
+                                                                        </span>
+                                                                        <% } %>
+                                                                            <% } else { %>
+                                                                                <span
+                                                                                    class="d-flex align-items-center justify-content-center">
+                                                                                    <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                        class="mr-2 bg-danger"></div>
+                                                                                    ถูกลบแล้ว
+                                                                                </span>
+                                                                                <% } %>
+                                                        </td>
+                                                        <td class="d-flex justify-content-center align-items-center">
+                                                            <a style="width: 2rem;" href="#"
+                                                                class="btn-sm btn-secondary mr-2" data-toggle="modal"
+                                                                data-target="#reportDetailModal"
+                                                                data-details="<%= JSON.stringify(theme.reportDetails.data) %>"
+                                                                data-is-deleted="<%= theme.isDeleted %>">
+                                                                <i class="fa fa-info"></i>
+                                                            </a>
+
+                                                            <% if (theme.isReport==='reported' && theme.isDeleted
+                                                                !==true) { %>
+                                                                <a style="width: 2rem;"
+                                                                    href="/theme/admin/checkedReport/<%= theme._id %>"
+                                                                    class="btn-sm btn-success ml-2">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                </a>
+                                                                <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <tr id="noThemetRow">
+                                                                <td colspan="4">No theme reported.</td>
+                                                            </tr>
+                                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-dark">รายงานความคิดเห็น</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <!-- Filter Dropdown -->
+                                <div class="d-flex mb-3 align-items-center justify-content-between">
+                                    <select id="commentFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
+                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
+                                        <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
+                                        <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
+                                    </select>
+                                </div>
+                                <!-- Comment Table -->
+                                <table class="table table-bordered" id="commentTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>วันที่แจ้ง</th>
+                                            <th>Comment ID</th>
+                                            <th>สถานะ</th>
+                                            <th class="text-center">จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="commentTableBody">
+                                        <% if (comment && comment.length> 0) { %>
+                                            <% comment.forEach(function(comment) { %>
+                                                <% function formatDate(date) { const options={ day: '2-digit' ,
+                                                    month: '2-digit' , year: 'numeric' , hour: '2-digit' ,
+                                                    minute: '2-digit' }; return new Intl.DateTimeFormat('en-GB',
+                                                    options).format(new Date(date)); } %>
+                                                    <tr
+                                                        class="<%= comment.isDeleted ? 'deleted' : comment.isReport === 'reported' ? 'reported' : 'checked' %>">
+                                                        <td>
+                                                            <%= formatDate(comment.reportedAt) %>
+                                                        </td>
+                                                        <td>
+                                                            <%= comment._id %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (!comment.isDeleted) { %>
+                                                                <% if (comment.isReport==='reported' ) { %>
+                                                                    <span
+                                                                        class="d-flex align-items-center justify-content-center">
+                                                                        <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                            class="mr-2 bg-warning"></div>
+                                                                        ถูกรายงาน
+                                                                    </span>
+                                                                    <% } else if (comment.isReport==='checked' ) { %>
+                                                                        <span
+                                                                            class="d-flex align-items-center justify-content-center">
+                                                                            <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                class="mr-2 bg-success"></div>
+                                                                            ตรวจสอบแล้ว
+                                                                        </span>
+                                                                        <% } %>
+                                                                            <% } else { %>
+                                                                                <span
+                                                                                    class="d-flex align-items-center justify-content-center">
+                                                                                    <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                        class="mr-2 bg-danger"></div>
+                                                                                    ถูกลบแล้ว
+                                                                                </span>
+                                                                                <% } %>
+                                                        </td>
+                                                        <td class="d-flex justify-content-center align-items-center">
+                                                            <a style="width: 2rem;" href="#"
+                                                                class="btn-sm btn-secondary mr-2" data-toggle="modal"
+                                                                data-target="#reportDetailModal"
+                                                                data-details="<%= JSON.stringify(comment.reportDetails.data) %>"
+                                                                data-is-deleted="<%= comment.isDeleted %>">
+                                                                <i class="fa fa-info"></i>
+                                                            </a>
+
+                                                            <% if (comment.isReport==='reported' && comment.isDeleted
+                                                                !==true ) { %>
+                                                                <a style="width: 2rem;"
+                                                                    href="/comment/admin/checkedReport/<%= comment._id %>"
+                                                                    class="btn-sm btn-success ml-2">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                </a>
+                                                                <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <tr id="noCommentRow">
+                                                                <td colspan="4">No theme reported.</td>
+                                                            </tr>
+                                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-dark">รายงานตอบกลับ</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <!-- Filter Dropdown -->
+                                <div class="d-flex mb-3 align-items-center justify-content-between">
+                                    <select id="replyFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
+                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
+                                        <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
+                                        <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
+                                    </select>
+                                </div>
+                                <!-- Comment Table -->
+                                <table class="table table-bordered" id="replyTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>วันที่แจ้ง</th>
+                                            <th>reply ID</th>
+                                            <th>สถานะ</th>
+                                            <th class="text-center">จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="replyTableBody">
+                                        <% if (reply && reply.length> 0) { %>
+                                            <% reply.forEach(function(reply) { %>
+                                                <% function formatDate(date) { const options={ day: '2-digit' ,
+                                                    month: '2-digit' , year: 'numeric' , hour: '2-digit' ,
+                                                    minute: '2-digit' }; return new Intl.DateTimeFormat('en-GB',
+                                                    options).format(new Date(date)); } %>
+                                                    <tr
+                                                        class="<%= reply.isDeleted ? 'deleted' : reply.isReport === 'reported' ? 'reported' : 'checked' %>">
+                                                        <td>
+                                                            <%= formatDate(reply.reportedAt) %>
+                                                        </td>
+                                                        <td>
+                                                            <%= reply._id %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (!reply.isDeleted) { %>
+                                                                <% if (reply.isReport==='reported' ) { %>
+                                                                    <span
+                                                                        class="d-flex align-items-center justify-content-center">
+                                                                        <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                            class="mr-2 bg-warning"></div>
+                                                                        ถูกรายงาน
+                                                                    </span>
+                                                                    <% } else if (reply.isReport==='checked' ) { %>
+                                                                        <span
+                                                                            class="d-flex align-items-center justify-content-center">
+                                                                            <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                class="mr-2 bg-success"></div>
+                                                                            ตรวจสอบแล้ว
+                                                                        </span>
+                                                                        <% } %>
+                                                                            <% } else { %>
+                                                                                <span
+                                                                                    class="d-flex align-items-center justify-content-center">
+                                                                                    <div style="width: 9px; height: 9px; border-radius: 99%;"
+                                                                                        class="mr-2 bg-danger"></div>
+                                                                                    ถูกลบแล้ว
+                                                                                </span>
+                                                                                <% } %>
+                                                        </td>
+                                                        <td class="d-flex justify-content-center align-items-center">
+                                                            <a style="width: 2rem;" href="#"
+                                                                class="btn-sm btn-secondary mr-2" data-toggle="modal"
+                                                                data-target="#reportDetailModal"
+                                                                data-details="<%= JSON.stringify(reply.reportDetails.data) %>"
+                                                                data-is-deleted="<%= reply.isDeleted %>">
+                                                                <i class="fa fa-info"></i>
+                                                            </a>
+
+                                                            <% if (reply.isReport==='reported' && reply.isDeleted
+                                                                !==true ) { %>
+                                                                <a style="width: 2rem;"
+                                                                    href="/reply/admin/checkedReport/<%= reply._id %>"
+                                                                    class="btn-sm btn-success ml-2">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                </a>
+                                                                <% } %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <tr id="noReplyRow">
+                                                                <td colspan="4">No theme reported.</td>
+                                                            </tr>
+                                                            <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="reportDetailModal" tabindex="-1" role="dialog"
+                        aria-labelledby="reportDetailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="reportDetailModalLabel">รายละเอียด</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex justify-content-end mb-3">
+                                        <a id="navigateBtn" href="#" class="btn btn-primary" target="_blank"><i
+                                                class="fa-solid fa-eye"></i></a>
+                                    </div>
+                                    <!-- Modal content will be populated by JavaScript -->
+                                    <table id="reportDetailsTable" class="table table-bordered">
+                                        <!-- Table headers -->
+                                        <thead>
+                                            <tr>
+                                                <th>วันที่</th>
+                                                <th>เหตุผล</th>
+                                                <th>อื่น ๆ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning 2023</span>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <script src="/public/vendor/jquery/jquery.min.js"></script>
+            <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/public/js/sb-admin-2.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+            <script src="/public/js/demo/datatables-demo.js"></script>
+            <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+            <script src="/public/js/profileDetail.js"></script>
+            <script src="/public/js/adminLogout.js"></script>
+
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('#themeTable').DataTable({
+            "paging": true,
+            "searching": false,
+            "lengthChange": false, // To disable the "show X entries" dropdown
+            "pageLength": 5, // Number of records per page
+            "ordering": true // Enable sorting
+        });
+
+        $('#commentTable').DataTable({
+            "paging": true,
+            "searching": false,
+            "lengthChange": false,
+            "pageLength": 5,
+            "ordering": true
+        });
+    });
+</script>
+<script>
+    document.getElementById('themeFilter').addEventListener('change', function () {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll('#themeTableBody tr');
+        let visibleRowCount = 0;
+
+        rows.forEach(row => {
+            // Ignore the 'No theme reported' row
+            if (row.id === 'noThemeRow') {
+                row.style.display = 'none';
+                return;
+            }
+
+            // Show all rows if 'all' is selected
+            if (filterValue === 'all') {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                // Show/Hide rows based on the filter value
+                if (row.classList.contains(filterValue)) {
+                    row.style.display = '';
+                    visibleRowCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Show 'No theme reported' row if no rows are visible
+        if (visibleRowCount === 0) {
+            document.getElementById('noThemeRow').style.display = '';
+        }
+    });
+</script>
+<script>
+    document.getElementById('commentFilter').addEventListener('change', function () {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll('#commentTableBody tr');
+
+        rows.forEach(row => {
+            // Ignore the 'No theme reported' row
+            if (row.id === 'noCommentRow') {
+                row.style.display = 'none';
+                return;
+            }
+
+            // Show all rows if 'all' is selected
+            if (filterValue === 'all') {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                // Show/Hide rows based on the filter value
+                if (row.classList.contains(filterValue)) {
+                    row.style.display = '';
+                    visibleRowCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Show 'No theme reported' row if no rows are visible
+        if (visibleRowCount === 0) {
+            document.getElementById('noCommentRow').style.display = '';
+        }
+    });
+</script>
+<script>
+    document.getElementById('replyFilter').addEventListener('change', function () {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll('#replyTableBody tr');
+        let visibleRowCount = 0; // Initialize visibleRowCount
+
+        rows.forEach(row => {
+            // Ignore the 'No theme reported' row
+            if (row.id === 'noReplyRow') {
+                row.style.display = 'none';
+                return;
+            }
+
+            // Show all rows if 'all' is selected
+            if (filterValue === 'all') {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                // Show/Hide rows based on the filter value
+                if (row.classList.contains(filterValue)) {
+                    row.style.display = '';
+                    visibleRowCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Show 'No theme reported' row if no rows are visible
+        if (visibleRowCount === 0) {
+            document.getElementById('noReplyRow').style.display = '';
+        }
+    });
+</script>
+<script>
+    // Script to handle the modal population
+    $('#reportDetailModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var details = button.data('details');
+        var isDeleted = button.data('is-deleted');  // Get the isDeleted flag
+        var navigate = $('#navigateBtn');
+        var tableBody = $('#reportDetailsTable tbody');
+        tableBody.empty();
+
+        if (details && details.length) {
+            details.forEach(function (detail) {
+                tableBody.append(
+                    `<tr>
+                        <td>${formatDate(detail.createDate)}</td>
+                        <td>${detail.reason}</td>
+                        <td>${detail.other || ''}</td>
+                    </tr>`
+                );
+            });
+
+            // Check if isDeleted is true and hide the navigate button if so
+            if (isDeleted) {
+                navigate.hide();  // Hide the navigate button
+            } else {
+                navigate.show();  // Show the navigate button if not deleted
+                navigate.attr('href', `/comment/admin/getCommentByThemeId/${details[0].themeId}`);
+            }
+
+        } else {
+            tableBody.append('<tr><td colspan="3">No details available</td></tr>');
+        }
+    });
+
+    function formatDate(date) {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Intl.DateTimeFormat('en-GB', options).format(new Date(date));
+    }
+</script>
+
+
+
+</html>

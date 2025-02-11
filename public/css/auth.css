@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto Sans Thai:wght@400;500;600;700&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
 }
 
 body {
@@ -17,7 +17,7 @@ body {
   background-position: center;
   background-size: cover;
   overflow: hidden; */
-  background-image: url('https://img.freepik.com/premium-vector/people-using-sexed-app-human-biology-anatomy-lesson-sex-education-mental-physical-health-contraception-female-reproductive-system-concept-vector-illustration_48369-47260.jpg');
+  background-image: url("https://img.freepik.com/premium-vector/people-using-sexed-app-human-biology-anatomy-lesson-sex-education-mental-physical-health-contraception-female-reproductive-system-concept-vector-illustration_48369-47260.jpg");
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: 85% center;

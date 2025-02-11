@@ -5,7 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>เนื้อหา</title>
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>บทความ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
@@ -13,31 +18,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
     <style>
         .News-image {
-      height: 200px;
-      object-fit: cover;
-    }
+            height: 200px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="/index">
+                <a class="nav-link" href="/admin/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -53,7 +63,7 @@
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/newsAdmin">
+                <a class="nav-link" href="/news">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
@@ -63,11 +73,15 @@
                     <span>จัดการผู้ใช้งาน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/theme/admin">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="/report/admin">
+                    <i class="bi bi-flag-fill"></i>
+                    <span>จัดการรายงาน</span></a>
+            </li>
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -125,7 +139,7 @@
                             </h6>
                         </div>
                         <div class="card-body">
-                            <a class="btn btn-primary" href="/newsAdmin/createNews" id="btnCreate">เพิ่มบทความ</a>
+                            <a class="btn btn-primary" href="/news/createNews" id="btnCreate">เพิ่มบทความ</a>
 
                             <div class="row row-cols-1 row-cols-md-3 g-4">
                                 <% if (news && news.length> 0) { %>
@@ -134,7 +148,7 @@
                                             <div class="card h-100">
                                                 <% if (news.image && news.image.length> 0) { %>
                                                     <img src="data:image/png;base64,<%= news.image %>"
-                                                        class="card-img-top News-image" alt="News Image"/>
+                                                        class="card-img-top News-image" alt="News Image" />
                                                     <% } else { %>
                                                         <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                         <% } %>
@@ -146,12 +160,12 @@
                                                                 </p>
                                                             </div>
                                                             <div class="card-footer d-flex justify-content-end">
-                                                                <a href="/newsAdmin/viewNews/<%= news._id %>"><i
+                                                                <a href="/news/viewNews/<%= news._id %>"><i
                                                                         class="fas fa-eye" id="view"></i></a>
-                                                                <a href="/newsAdmin/edit/<%= news._id %>"><i
+                                                                <a href="/news/edit/<%= news._id %>"><i
                                                                         class="fas fa-pen-square"
                                                                         id="edit"></i></i></i></a>
-                                                                <a href="/newsAdmin/delete/<%= news._id %>"><i
+                                                                <a href="/news/delete/<%= news._id %>"><i
                                                                         class="fas fa-trash" id="delete"
                                                                         onclick="return confirm('คุณต้องการลบบทความนี้ใช่หรือไม่?')"></i></a>
                                                             </div>

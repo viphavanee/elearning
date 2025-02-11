@@ -1,0 +1,48 @@
+
+      @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
+    
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        
+        height: 100vh;
+        z-index: 1050; /* Ensure it stays above other elements */
+       
+      }
+    
+      .content-wrapper {
+        margin-left: 150px; /* Offset the sidebar width */
+        padding-top: 70px;  /* Offset the height of the top navbar */
+      }
+    
+      .navbar {
+        z-index: 1000; /* Ensure it stays above the content */
+      }
+    
+      .container {
+        font-family: "Noto Sans Thai", sans-serif !important;
+      }
+    
+      h1 {
+        font-size: 1.5rem;
+        margin: 3%;
+      }
+    
+      #img_container img {
+        width: 40%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        margin: auto auto;
+        display: block;
+      }
+    
+      .content {
+        margin: 3%;
+        font-size: 1rem;
+      }

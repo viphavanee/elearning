@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>กระทู้</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .body {
+            font-family: "Noto+Sans+Thai", sans-serif;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-details img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sidebar-divider {
+            width: 75%;
+            margin: 0 auto;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-container {
+            width: 300px;
+        }
+
+        .search-input {
+            width: auto;
+            /* กำหนดขนาดความกว้าง 50px */
+        }
+
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item ">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/std">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/theme">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <!--                     <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="container-fluid">
+                    <div class="p-3">
+                        <div class="card-header py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="m-0 font-weight-semibold text-dark h2">กระทู้ถาม-ตอบ</p>
+                                <button class="btn btn-primary m-0" id="btnCreate" data-toggle="modal"
+                                    data-target="#createThemeModal">โพสต์คำถาม</button>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center justify-content-between" style="margin-top: 20px;">
+                            <div class="d-flex align-items-center">
+                                <select class="form-select w-auto" aria-label="Select Topic">
+                                    <option selected>เลือกดูตามบทเรียน</option>
+                                    <% lesson.forEach((lesson)=> { %>
+                                        <option value="<%= lesson.lessonNum %>">บทเรียน <%= lesson.lessonNum %>
+                                        </option>
+                                        <% }); %>
+                                </select>
+
+                                <div class="form-check form-switch ml-5">
+                                    <input type="checkbox" class="form-check-input" id="filterMyPosts" />
+                                    <label class="form-check-label" for="filterMyPosts">โพสต์ของฉัน</label>
+                                </div>
+                            </div>
+
+                            <div class="input-group search-container">
+                                <input type="text" class="form-control search-input" placeholder="ค้นหากระทู้...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary mr-auto" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+
+                            <% theme.forEach((theme)=> { %>
+
+                                <div class="card p-3 my-3 shadow-sm" data-lesson="<%= theme.lessonNum %>"
+                                    data-title="<%= theme.title.toLowerCase() %>"
+                                    data-firstname="<%= theme.user.firstname %>"
+                                    data-lastname="<%= theme.user.lastname %>"
+                                    data-fullname="<%= theme.user.firstname %> <%= theme.user.lastname %>">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-book mr-2"></i>
+
+                                            <span>
+                                                บทที่ <span id="themeLessonNum">
+                                                    <%= theme.lessonNum %>
+                                                </span>
+                                                <%= lesson[theme.lessonNum - 1]?.lessonName || '' %>
+                                            </span>
+
+                                        </div>
+                                        <div class="dropdown show">
+                                            <a class="btn btn-link text-decoration-none text-secondary dropdown-toggle"
+                                                href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <div class="actionBtn">
+                                                    <a class="dropdown-item editBtn" href="#" data-toggle="modal"
+                                                        data-target="#editThemeModal">
+                                                        <i class="fa-regular fa-pen-to-square mr-2"></i> แก้ไข
+                                                    </a>
+                                                    <a class="dropdown-item delete-link"
+                                                        href="/theme/delete/<%= theme._id %>" id="deleteBtn">
+                                                        <i class="fa-solid fa-trash mr-2"></i> ลบ
+                                                    </a>
+                                                </div>
+                                                <a href="#" class="dropdown-item report-link" data-id="<%= theme._id %>"
+                                                    data-bs-toggle="modal" data-bs-target="#reportModal"><i
+                                                        class="fa-regular fa-flag mr-2"></i> รายงาน</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="py-3 px-1">
+                                        <a href="/comment/getCommentByThemeId/<%= theme._id %>"
+                                            class="text-decoration-none text-dark h5" id="themeTitle">
+                                            <%= theme.title %>
+                                        </a>
+
+                                        <p class="d-none" id="themeId">
+                                            <%= theme._id %>
+                                        </p>
+                                        <p id="themeContent" class="d-none">
+                                            <%= theme.content %>
+                                        </p>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="btn-sm text-dark text-decoration-none">
+                                                <i class="fa-regular fa-comment mr-2"></i>
+                                                <%= theme.commentCount %>
+                                            </span>
+                                            <p id="themeUserId" class="d-none">
+                                                <%= theme.userId %>
+                                            </p>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <small class="text-muted mr-2" data-createDate="<%= theme.createDate %>"
+                                                id="formattedDate"></small>
+                                            <small class="text-muted">
+                                                | <%= theme.user.firstname %>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <% }); %>
+                                    <nav aria-label="Page navigation" class="d-flex justify-content-end">
+                                        <ul class="pagination justify-content-center" id="pagination">
+                                            <!-- Pagination generated here -->
+                                        </ul>
+                                    </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="createThemeModal" tabindex="-1" role="dialog"
+                    aria-labelledby="createThemeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header d-flex justify-content-center">
+                                <h5 class="modal-title" id="createThemeModalLabel">สร้างโพสต์</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    style="position: absolute; right: 15px;">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="createThemeForm" action="/theme/createTheme" method="POST"
+                                style="margin: 0; width: 100%;">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>เลือกบทเรียน:</label>
+                                        <select id="select-option" name="lessonNum" class="form-select" required
+                                            aria-label="Default select example">
+                                            <option value="">กรุณาเลือกบทเรียน</option>
+                                            <% lesson.forEach((lesson)=> { %>
+                                                <option value="<%= lesson.lessonNum %>">
+                                                    <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="title">หัวข้อ:</label>
+                                        <input name="title" type="text" class="form-control" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="content">เนื้อหา:</label>
+                                        <textarea name="content" id="content" rows="3" class="form-control"></textarea>
+                                        <small id="error-msg" class="mt-2"
+                                            style="color: red; display: none;">มีคำต้องห้ามในข้อความที่คุณพิมพ์!</small>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="userId" id="userId" />
+                                <div class="modal-footer">
+                                    <button type="submit" name="submit" class="btn btn-primary"
+                                        style="width: 100%;">โพสต์</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editThemeModal" tabindex="-1" role="dialog" aria-labelledby="editThemeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                    <h5 class="modal-title" id="editThemeModalLabel">แก้ไขโพสต์</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="position: absolute; right: 15px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editThemeForm" action="/theme/updateThemeById/<%= theme._id %>" method="POST"
+                    style="margin: 0; width: 100%;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>เลือกบทเรียน:</label>
+                            <select id="edit-select-option" name="lessonNum" class="form-select"
+                                aria-label="Default select example">
+                                <option value="">กรุณาเลือกบทเรียน</option>
+                                <% lesson.forEach((lesson)=> { %>
+                                    <option value="<%= lesson.lessonNum %>">
+                                        <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-title">หัวข้อ:</label>
+                            <input name="newTitle" type="text" class="form-control" id="edit-title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-content">เนื้อหา:</label>
+                            <textarea name="newContent" rows="3" class="form-control" id="edit-content"></textarea>
+                            <small id="edit-error-msg" class="mt-2"
+                                style="color: red; display: none;">มีคำต้องห้ามในข้อความที่คุณพิมพ์!</small>
+                        </div>
+                    </div>
+                    <input type="hidden" name="themeId" id="edit-themeId" />
+                    <input type="hidden" name="userId" id="edit-userId" />
+                    <div class="modal-footer">
+                        <button type="submit" name="submit" class="btn btn-primary" style="width: 100%;">อัปเดต</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">แจ้งรายงานโพสต์</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm">
+                        <div class="mb-3">
+                            <label class="form-label">เนื่องจาก:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="ข้อมูลที่เป็นเท็จ" id="reason1"
+                                    name="reason">
+                                <label class="form-check-label" for="reason1">ข้อมูลที่เป็นเท็จ</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="สแปม" id="reason2" name="reason">
+                                <label class="form-check-label" for="reason2">สแปม</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="การกลั่นแกล้งหรือการคุกคาม"
+                                    id="reason3" name="reason">
+                                <label class="form-check-label" for="reason3">การกลั่นแกล้งหรือการคุกคาม</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="มีเนื้อหาที่หยาบคายก้าวร้าว"
+                                    id="reason4" name="reason">
+                                <label class="form-check-label" for="reason4">มีเนื้อหาที่หยาบคายก้าวร้าว</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio"
+                                    value="มีเนื้อหาที่เจตนาก่อให้เกิดการทะเลาะวิวาทหรือความวุ่นวาย" id="reason5"
+                                    name="reason">
+                                <label class="form-check-label"
+                                    for="reason5">มีเนื้อหาที่เจตนาก่อให้เกิดการทะเลาะวิวาทหรือความวุ่นวาย</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="Other" id="reasonOther"
+                                    name="reason">
+                                <label class="form-check-label" for="reasonOther">อื่นๆ</label>
+                            </div>
+                        </div>
+
+                        <!-- Hidden Textarea for 'Other' reason -->
+                        <div class="mb-3" id="otherTextContainer" style="display: none;">
+                            <label for="otherText" class="form-label">ระบุเหตุผลอื่นๆเพิ่มเติม:</label>
+                            <textarea class="form-control" id="otherText" name="otherText" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" id="reportId" name="reportId">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" style="width:150px;">ยืนยัน</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/datatables-demo.js"></script>
+    <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+    <script src="/public/js/tinymceInit.js"></script>
+    <script src="/public/js/script.js"></script>
+    <script src="/public/js/getdata.js"></script>
+
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+
+
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+    <script>
+        document.getElementById('createThemeForm').addEventListener('submit', function (event) {
+            const restrictedWords = ['กระจู๋', 'กระเจี๊ยว', 'กรี่', 'กรู', 'กร๊วก', 'กี', 'ข้า', 'จิ๊', 'จิ๊มิ', 'จิ๋ม',
+                'ตอแหล', 'ปากดี', 'ฟาย', 'มรึง', 'รากเลือด', 'หน้าด้าน',
+                'หน้าทน', 'หน้าหนา', 'หางจุกตูด', 'หิวแสง', 'อีปลวก', 'อีปลาวาฬ', 'อีปลาเงือก',
+                'อ้วกแตก', 'ฮากแตก', 'เจี๊ยว', 'เซี่ยน', 'เลือดกลบปาก', ' เศษเดน', 'เหลือเดน', 'แสกหน้า', 'ไอ้กร๊วก', 'ควาย'];
+            const contentField = this.querySelector('textarea[name="content"]');
+            const errorMsg = document.getElementById('error-msg');
+
+            // ตรวจสอบคำต้องห้าม
+            let containsRestrictedWord = restrictedWords.some(word => contentField.value.includes(word));
+
+            if (containsRestrictedWord) {
+                event.preventDefault();  // ป้องกันการส่งฟอร์ม
+                errorMsg.style.display = 'block';  // แสดงข้อความเตือน
+                contentField.focus();
+            } else {
+                errorMsg.style.display = 'none';  // ซ่อนข้อความเตือนหากไม่มีปัญหา
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('editThemeForm').addEventListener('submit', function (event) {
+            const restrictedWords = ['จู๋', 'กระเจี๊ยว', 'กรี่', 'กรู', 'กร๊วก', 'กี', 'ควย', 'จิ๊', 'จิ๊มิ', 'จิ๋ม',
+                'ตอแหล', 'ปากดี', 'ฟาย', 'มึง', 'ทุเรศ', 'หน้าด้าน',
+                'หน้าทน', 'หน้าหนา', 'อีผี', 'โง่', 'eโj', 'หน้าหี', 'อุบาทว์', 'ดอกทอง', 'ควาย'];
+            const contentField = this.querySelector('textarea[name="newContent"]');
+            const errorMsg = document.getElementById('edit-error-msg');
+
+            // ตรวจสอบคำต้องห้าม
+            let containsRestrictedWord = restrictedWords.some(word => contentField.value.includes(word));
+
+            if (containsRestrictedWord) {
+                event.preventDefault();  // ป้องกันการส่งฟอร์ม
+                errorMsg.style.display = 'block';  // แสดงข้อความเตือน
+                contentField.focus();
+            } else {
+                errorMsg.style.display = 'none';  // ซ่อนข้อความเตือนหากไม่มีปัญหา
+            }
+        });
+    </script>
+
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                classroomLink.href = `/classroom/std/${userId}`;
+                const scorelink = document.getElementById('scorelink');
+                scorelink.href = `/attempt/score/${userId}`;
+            }
+        });
+    </script>
+
+    <!-- Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            //formatDate
+            const dateElements = document.querySelectorAll('[data-createDate]');
+            dateElements.forEach(function (element) {
+                const createDate = element.getAttribute('data-createDate');
+                const date = new Date(createDate);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+                element.textContent = formattedDate;
+            });
+
+            const reasonRadioButtons = document.querySelectorAll('input[name="reason"]');
+            const otherTextContainer = document.getElementById('otherTextContainer');
+            const reportLinks = document.querySelectorAll('.report-link');
+            const reportForm = document.getElementById('reportForm');
+            const reportIdInput = document.getElementById('reportId');
+
+            // Show or hide the other text container based on selected radio button
+            reasonRadioButtons.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    otherTextContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+                });
+            });
+
+            // Populate reportIdInput with data-id from clicked link
+            reportLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    const themeId = this.getAttribute('data-id');
+                    if (reportIdInput) {
+                        reportIdInput.value = themeId;
+                    }
+                });
+            });
+
+            // Handle form submission
+            if (reportForm) {
+                reportForm.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Prevent form submission
+
+                    const token = localStorage.getItem('token');
+                    let userId = null;
+
+                    try {
+                        const decodedToken = jwtDecode(token); // Decode the JWT token
+                        userId = decodedToken.userId;
+                    } catch (error) {
+                        console.error('Invalid token:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Token',
+                            text: 'Please log in again.',
+                        });
+                        return;
+                    }
+
+                    const formData = new FormData(this);
+                    const reportData = {
+                        userId,
+                        themeId: formData.get('reportId'),
+                        commentId: null,
+                        reportType: 'theme',
+                        reason: formData.get('reason'),
+                        other: formData.get('otherText') || null
+                    };
+
+                    // Send the data via POST request using fetch
+                    fetch('/report/createReport', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(reportData) // Convert report data to JSON string
+                    })
+                        .then(response => response.json()) // Parse the JSON response
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'สำเร็จ',
+                                title: 'ส่งรายงานแล้ว',
+                                text: 'รายงานของคุณถูกส่งเรียบร้อยแล้ว.',
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error submitting the report:', error);
+                            Swal.fire({
+                                icon: 'ผิดพลาด',
+                                title: 'ส่งรายงานไม่สำเร็จ',
+                                text: 'เกิดข้อผิดพลาดในการส่งรายงานของคุณ โปรดลองอีกครั้งในภายหลัง.',
+                            });
+                        });
+                });
+            }
+        });
+    </script>
+
+
+
+
+    <!-- Main script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token')
+            const dateElements = document.querySelectorAll('[data-createDate]');
+            dateElements.forEach(function (element) {
+                const createDate = element.getAttribute('data-createDate');
+                const date = new Date(createDate);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+                element.textContent = formattedDate;
+            });
+            const filterMyPostsCheckbox = document.getElementById("filterMyPosts");
+            const filterSelect = document.querySelector('.form-select');
+            const searchInput = document.querySelector('.search-input');
+            const themeCards = document.querySelectorAll('.card');
+            const paginationContainer = document.getElementById('pagination');
+            const cardsPerPage = 5;
+
+            let currentPage = 1;
+
+            // Function to render pagination controls
+            function renderPagination(totalPages) {
+                paginationContainer.innerHTML = ""; // Clear existing pagination
+
+                const createPageItem = (page, label, isDisabled = false, isActive = false) => {
+                    const li = document.createElement('li');
+                    li.className = `page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}`;
+                    li.innerHTML = `<button class="page-link" data-page="${page}">${label}</button>`;
+                    if (!isDisabled) {
+                        li.querySelector('button').addEventListener('click', () => {
+                            currentPage = page;
+                            filterAndPaginateThemes();
+                        });
+                    }
+                    return li;
+                };
+
+                // Previous Button
+                paginationContainer.appendChild(createPageItem(currentPage - 1, '«', currentPage === 1));
+
+                // First Page
+                paginationContainer.appendChild(createPageItem(1, '1', false, currentPage === 1));
+
+                // Ellipsis before current
+                if (currentPage > 3) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = "page-item disabled";
+                    ellipsis.innerHTML = '<span class="page-link">...</span>';
+                    paginationContainer.appendChild(ellipsis);
+                }
+
+                // Page range around the current page
+                for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                    paginationContainer.appendChild(createPageItem(i, i, false, currentPage === i));
+                }
+
+                // Ellipsis after current
+                if (currentPage < totalPages - 2) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = "page-item disabled";
+                    ellipsis.innerHTML = '<span class="page-link">...</span>';
+                    paginationContainer.appendChild(ellipsis);
+                }
+
+                // Last Page
+                if (totalPages > 1) {
+                    paginationContainer.appendChild(createPageItem(totalPages, totalPages, false, currentPage === totalPages));
+                }
+
+                // Next Button
+                paginationContainer.appendChild(createPageItem(currentPage + 1, '»', currentPage === totalPages));
+            }
+
+            // Function to filter and paginate themes
+            // Function to filter and paginate themes
+            function filterAndPaginateThemes() {
+                const selectedLesson = filterSelect.value;
+                const searchText = searchInput.value.toLowerCase();
+                const showOnlyMyPosts = filterMyPostsCheckbox.checked;
+
+                let userId;
+                if (token) {
+                    try {
+                        const decodedToken = jwtDecode(token); // Decode the JWT token
+                        userId = decodedToken.userId;
+                    } catch (error) {
+                        console.error('Error decoding token:', error);
+                    }
+                }
+
+                // Filter cards
+                const filteredCards = Array.from(themeCards).filter(card => {
+                    const cardLesson = card.getAttribute('data-lesson');
+                    const cardTitle = card.getAttribute('data-title').toLowerCase();
+                    const cardFirstname = card.getAttribute('data-firstname').toLowerCase();
+                    const cardLastname = card.getAttribute('data-lastname').toLowerCase();
+                    const cardFullname = card.getAttribute('data-fullname').toLowerCase();
+                    const cardUserId = card.querySelector('#themeUserId').textContent.trim();
+
+                    const lessonMatch = selectedLesson === "เลือกดูตามบทเรียน" || selectedLesson === cardLesson;
+                    const searchMatch = cardTitle.includes(searchText) || cardFirstname.includes(searchText) || cardLastname.includes(searchText) || cardFullname.includes(searchText);
+                    const userMatch = !showOnlyMyPosts || (userId && cardUserId === userId);
+
+                    return lessonMatch && searchMatch && userMatch;
+                });
+
+                const totalFiltered = filteredCards.length;
+                const totalPages = Math.ceil(totalFiltered / cardsPerPage);
+
+                // Hide all cards
+                themeCards.forEach(card => card.style.display = 'none');
+
+                // Show cards for the current page
+                filteredCards.forEach((card, index) => {
+                    if (index >= (currentPage - 1) * cardsPerPage && index < currentPage * cardsPerPage) {
+                        card.style.display = 'block';
+                    }
+                });
+
+                // Render pagination
+                renderPagination(totalPages);
+            }
+
+
+            // Event listeners for filtering
+            filterSelect.addEventListener('change', filterAndPaginateThemes);
+            searchInput.addEventListener('input', filterAndPaginateThemes);
+            filterMyPostsCheckbox.addEventListener("change", filterAndPaginateThemes);
+
+            // Initial call to display the first page of cards
+            filterAndPaginateThemes();
+
+            // Edit button functionality
+            const editButtons = document.querySelectorAll('.editBtn');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const themeCard = event.target.closest('.card');
+
+                    // Fetching data from the themeCard
+                    const themeId = themeCard.querySelector('#themeId').textContent.trim();
+                    const themeUserId = themeCard.querySelector('#themeUserId').textContent.trim();
+                    const themeTitle = themeCard.querySelector('#themeTitle').textContent.trim();
+                    const themeContent = themeCard.querySelector('#themeContent').textContent.trim();
+                    const selectedLesson = themeCard.querySelector('#themeLessonNum')?.textContent.trim(); // Extract text content
+
+                    // Set modal fields
+                    document.getElementById('edit-themeId').value = themeId;
+                    document.getElementById('edit-userId').value = themeUserId;
+                    document.getElementById('edit-title').value = themeTitle;
+                    document.getElementById('edit-content').value = themeContent;
+
+                    if (selectedLesson) {
+                        document.getElementById('edit-select-option').value = selectedLesson;
+                    } else {
+                        console.warn("Lesson number not found for this card.");
+                    }
+
+                    const editForm = document.getElementById('editThemeForm');
+                    editForm.action = `/theme/updateThemeById/${themeId}`;
+                });
+
+            });
+
+            // Token and delete link functionality
+            const deleteLinks = document.querySelectorAll(".delete-link");
+
+            deleteLinks.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const href = this.getAttribute("href");
+
+                    Swal.fire({
+                        title: 'ต้องการลบโพสต์หรือคอมเมนต์นี้ใช่หรือไม่?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ใช่, ลบเลย!',
+                        cancelButtonText: 'ยกเลิก'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                });
+            });
+
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token); // Decode the JWT token
+                    const userId = decodedToken.userId;
+                    const classroomId = decodedToken.classroomId;
+                    const role = decodedToken.role;
+
+                    if (userId) {
+                        const userIdInput = document.getElementById('userId');
+                        if (userIdInput) {
+                            userIdInput.value = userId; // Set the userId in the input field
+                        }
+                        // Set the href attribute with the userId
+                        const classroomLink = document.getElementById('classroomLink');
+                        classroomLink.href = `/classroom/std/${userId}`;
+
+                        const scorelink = document.getElementById('scorelink');
+                        scorelink.href = `/attempt/score/${userId}`;
+                    }
+
+
+                    if (classroomId) {
+
+                        const lessonLink = document.getElementById('lessonLink');
+
+                        lessonLink.href = `/lesson/std/${classroomId}`;
+
+                    }
+
+                    themeCards.forEach(themeCard => {
+                        const themeUserId = themeCard.querySelector('#themeUserId').textContent.trim();
+                        const actionBtn = themeCard.querySelector('.actionBtn');
+                        const editBtn = themeCard.querySelector('.editBtn');
+                        const reportLink = themeCard.querySelector('.report-link');
+
+                        if (themeUserId === userId) {
+                            reportLink.classList.add('d-none')
+                        } else {
+                            actionBtn.classList.add('d-none');
+                        }
+
+                    });
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                }
+            } else {
+                console.warn('No token found in localStorage');
+            }
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

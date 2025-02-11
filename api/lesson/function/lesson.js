@@ -95,7 +95,41 @@ const getLessonById = async (data) => {
         data: lesson,
       };
     } else {
-      console.log(`Lesson with id ${data.id} not found`);
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `lesson with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting lesson by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
+
+const getLessonByLessonNum = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("lessons");
+    const lessonNum = data.lessonNum;
+    const lesson = await collection.findOne({ lessonNum, isDeleted: { $ne: true } });
+    await client.close();
+
+    if (lesson) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get lesson by id success`,
+        data: lesson,
+      };
+    } else {
       return {
         status_code: "404",
         status_phrase: "not found",
@@ -200,6 +234,9 @@ const updateLessonImage = async (data) => {
     if (data.newContent) {
       newLessonData.content = data.newContent;
     }
+    if (data.newUrl) {
+      newLessonData.vdo_url = data.newUrl;
+    }
 
     const updateData = {
       $set: {
@@ -246,6 +283,8 @@ module.exports = {
   createLesson,
   getLesson,
   getLessonById,
+  getLessonByLessonNum,
   updateLessonImage,
   softDelete
+
 };

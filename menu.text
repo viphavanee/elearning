@@ -1,0 +1,88 @@
+
+
+
+ul ****************
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+       
+            <li class="nav-item active">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/std">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+
+        </ul>
+
+
+nav ****************
+ <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
+                                </a>
+                            </div>
+
+
+        <!-- Copy 2 -->
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const classroomId = decodedToken.classroomId;
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                classroomLink.href = `/classroom/std/${userId}`;
+
+                const scorelink = document.getElementById('scorelink');
+                scorelink.href = `/attempt/score/${userId}`;
+            }
+
+            if (classroomId){
+                const lessonLink = document.getElementById('lessonLink');
+                lessonLink.href = `/lesson/std/${classroomId}`;
+            }
+            if(userId && classroomId){
+                const quitLink = document.getElementById('quit-link');
+                quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
+            }
+        });
+    </script>
+    <!-- End Copy -->

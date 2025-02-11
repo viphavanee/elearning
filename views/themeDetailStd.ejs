@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>กระทู้</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-details img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sidebar-divider {
+            width: 75%;
+            margin: 0 auto;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-container {
+            width: 300px;
+        }
+
+        .search-input {
+            width: auto;
+            /* กำหนดขนาดความกว้าง 50px */
+        }
+
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/std">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/theme">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+                    <!--   <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="container-fluid">
+                    <div class="p-3">
+                        <div class="card-header py-3">
+                            <p class="m-0 font-weight-semibold text-dark h4">กระทู้ถาม-ตอบ</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="card p-5 my-3 shadow-sm" id="themeCard_<%= theme._id %>">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-book-open mr-2"></i>
+                                        บทที่
+                                        <span id="themeLessonNum">
+                                            <%= theme.lessonNum %>
+                                        </span>
+                                    </div>
+                                    <div class="dropdown show">
+                                        <a class="btn btn-link text-decoration-none text-secondary dropdown-toggle"
+                                            href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <div class="actionBtn">
+                                                <a class="dropdown-item editBtn" href="#" data-toggle="modal"
+                                                    data-target="#editThemeModal">
+                                                    <i class="fa-regular fa-pen-to-square mr-2"></i> Edit
+                                                </a>
+                                                <a class="dropdown-item delete-link"
+                                                    href="/theme/delete/<%= theme._id %>" id="deleteBtn">
+                                                    <i class="fa-solid fa-trash mr-2"></i> Delete
+                                                </a>
+                                            </div>
+                                            <a href="#" class="dropdown-item report-link" data-type="theme"
+                                                data-theme-id="<%= theme._id %>" data-bs-toggle="modal"
+                                                data-bs-target="#reportModal"><i class="fa-regular fa-flag mr-2"></i>
+                                                Report</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="py-3 px-1">
+                                    <p class="h3" id="themeTitle">
+                                        <%= theme.title %>
+                                    </p>
+
+                                    <p id="themeContent">
+                                        <%= theme.content %>
+                                    </p>
+                                    <p class="d-none" id="themeId">
+                                        <%= theme._id %>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="btn-sm text-dark text-decoration-none">
+                                            <i class="fa-regular fa-comment mr-2"></i>
+                                            <%= theme.commentCount %>
+                                        </span>
+                                        <p id="themeUserId" class="d-none">
+                                            <%= theme.userId %>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <small class="text-muted mr-2" data-createDate="<%= theme.createDate %>"
+                                            id="formattedDate"></small>
+                                        <small class="text-muted">
+                                            | <%= theme.user.firstname %>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <hr class="my-5" />
+
+
+
+                                <% comment.forEach((comment, idx)=> { %>
+                                    <div class="mt-2">
+                                        <span class="text-muted">ความคิดเห็นที่ <%= idx + 1 %></span>
+                                    </div>
+                                    <div class="card p-3 my-3 border shadow-sm comment-card"
+                                        id="commentCard_<%= comment._id %>">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa fa-user-circle-o fa-2x mr-3"></i>
+                                                <div>
+                                                    <h6 class="m-0 font-weight-semibold text-dark">
+                                                        <%= comment.user.firstname %>
+                                                            <%= comment.user.lastname %>
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        <%= comment.user.role %>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown">
+                                                <a class="btn btn-link text-decoration-none text-secondary dropdown-toggle"
+                                                    href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a href="#" class="dropdown-item report-link" data-bs-toggle="modal"
+                                                        data-bs-target="#reportModal" data-type="comment"
+                                                        data-comment-id="<%= comment._id %>"
+                                                        data-theme-id="<%= comment.themeId %>">
+                                                        <i class="fa-regular fa-flag mr-2"></i> รายงาน
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <p id="commentContent" class="text-dark">
+                                                <%- comment.content %>
+                                            </p>
+                                        </div>
+                                        <p class="d-none" id="commentUserId">
+                                            <%= comment.userId %>
+                                        </p>
+                                        <p class="d-none" id="commentThemeId">
+                                            <%= comment.themeId %>
+                                        </p>
+                                        <div class="text-end">
+                                            <small class="text-muted mr-2" data-createDate="<%= comment.createDate %>"
+                                                id="formattedDate"></small>
+                                        </div>
+
+
+
+                                        <!-- Button to toggle reply form -->
+                                        <a href="#"
+                                            class="text-decoration-none text-primary mt-3 toggle-reply-btn ml-auto">
+                                            <i class="fa-solid fa-reply mr-2"></i>ตอบกลับ
+                                        </a>
+
+                                        <!-- Reply Form -->
+                                        <div class="reply-form mt-3 d-none">
+                                            <form action="/reply" method="POST" id="replyForm">
+                                                <input type="hidden" name="themeId" value="<%= comment.themeId %>">
+                                                <input type="hidden" name="commentId" value="<%= comment._id %>">
+                                                <input type="hidden" name="userId" id="userId" value="">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" name="content"
+                                                        placeholder="เขียนคำตอบของคุณ..." rows="2" required></textarea>
+                                                </div>
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit"
+                                                        class="btn btn-primary mt-2 ml-auto">ส่ง</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <!-- Display Replies -->
+                                    <div class="ml-2 mt-2">
+                                        <% if (comment.reply && comment.reply.length> 0) { %>
+                                            <% comment.reply.forEach((reply)=> { %>
+                                                <div class="card p-4 mt-2 ml-4 reply-card">
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fa fa-user-circle-o fa-lg mr-2"></i>
+                                                            <div>
+                                                                <strong class="text-dark">
+                                                                    <%= reply.user.firstname %>
+                                                                        <%= reply.user.lastname %>
+                                                                </strong>
+                                                                <small class="text-muted">(<%= reply.user.role %>
+                                                                        )</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="dropdown show">
+                                                            <a class="btn btn-link text-decoration-none text-secondary dropdown-toggle"
+                                                                href="#" role="button" id="dropdownMenuLink"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                <i class="fa-solid fa-ellipsis"></i>
+                                                            </a>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <div class="actionBtn">
+                                                                    <a class="dropdown-item editBtn editReplyBtn"
+                                                                        href="#" data-toggle="modal"
+                                                                        data-target="#editReplyModal">
+                                                                        <i class="fa-regular fa-pen-to-square mr-2"></i>
+                                                                        Edit
+                                                                    </a>
+                                                                    <a class="dropdown-item delete-link"
+                                                                        href="/reply/delete/<%= reply._id %>"
+                                                                        id="deleteBtn">
+                                                                        <i class="fa-solid fa-trash mr-2"></i> Delete
+                                                                    </a>
+                                                                </div>
+                                                                <a href="#" class="dropdown-item report-link"
+                                                                    data-type="reply" data-reply-id="<%= reply._id %>"
+                                                                    data-theme-user-id="<%= reply.userId %>"
+                                                                    data-theme-id="<%= comment.themeId %>"
+                                                                    data-comment-id="<%= comment._id %>"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#reportModal"><i
+                                                                        class="fa-regular fa-flag mr-2"></i> Report</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <p class="text-dark"><%- reply.content %></p>
+                                                        <small class="text-muted"
+                                                            data-createDate="<%= reply.createAt %>"></small>
+                                                        <p class="d-none" id="replyUserId"><%- reply.userId %></p>
+                                                        <p class="d-none" id="replyId"><%- reply._id %></p>
+                                                        <p class="d-none" id="themeDataId"><%- reply.themeId %></p>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                                    <% } %>
+                                    </div>
+                                    <% }); %>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--     <div class="modal fade" id="createCommentModal" tabindex="-1" role="dialog"
+    aria-labelledby="createCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <h5 class="modal-title" id="createCommentModalLabel">แสดงความคิดเห็น</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    style="position: absolute; right: 15px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="createCommentForm" action="/comment/createComment" method="POST"
+                style="margin:  0; width: 100%;">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <textarea name="content" rows="3" class="form-control"></textarea>
+                        <label for="content">เนื้อหา:</label>
+                    </div>
+                </div>
+                <input type="hidden" name="userId" id="userId" />
+                <input type="hidden" name="themeId" id="themeId" value="<%= theme._id %>"/>
+                <div class="modal-footer">
+                    <button type="submit" name="submit" class="btn btn-primary"
+                        style="width: 100%;">คอมเมนต์</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
+    </div>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editThemeModal" tabindex="-1" role="dialog" aria-labelledby="editThemeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                    <h5 class="modal-title" id="editThemeModalLabel">แก้ไขโพสต์</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="position: absolute; right: 15px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editThemeForm" action="/theme/updateThemeById/<%= theme._id %>" method="POST"
+                    style="margin: 0; width: 100%;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>เลือกบทเรียน:</label>
+                            <select id="edit-select-option" name="lessonNum">
+                                <option value="">กรุณาเลือกบทเรียน</option>
+                                <% lesson.forEach((lesson)=> { %>
+                                    <option value="<%= lesson.lessonNum %>">
+                                        <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-title">หัวข้อ:</label>
+                            <input name="newTitle" type="text" class="form-control" id="edit-title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-content">เนื้อหา:</label>
+                            <textarea name="newContent" rows="3" class="form-control" id="edit-content"></textarea>
+                            <small id="edit-error-msg" class="mt-2"
+                                style="color: red; display: none;">มีคำต้องห้ามในข้อความที่คุณพิมพ์!</small>
+                        </div>
+                    </div>
+                    <input type="hidden" name="themeId" id="edit-themeId" />
+                    <input type="hidden" name="userId" id="edit-userId" />
+                    <div class="modal-footer">
+                        <button type="submit" name="submit" class="btn btn-primary" style="width: 100%;">อัปเดต</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Reply Modal -->
+    <div class="modal fade" id="editReplyModal" tabindex="-1" role="dialog" aria-labelledby="editReplyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                    <h5 class="modal-title" id="editReplyModalLabel">แก้ไขคำตอบ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="position: absolute; right: 15px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editReplyForm" method="POST" style="margin: 0; width: 100%;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit-reply-content">เนื้อหา:</label>
+                            <textarea name="newContent" rows="3" class="form-control"
+                                id="edit-reply-content"></textarea>
+                            <small id="edit-reply-error-msg" class="mt-2"
+                                style="color: red; display: none;">มีคำต้องห้ามในข้อความที่คุณพิมพ์!</small>
+                        </div>
+                    </div>
+                    <input type="hidden" name="replyId" id="edit-replyId" />
+                    <input type="hidden" name="themeId" id="edit-reply-themeId" />
+
+                    <div class="modal-footer">
+                        <button type="submit" name="submit" class="btn btn-primary" style="width: 100%;">อัปเดต</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">รายงานปัญหา</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm">
+                        <div class="mb-3">
+                            <label class="form-label">สาเหตุการรายงาน:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="ข้อมูลที่เป็นเท็จ" id="reason1"
+                                    name="reason" required>
+                                <label class="form-check-label" for="reason1">ข้อมูลที่เป็นเท็จ</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="สแปม" id="reason2" name="reason">
+                                <label class="form-check-label" for="reason2">สแปม</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="การกลั่นแกล้งหรือการคุกคาม"
+                                    id="reason3" name="reason">
+                                <label class="form-check-label" for="reason3">การกลั่นแกล้งหรือการคุกคาม</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="มีเนื้อหาที่หยาบคายก้าวร้าว"
+                                    id="reason4" name="reason">
+                                <label class="form-check-label" for="reason4">มีเนื้อหาที่หยาบคายก้าวร้าว</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio"
+                                    value="มีเนื้อหาที่เจตนาก่อให้เกิดการทะเลาะวิวาทหรือความวุ่นวาย" id="reason5"
+                                    name="reason">
+                                <label class="form-check-label"
+                                    for="reason5">มีเนื้อหาที่เจตนาก่อให้เกิดการทะเลาะวิวาทหรือความวุ่นวาย</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="Other" id="reasonOther"
+                                    name="reason">
+                                <label class="form-check-label" for="reasonOther">อื่นๆ</label>
+                            </div>
+                            <div class="mb-3" id="otherTextContainer" style="display: none;">
+                                <label for="otherText" class="form-label">ระบุเหตุผลอื่นๆเพิ่มเติม:</label>
+                                <textarea class="form-control" id="otherText" name="otherText" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" id="themeIdReportInput" name="themeId">
+                        <input type="hidden" id="commentIdReportInput" name="commentId">
+                        <input type="hidden" id="replyIdReportInput" name="replyId">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary"
+                                style="width: 150px;">ยืนยันรายงานปัญหา</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // เลือกปุ่ม toggle-reply-btn ทั้งหมด
+            const toggleButtons = document.querySelectorAll('.toggle-reply-btn');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // ค้นหา reply-form ที่อยู่ใน card เดียวกัน
+                    const replyForm = button.nextElementSibling;
+                    if (replyForm) {
+                        // Toggle class "d-none" เพื่อแสดงหรือซ่อนฟอร์ม
+                        event.preventDefault();
+                        replyForm.classList.toggle('d-none');
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        document.getElementById('editThemeForm').addEventListener('submit', function (event) {
+            const restrictedWords = ['จู๋', 'กระเจี๊ยว', 'กรี่', 'กรู', 'กร๊วก', 'กี', 'ควย', 'จิ๊', 'จิ๊มิ', 'จิ๋ม',
+                'ตอแหล', 'ปากดี', 'ฟาย', 'มึง', 'ทุเรศ', 'หน้าด้าน',
+                'หน้าทน', 'หน้าหนา', 'อีผี', 'โง่', 'eโj', 'หน้าหี', 'อุบาทว์', 'ดอกทอง', 'ควาย'];
+            const contentField = this.querySelector('textarea[name="newContent"]');
+            const errorMsg = document.getElementById('edit-error-msg');
+
+            // ตรวจสอบคำต้องห้าม
+            let containsRestrictedWord = restrictedWords.some(word => contentField.value.includes(word));
+
+            if (containsRestrictedWord) {
+                event.preventDefault();  // ป้องกันการส่งฟอร์ม
+                errorMsg.style.display = 'block';  // แสดงข้อความเตือน
+                contentField.focus();
+            } else {
+                errorMsg.style.display = 'none';  // ซ่อนข้อความเตือนหากไม่มีปัญหา
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            //formatDate
+            const dateElements = document.querySelectorAll('[data-createDate]');
+            dateElements.forEach(function (element) {
+                const createDate = element.getAttribute('data-createDate');
+                const date = new Date(createDate);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+                element.textContent = formattedDate;
+            });
+            const editButtons = document.querySelectorAll('.editBtn');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const themeCard = event.target.closest('.card');
+
+                    // Fetching data from the themeCard
+                    const themeId = themeCard.querySelector('#themeId').textContent.trim();
+                    const themeUserId = themeCard.querySelector('#themeUserId').textContent.trim();
+                    const themeTitle = themeCard.querySelector('#themeTitle').textContent.trim();
+                    const themeContent = themeCard.querySelector('#themeContent').textContent.trim();
+                    const selectedLesson = themeCard.querySelector('#themeLessonNum')?.textContent.trim(); // Extract text content
+                    // Set modal fields
+                    document.getElementById('edit-themeId').value = themeId;
+                    document.getElementById('edit-userId').value = themeUserId;
+                    document.getElementById('edit-title').value = themeTitle;
+                    document.getElementById('edit-content').value = themeContent;
+                    document.getElementById('edit-select-option').value = selectedLesson;
+
+                    // Set form action
+                    const editForm = document.getElementById('editThemeForm');
+                    editForm.action = `/theme/updateThemeById/${themeId}`;
+                });
+            });
+
+        });
+    </script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/datatables-demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+    <script src="/public/js/tinymceInit.js"></script>
+    <script src="/public/js/script.js"></script>
+    <script src="/public/js/getdata.js"></script>
+
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+    <!-- Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const reasonRadioButtons = document.querySelectorAll('input[name="reason"]');
+            const otherTextContainer = document.getElementById('otherTextContainer');
+            const reportLinks = document.querySelectorAll('.report-link');
+            const reportForm = document.getElementById('reportForm');
+            const themeIdInput = document.getElementById('themeIdReportInput');
+            const commentIdInput = document.getElementById('commentIdReportInput');
+            const replyIdInput = document.getElementById('replyIdReportInput');
+            let reportTypeValue = null;
+
+            // Show or hide the other text container based on the selected radio button
+            reasonRadioButtons.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    otherTextContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+                });
+            });
+
+            // Populate form inputs with data from clicked link
+            reportLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    const reportType = this.getAttribute('data-type');
+                    const replyId = this.getAttribute('data-reply-id');
+                    const themeId = this.getAttribute('data-theme-id');
+                    const commentId = this.getAttribute('data-comment-id');
+
+                    themeIdInput.value = themeId || '';
+                    commentIdInput.value = commentId || '';
+                    replyIdInput.value = replyId || '';
+
+                    reportTypeValue = reportType;
+                });
+            });
+
+            // Handle form submission
+            if (reportForm) {
+                reportForm.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Prevent form submission
+
+                    const token = localStorage.getItem('token');
+                    let userId = null;
+
+                    try {
+                        const decodedToken = jwtDecode(token); // Decode the JWT token
+                        userId = decodedToken.userId;
+                    } catch (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Token',
+                            text: 'Please log in again.',
+                        });
+                        return;
+                    }
+
+                    const formData = new FormData(reportForm);
+                    const reportData = {
+                        userId,
+                        themeId: formData.get('themeId') || '',
+                        commentId: formData.get('commentId') || null,
+                        replyId: formData.get('replyId') || null,
+                        reportType: reportTypeValue,
+                        reason: formData.get('reason'),
+                        other: formData.get('otherText') || null,
+                    };
+
+                    if (!reportData.reason || (reportData.reason === 'Other' && !reportData.other)) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ข้อมูลไม่ครบถ้วน',
+                            text: 'กรุณากรอกข้อมูลให้ครบถ้วน.',
+                        });
+                        return;
+                    }
+
+                    // Send the data via POST request using fetch
+                    fetch('/report/createReport', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(reportData),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ส่งรายงานสำเร็จ',
+                                text: 'รายงานของคุณถูกส่งเรียบร้อยแล้ว.',
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error submitting the report:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ส่งรายงานไม่สำเร็จ',
+                                text: 'เกิดข้อผิดพลาดในการส่งรายงาน โปรดลองอีกครั้ง.',
+                            });
+                        });
+                });
+            }
+        });
+    </script>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const userId = jwtDecode(token).userId;
+            const deleteLinks = document.querySelectorAll(".delete-link");
+            const commentCards = document.querySelectorAll('.comment-card');
+            const themeCard = document.querySelector('#themeCard_<%= theme._id %>');
+            const themeDelete = themeCard.querySelector('.delete-link');
+            const themeEdit = themeCard.querySelector('.editBtn');
+            const reportLink = themeCard.querySelector('.report-link');
+            const themeUserId = themeCard.querySelector('#themeUserId').textContent.trim();
+            if (userId) {
+                if (themeDelete && themeEdit) {
+                    if (userId !== themeUserId) {
+                        themeDelete.classList.add('d-none');
+                        themeEdit.classList.add('d-none');
+                    } else {
+                        reportLink.classList.add('d-none');
+                    }
+                }
+            }
+
+            commentCards.forEach(item => {
+                const token = localStorage.getItem('token');
+                const userId = jwtDecode(token).userId;
+                const themeUserId = themeCard.querySelector('#themeUserId').textContent.trim();
+                const replyBtn = item.querySelector('.toggle-reply-btn');
+
+                if (userId) {
+                    if (userId !== themeUserId) {
+                        replyBtn.classList.add('d-none');
+                    }
+                }
+            });
+
+            deleteLinks.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const href = this.getAttribute("href");
+
+                    Swal.fire({
+                        title: 'ต้องการลบโพสต์หรือคอมเมนต์นี้ใช่หรือไม่?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ใช่, ลบเลย!',
+                        cancelButtonText: 'ยกเลิก'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                });
+            });
+
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    const userId = decodedToken.userId;
+                    const role = decodedToken.role;
+                    const classroomId = decodedToken.classroomId;
+
+                    // Retrieve elements
+                    const themeCard = document.querySelector('.theme-card'); // Adjust selector to your actual structure
+                    const commentSection = document.querySelector('.comment-section');
+
+                    const classroomLink = document.getElementById('classroomLink');
+                    const scoreLink = document.getElementById('scorelink');
+                    const lessonLink = document.getElementById('lessonLink');
+
+                    // Set dynamic links
+                    if (userId) {
+                        if (classroomLink) classroomLink.href = `/classroom/std/${userId}`;
+                        if (scoreLink) scoreLink.href = `/attempt/score/${userId}`;
+                    }
+
+                    if (classroomId && lessonLink) {
+                        lessonLink.href = `/lesson/std/${classroomId}`;
+                    }
+
+
+                    // Hide report link and delete button for comment replies
+                    const replyCards = document.querySelectorAll('.reply-card');
+                    replyCards.forEach(card => {
+                        const replyUserId = card.querySelector('#replyUserId').textContent.trim();
+                        const reportLink = card.querySelector('.report-link');
+                        const deleteLink = card.querySelector('.delete-link');
+                        const editBtn = card.querySelector('.editBtn');
+
+                        if (userId === replyUserId) {
+                            if (reportLink) reportLink.classList.add('d-none');
+                        } else {
+                            if (deleteLink) deleteLink.classList.add('d-none');
+                            if (editBtn) editBtn.classList.add('d-none');
+                        }
+                    });
+
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                }
+            } else {
+                console.warn('No token found in localStorage');
+            }
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ...existing code...
+            const editReplyButtons = document.querySelectorAll('.editReplyBtn');
+
+            editReplyButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const replyCard = event.target.closest('.reply-card');
+
+                    // Fetching data from the replyCard
+                    const replyId = replyCard.querySelector('#replyId').textContent.trim();
+                    const themeDataId = replyCard.querySelector('#themeDataId').textContent.trim();
+                    const replyContent = replyCard.querySelector('p').textContent.trim();
+
+                    // Set modal fields
+                    document.getElementById('edit-replyId').value = replyId;
+                    document.getElementById('edit-reply-themeId').value = themeDataId;
+                    document.getElementById('edit-reply-content').value = replyContent;
+
+                    // Set form action
+                    const editReplyForm = document.getElementById('editReplyForm');
+                    editReplyForm.action = `/reply/${replyId}`;
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            let userId = null;
+
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    userId = decodedToken.userId;
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                }
+            }
+
+            const replyForms = document.querySelectorAll('#replyForm');
+            replyForms.forEach(form => {
+                const userIdInput = form.querySelector('input[name="userId"]');
+                if (userIdInput) {
+                    userIdInput.value = userId;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

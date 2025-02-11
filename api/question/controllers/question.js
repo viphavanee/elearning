@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const func = require("../function/question")
 const quizFunc = require("../../quiz/function/quiz")
+const lFunc = require("../../lesson/function/lesson");
+const AFunc = require("../../attempt/function/attempt");
 
 
 router.route("/").get(async (req, res) => {
@@ -46,27 +48,25 @@ router.route("/createQuestion").post(async (req, res) => {
   }
 });
 
-router.route("/getQuestion").post(async (req, res) => {
-  try {
-    let response = await func.getQuestion();
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error });
-  }
-});
 router.route("/getQuestion/:id").get(async (req, res) => {
   const questionId = req.params.id;
   try {
     let response = await func.getQuestionById({ id: questionId });
     res.status(200).json(response.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });
-
-
+router.route("/getQuestion").post(async (req, res) => {
+  try {
+    let response = await func.getQuestion();
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error });
+  }
+});
 
 // Utility function to shuffle an array
 function shuffleArray(array) {
@@ -85,22 +85,28 @@ function shuffleArray(array) {
   return array;
 }
 
-router.route("/pre/:id").get(async (req, res) => {
-  try {
-    const quizId = req.params.id;
-    if (!quizId) {
-      console.error("Invalid quiz ID:", quizId);
-      return res.status(400).json({ error: "Invalid quiz ID" });
-    }
+//[0, 1, 2]
+//[2, 0, 1]
 
-    const quiz = await quizFunc.getQuizById({ id: quizId });
+router.route("/pre/:lessonId/:studentId/:roomCode").get(async (req, res) => {
+  try {
+    const {lessonId, studentId, roomCode} = req.params;
+    const getLesson = await lFunc.getLessonById({ id: lessonId });
+    const lessonNum = getLesson.data.lessonNum;
+
+    const quiz = await quizFunc.getQuizByLessonNum({ lessonNum });
+    const quizId = quiz.data._id.toString();
+
+    const attemptCheck = await AFunc.checkAttempt({studentId, quizId, roomCode, attemptType: "pre"})
+    if(attemptCheck.data){
+      return res.redirect('/protected');
+    }
 
     if (quiz.status_code === "200") {
       const question = await func.getQuestionByQId({ quizId: quizId });
       if (question.status_code === "200") {
         // Shuffle the questions
         const shuffledQuestions = shuffleArray(question.data);
-        console.log(shuffledQuestions[0].questionNumber);
         res.render("questionPre", { question: shuffledQuestions, quizData: quiz.data });
       } else {
         res.status(404).json({ error: "Question not found" });
@@ -113,6 +119,38 @@ router.route("/pre/:id").get(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.route("/post/:lessonId/:studentId/:roomCode").get(async (req, res) => {
+  try {
+    const {lessonId, studentId, roomCode} = req.params;
+    const getLesson = await lFunc.getLessonById({ id: lessonId });
+    const lessonNum = getLesson.data.lessonNum;
+
+    const quiz = await quizFunc.getQuizByLessonNum({ lessonNum });
+    const quizId = quiz.data._id.toString();
+
+    const attemptCheck = await AFunc.checkAttempt({studentId, quizId, roomCode, attemptType: "post"})
+    if(attemptCheck.data){
+      return res.redirect('/protected');
+    }
+
+    if (quiz.status_code === "200") {
+      const question = await func.getQuestionByQId({ quizId: quizId });
+      if (question.status_code === "200") {
+        // Shuffle the questions
+        const shuffledQuestions = shuffleArray(question.data);
+        res.render("questionPost", { question: shuffledQuestions, quizData: quiz.data });
+      } else {
+        res.status(404).json({ error: "Question not found" });
+      }
+    } else {
+      res.status(404).json({ error: `Quiz with id ${quizId} not found` });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
 router.route("/:id").get(async (req, res) => {
@@ -128,7 +166,6 @@ router.route("/:id").get(async (req, res) => {
     if (quiz.status_code === "200") {
       const question = await func.getQuestionByQId({ quizId: quizId });
       if (question.status_code === "200") {
-        console.log(question.data)
         res.render("questionAdmin", { question: question.data, quizData: quiz.data });
       } else {
         res.status(404).json({ error: "Question not found" });
@@ -156,7 +193,6 @@ router.route("/tchr/:id").get(async (req, res) => {
     if (quiz.status_code === "200") {
       const question = await func.getQuestionByQId({ quizId: quizId });
       if (question.status_code === "200") {
-        console.log(question.data)
         res.render("questionTchr", { question: question.data, quizData: quiz.data });
       } else {
         res.status(404).json({ error: "Question not found" });
@@ -175,7 +211,7 @@ router.route("/edit/:id").post(async (req, res) => {
   try {
     const questionId = req.params.id;
     if (!questionId) {
-      console.error("Invalid news Id:", quizId);
+      console.error("Invalid question Id:", quizId);
       return res.status(400).json({ error: "Invalid news Id" });
     }
     const { question, choiceA, choiceB, choiceC, choiceD, correctAnswer, quizId } = req.body;

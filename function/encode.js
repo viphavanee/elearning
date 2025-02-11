@@ -15,7 +15,7 @@ const hashData = (data) => {
                 resolve(hash)
             })
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(data)
         }
     })
@@ -27,7 +27,7 @@ const compareData = (data, hash) => {
                 resolve(match)
             })
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(data)
         }
     })
@@ -40,7 +40,7 @@ const compareData = (data, hash) => {
 //             });
 //             resolve(accessToken)
 //         } catch (error) {
-//             console.log(error)
+//             console.error(error)
 //             resolve(false)
 //         }
 //     });
@@ -67,7 +67,7 @@ const aesEncrypt = async (plainText) => {
             let cipherText = ec.encryptedData
             resolve({ payload: cipherText })
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(error)
         }
     })
@@ -80,7 +80,7 @@ const aesDecrypt = async (cipherText) => {
             let dc = decrypt(cipherText, bufSecret, bufIv)
             resolve(dc)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(error)
         }
     })
@@ -116,7 +116,7 @@ const textEncrypt = async (text) => {
             encrypted = encrypted.toString('base64')
             resolve(encrypted)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(error)
         }
     })
@@ -134,7 +134,7 @@ const textDecrypt = async (text) => {
             decrypted = decrypted.toString()
             resolve(decrypted)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(error)
         }
     })
@@ -159,7 +159,7 @@ const checkApiKey = async (data) => {
             }
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -178,7 +178,7 @@ const encodeApiKey = async () => {
             let cp = await aesEncrypt(payload)
             resolve(cp.payload)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(error)
         }
     })

@@ -43,7 +43,6 @@ router.route("/createQuiz").get(async (req, res) => {
 
     if (response.status_code === "200") {
       const lessons = response.data;
-      console.log(lessons)
       res.render("createQuiz", { lessons }); // Render createQuiz template with lessons data
     } else {
       res.status(500).json({ error: response.message });
@@ -66,7 +65,6 @@ router.route("/createQuiz").post(async (req, res) => {
       timeInMinutes,
       score
     });
-    console.log(test)
     if (response.status_code === "200") {
       res.redirect('/quizAdmin');
 
@@ -135,7 +133,6 @@ router.route("/edit/:id").get(async (req, res) => {
     const editquiz = await func.getQuizById({ id: quizId });
     console
     if (editquiz.status_code === "200") {
-      console.log(editquiz.data)
       res.status(200).json({ data: editquiz.data });
     } else {
       res.status(404).json({ error: "Quiz not found" });

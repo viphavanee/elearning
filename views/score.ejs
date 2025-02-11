@@ -5,6 +5,11 @@
    <meta charset="UTF-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+   <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+   <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+   <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+   <link rel="manifest" href="/public/site.webmanifest">
    <title>จัดการคะแนน</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
@@ -12,7 +17,7 @@
    <link rel="stylesheet" href="/public/css/table.css">
    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
    <link
-      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet">
    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -26,15 +31,9 @@
    <div id="wrapper">
       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-            <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span> E-learning </div>
          </a>
          <hr class="sidebar-divider my-0">
-         <li class="nav-item">
-            <a class="nav-link" href="/index">
-               <i class="fas fa-fw fa-tachometer-alt"></i>
-               <span>Dashboard</span></a>
-         </li>
-         <hr class="sidebar-divider">
          <li class="nav-item">
             <a class="nav-link" href="/lesson/tchr">
                <i class="fas fa-book"></i>
@@ -46,13 +45,13 @@
                <span>แบบทดสอบ</span></a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="/newsAdmin/tchr">
+            <a class="nav-link" href="/news/tchr">
                <i class="fas fa-newspaper"></i>
                <span>บทความ</span></a>
          </li>
          <li class="nav-item active">
             <a id="attemptLink" class="nav-link" href="/attempt/list">
-               <i class="fas fa-chalkboard-user"></i>
+               <i class="fa-solid fa-chart-simple"></i>
                <span>คะแนน</span></a>
          </li>
          <li class="nav-item">
@@ -105,10 +104,14 @@
                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                            แก้ไขโปรไฟล์
                         </a>
+                        <a class="dropdown-item" href="/change-password">
+                           <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                           จัดการรหัสผ่าน
+                        </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                           Logout
+                           ออกจากระบบ
                         </a>
                      </div>
                   </li>
@@ -122,11 +125,15 @@
                   </div>
                   <div class="card-body">
                      <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped" id="dataTable"
+                           style="width: 100%; margin: 0;">
                            <thead>
                               <tr>
-                                 <th>quiz name</th>
-                                 <th colspan="2">จัดการ</th>
+                                 <th class="text-center" style="width: 10%;">บทที่</th>
+                                 <th class="text-center" style="width: 25%;">ชื่อแบบทดสอบ</th>
+                                 <th class="text-center" style="width: 20%;">คะแนนก่อนเรียน</th>
+                                 <th class="text-center" style="width: 20%;">คะแนนหลังเรียน</th>
+                                 <th class="text-center" style="width: 20%;">สรุปผลการเรียน</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -134,25 +141,35 @@
                                  <% quiz.forEach(function(quiz) { %>
                                     <tr>
                                        <td>
+                                          <%= quiz.lessonId %>
+                                       </td>
+                                       <td class="text-left">
                                           <%= quiz.quizName %>
                                        </td>
-                                       <td>
-                                          <a href="/attempt/list/<%= quiz._id %>/pre/<%= roomCode %>">pre</a>
+                                       <td class="text-center">
+                                          <a href="/attempt/list/<%= quiz._id %>/pre/<%= roomCode %>">ก่อนเรียน</a>
                                        </td>
-                                       <td>
-                                          <a href="">post</a>
+                                       <td class="text-center">
+                                          <a href="/attempt/list/<%= quiz._id %>/post/<%= roomCode %>">หลังเรียน</a>
+                                       </td>
+                                       <td class="text-center">
+                                          <a href="/attempt/generateXlsx/<%= roomCode %>/<%= quiz._id %>"
+                                             class="btn btn-outline-secondary">
+                                             <i class="fa fa-download"></i>
+                                          </a>
                                        </td>
                                     </tr>
                                     <% }); %>
                                        <% } else { %>
                                           <tr>
-                                             <td colspan="4">No score available.</td>
+                                             <td colspan="4" class="text-center">ไม่พบคะแนน</td>
                                           </tr>
                                           <% } %>
                            </tbody>
                         </table>
                      </div>
                   </div>
+
                </div>
             </div>
 
@@ -172,8 +189,11 @@
    <script src="/public/js/tinymceInit.js"></script>
    <script src="/public/js/script.js"></script>
    <script src="/public/js/getdata.js"></script>
+
    <script src="/public/js/profileDetail.js"></script>
    <script src="/public/js/logout.js"></script>
+   <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
+   <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 
    <!-- getUserId -->
    <script src="
@@ -197,9 +217,8 @@
    </script>
    <!-- end get userId -->
 
-   
-   <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
-   <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+
 </body>
 
 </html>

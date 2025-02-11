@@ -26,11 +26,11 @@ app.use("*", (req, res, next) => {
     next()
 })
 app.use(compression())
-app.use(
+/* app.use(
     morgan(
         ":method :url [:date[clf]] :status :res[content-length] - :response-time ms"
     )
-)
+) */
 global.router = express.Router()
 let servers = app.listen(port, function (err) {
     if (err) {

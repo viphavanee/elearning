@@ -5,7 +5,14 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>บทเรียน</title>
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+  <link rel="manifest" href="/public/site.webmanifest">
+  <title>บทที่ <%= lesson.lessonNum %>
+      <%= lesson.lessonName %>
+  </title>
   <link rel="stylesheet" href="/public/css/form.css">
   <link rel="stylesheet" href="/public/css/table.css">
   <link rel="stylesheet" href="/public/css/menu.css">
@@ -13,7 +20,7 @@
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
   <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -44,34 +51,53 @@
       margin: 3%;
       font-size: 1rem;
     }
+
+    .video-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8f9fa;
+    }
+
+    #player {
+      width: 640px;
+      height: 390px;
+    }
   </style>
 </head>
 
 <body id="page-top">
   <div id="wrapper">
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion overflow-hidden" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span>
+          E-learning</div>
       </a>
       <hr class="sidebar-divider my-0">
-      <hr class="sidebar-divider">
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>ห้องเรียน</span></a>
+      </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/lesson/std">
-          <i class="fa-solid fa-house"></i>
-          <span>หน้าแรก</span></a>
+        <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+          <i class="fa-solid fa-book"></i>
+          <span>บทเรียน</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/newsStd">
+        <a class="nav-link" href="/news/std">
           <i class="fas fa-newspaper"></i>
           <span>บทความ</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/scoreStd">
+        <a class="nav-link" href="#" id="scoreLink">
           <i class="fas fa-chalkboard-user"></i>
           <span>คะแนน</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/QAstd">
+        <a class="nav-link" href="/theme">
           <i class="fas fa-question"></i>
           <span>กระทู้ถาม-ตอบ</span></a>
       </li>
@@ -85,35 +111,42 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+          <!--                     <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mr-auto" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> -->
           <ul class="navbar-nav ml-auto">
-
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   แก้ไขโปรไฟล์
                 </a>
+                <a class="dropdown-item" href="/change-password">
+                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                  จัดการรหัสผ่าน
+                </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
+                  ออกจากระบบ
                 </a>
               </div>
             </li>
@@ -123,13 +156,14 @@
       <div class="container mt-5">
         <div class="text-1" style="text-align: center;">
           <h1>
-            <%= lesson.lessonName %>
+            บทที่ <%= lesson.lessonNum %>
+              <%= lesson.lessonName %>
           </h1>
         </div>
-        <div class="container mt-5">
-          <div class="embed-responsive embed-responsive-16by9">
+        <div class="container mt-6 display flex align-items-center justify-content-center">
+          <!-- <div class="embed-responsive embed-responsive-16by9">
             <% if (lesson && lesson.vdo_url) { %>
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/<%=
+              <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/embed/<%=
                 lesson.vdo_url.includes('youtu.be') && lesson.vdo_url.includes('si=') 
                   ? lesson.vdo_url.split('/')[3].split('?')[0]
                   : lesson.vdo_url.includes('youtube.com/watch?v=') 
@@ -143,20 +177,314 @@
               <% } else { %>
                 <p>Video URL is not available.</p>
                 <% } %>
+          </div> -->
+          <div class="video-container">
+
+            <div class="video-time">
+              <span id="current-time">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </span>
+            </div>
+
+            <div id='player'></div>
+
+            <button id="fullscreenButton" class="btn btn-primary"><i class="fa-solid fa-expand"></i></button>
+
+          </div>
+
+          <div class="content">
+            <p>
+              <%- lesson.content %>
+            </p>
+          </div>
+          <div class="d-flex justify-content-end pb-5">
+            <a class="btn btn-primary" id="postLink" href='#'>ทำแบบทดสอบหลังเรียน <i
+                class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>
 
-        <div class="content">
-          <p>
-            <%- lesson.content %>
-          </p>
-        </div>
+
+        <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+
+        <script>
+          const token = localStorage.getItem('token');
+          const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+          const userId = decodedToken.userId;
+          const lessonNum = "<%- lesson.lessonNum %>";
+          const roomCode = "<%- student.roomCode %>";
+          // Load the IFrame Player API code asynchronously.
+          var tag = document.createElement('script');
+          tag.src = "https://www.youtube.com/iframe_api";
+          var firstScriptTag = document.getElementsByTagName('script')[0];
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+          var player;
+          let lastCheckpoint = 0;
+          let lastKnownTime = 0;
+          const saveInterval = 10000; // Save every 10 seconds
+          let intervalId; // To track the interval
+          let timerIntervalId; // For timer updates
+          let videoEnded = false; // Flag to track if the video has ended already
+
+          // Create an <iframe> (and YouTube player) after the API code downloads.
+          function onYouTubeIframeAPIReady() {
+            const videoUrl = '<%= lesson.vdo_url %>';
+            let videoId = '';
+
+            if (videoUrl.includes('youtu.be')) {
+              videoId = videoUrl.split('/')[3].split('?')[0];
+            } else if (videoUrl.includes('youtube.com/watch?v=')) {
+              videoId = videoUrl.split('v=')[1].split('&')[0];
+            }
+
+            player = new YT.Player('player', {
+              height: '390',
+              width: '640',
+              videoId: videoId,
+              playerVars: {
+                'playsinline': 1,
+                'controls': 0, // Disable all player controls
+                'disablekb': 1, // Disable keyboard controls
+                'rel': 0,
+                'showinfo': 0,
+              },
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+              }
+            });
+          }
+
+          function onPlayerReady(event) {
+            // Retrieve the checkpoint and set it when the player is ready
+            getCheckpointFromServer().then(checkpointData => {
+              if (checkpointData && checkpointData.status !== 'Complete') {
+                lastCheckpoint = checkpointData.checkPoint; // Store the checkpoint value
+                event.target.seekTo(lastCheckpoint); // Seek to the checkpoint in the video
+
+                // Update the timer display immediately after seeking
+                updateTimerDisplay(lastCheckpoint);
+              }
+            });
+          }
+
+          function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+          }
+
+          function updateTimerDisplay(currentTime) {
+            const currentTimeFormatted = formatTime(currentTime);
+            const durationFormatted = formatTime(player.getDuration());
+            document.getElementById('current-time').textContent = `${currentTimeFormatted} / ${durationFormatted}`;
+          }
+
+          function onPlayerStateChange(event) {
+            const duration = player.getDuration(); // Get the video duration
+            let currentTime;
+
+            if (event.data === YT.PlayerState.PLAYING) {
+              if (videoEnded) {
+                // If video was previously ended, reset the flag and ensure player doesn't seek to lastCheckpoint again
+                videoEnded = false;
+              }
+
+              clearInterval(intervalId); // Clear any existing intervals for saving checkpoints
+              intervalId = setInterval(() => {
+                currentTime = player.getCurrentTime();
+                if (currentTime > lastCheckpoint && currentTime !== YT.PlayerState.ENDED) {
+                  lastCheckpoint = currentTime;
+                  updateCheckpoint({ userId, lessonNum, currentTime, roomCode, status: 'Incomplete' });
+                } else {
+                  // If the user seeks backward, send them back to the last checkpoint
+                  player.seekTo(lastCheckpoint);
+                }
+              }, saveInterval);
+
+              // Update the timer every second
+              clearInterval(timerIntervalId); // Clear previous timer
+              timerIntervalId = setInterval(() => {
+                currentTime = player.getCurrentTime();
+                updateTimerDisplay(currentTime); // Update the display every second
+              }, 1000); // Update every second
+            } else if (event.data === YT.PlayerState.ENDED) {
+              videoEnded = true; // Set flag to prevent auto-seeking on next play
+              updateCheckpoint({ userId, lessonNum, currentTime: player.getCurrentTime(), roomCode, status: 'Complete' });
+              location.reload()
+            }
+          }
+
+          const sendCheckpointToServer = async ({ userId, lessonNum, currentTime, roomCode, status = 'Incomplete' }) => {
+            try {
+              const response = await fetch('/lessonLog/createLessonLog', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ studentId: userId, lessonNum, checkPoint: currentTime, status, roomCode }),
+              });
+
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+
+              return await response.json(); // Return the parsed JSON response
+            } catch (error) {
+              console.error('Error sending checkpoint:', error);
+              throw error; // Re-throw the error for the caller to handle
+            }
+          };
+
+
+          const getCheckpointFromServer = async () => {
+            try {
+              const response = await fetch(`/lessonLog/getLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              const data = await response.json();
+
+              if (!response.ok) {
+                return await createNewCheckpoint();
+              } else {
+                return data; // Return the entire data object (including status)
+              }
+            } catch (error) {
+              console.error('Error loading checkpoint:', error);
+            }
+          };
+
+
+          function updateCheckpoint({ userId, lessonNum, currentTime, roomCode, status }) {
+            getCheckpointFromServer().then(checkpointData => {
+              if (checkpointData && checkpointData.status !== 'Complete') {
+                fetch(`/lessonLog/updateLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ checkPoint: currentTime, status }),
+                })
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
+                  .catch((error) => {
+                    console.error('Error sending checkpoint:', error);
+                  });
+              }
+            });
+          }
+
+          function createNewCheckpoint() {
+            // If no checkpoint exists, create a new entry with a starting checkpoint
+            const initialCheckpoint = 0;
+            return sendCheckpointToServer({ userId, lessonNum, currentTime: initialCheckpoint, roomCode }).then(() => {
+              return { checkPoint: initialCheckpoint, status: 'Incomplete' }; // Return the initial checkpoint after creation
+            });
+          }
+        </script>
+
+
+        <script src="/public/js/profileDetail.js"></script>
+        <script src="/public/js/logout.js"></script>
+
+        <script src="/public/js/studentRoleCheck.js"></script>
+        <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+        <script src="/public/js/script.js"></script>
+        <script src="/public/vendor/jquery/jquery.min.js"></script>
+        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/public/js/sb-admin-2.min.js"></script>
+        <!-- Copy 2 -->
+        <script>
+          // Ensure the DOM is fully loaded
+          document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const classroomId = decodedToken.classroomId;
+            const roomCode = decodedToken.roomCode;
+            const lessonId = "<%= lesson._id %>";
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+
+
+            if (classroomId) {
+              const lessonLink = document.getElementById('lessonLink');
+              lessonLink.href = `/lesson/std/${classroomId}`;
+            }
+
+            if (userId) {
+              // Set the href attribute with the userId
+              const classroomLink = document.getElementById('classroomLink');
+              classroomLink.href = `/classroom/std/${userId}`;
+
+              const scoreLink = document.getElementById('scoreLink');
+              scoreLink.href = `/attempt/score/${userId}`;
+            }
+
+            if (userId && roomCode && lessonId) {
+              const postLink = document.getElementById('postLink');
+
+              if (postLink) {
+                postLink.href = `/question/post/${lessonId}/${userId}/${roomCode}`
+              }
+            }
+          });
+
+          function enterFullscreen(element) {
+            if (element.requestFullscreen) {
+              element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+              element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
+              element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+              element.msRequestFullscreen();
+            }
+          }
+
+          // Exit fullscreen function
+          function exitFullscreen() {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+              document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+              document.msExitFullscreen();
+            }
+          }
+
+          // Toggle fullscreen on button click
+          document.getElementById('fullscreenButton').addEventListener('click', function () {
+            const playerContainer = document.getElementById('player');
+
+            // If the player is in fullscreen, exit fullscreen
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+              exitFullscreen();
+            } else {
+              // Otherwise, enter fullscreen
+              enterFullscreen(playerContainer);
+            }
+          });
+        </script>
+        <!-- End Copy -->
       </div>
-      <script src="/public/js/script.js"></script>
-      <script src="/public/vendor/jquery/jquery.min.js"></script>
-      <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-      <script src="/public/js/sb-admin-2.min.js"></script>
+    </div>
 </body>
 
 </html>

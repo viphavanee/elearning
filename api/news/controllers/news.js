@@ -35,6 +35,21 @@ router.route("/tchr").get(async (req, res) => {
   }
 });
 
+router.route("/std").get(async (req, res) => {
+  try {
+    const response = await func.getNews();
+    if (response.status_code === "200") {
+      const news = response.data;
+      res.render("newsStd", { news });
+    } else {
+      res.status(500).json({ error: response.message });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 router.route("/createNews").get(async (req, res) => {
   res.render("createNews");
 });
@@ -42,7 +57,7 @@ router.route("/createNews").get(async (req, res) => {
 router.route("/createNews").post(upload.single("image"), async (req, res) => {
   try {
     const response = await func.createNews(req.body, req.file);
-    res.redirect('/newsAdmin');
+    res.redirect('/news');
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -94,7 +109,7 @@ router.route("/edit/:id").post(upload.single("newImage"), async (req, res) => {
     });
 
     if (updateResult.status_code === "200") {
-      res.redirect('/newsAdmin');
+      res.redirect('/news');
     } else {
       res.status(404).json({ error: updateResult.message });
     }
@@ -118,7 +133,7 @@ router.route("/delete/:id").get(async (req, res) => {
 
     if (softDeleteResult.status_code === "200") {
       res.render("softDeleteSuccess", { message: "Soft delete complete" });
-      res.redirect('/newsAdmin');
+      res.redirect('/news');
     } else {
       res.status(404).json({ error: "News not found" });
     }
@@ -140,6 +155,27 @@ router.route("/viewNews/:id").get(async (req, res) => {
 
     if (news.status_code === "200") {
       res.render("viewNews", { news: news.data });
+    } else {
+      res.status(404).json({ error: "News not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.route("/stdViewNews/:id").get(async (req, res) => {
+  try {
+    const newsId = req.params.id;
+    if (!newsId) {
+      console.error("Invalid News ID:", newsId);
+      return res.status(400).json({ error: "Invalid news ID" });
+    }
+
+    const news = await func.getNewsById({ id: newsId });
+
+    if (news.status_code === "200") {
+      res.render("stdViewNews", { news: news.data });
     } else {
       res.status(404).json({ error: "News not found" });
     }

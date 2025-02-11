@@ -15,7 +15,7 @@ const memberProfileUpload = async (data) => {
             dataUpload = await uploadFileMember(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -56,7 +56,7 @@ const uploadFileMember = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -103,7 +103,7 @@ const uploadFileArtist = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -124,7 +124,7 @@ const deleteMemberProfile = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -139,7 +139,7 @@ const artistCoverUpload = async (data) => {
             dataUpload = await uploadFileArtist(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -155,7 +155,7 @@ const artistImageUpload = async (data, imageData) => {
             dataUpload = await uploadFileArtist(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -170,7 +170,7 @@ const deleteArtistCover = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -184,7 +184,7 @@ const deleteArtistImage = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -224,7 +224,7 @@ const uploadFileEntertainment = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -246,7 +246,7 @@ const entertainmentCoverUpload = async (data) => {
             dataUpload = await uploadFileEntertainment(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -262,7 +262,7 @@ const entertainmentImageUpload = async (data, imageData) => {
             dataUpload = await uploadFileEntertainment(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -277,7 +277,7 @@ const deleteEntertainmentCover = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -291,7 +291,7 @@ const deleteEntertainmentImage = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -331,7 +331,7 @@ const uploadFileFoodBeverage = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -353,7 +353,7 @@ const foodBeverageCoverUpload = async (data) => {
             dataUpload = await uploadFileFoodBeverage(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -369,7 +369,7 @@ const foodBeverageImageUpload = async (data, imageData) => {
             dataUpload = await uploadFileFoodBeverage(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -384,7 +384,7 @@ const deleteFoodBeverageCover = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -398,7 +398,7 @@ const deleteFoodBeverageImage = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -438,7 +438,7 @@ const uploadFileMusicCategory = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -460,7 +460,7 @@ const musicCategoryCoverUpload = async (data) => {
             dataUpload = await uploadFileMusicCategory(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -475,7 +475,7 @@ const deleteMusicCategoryCover = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -515,7 +515,7 @@ const uploadFileTechnician = async (data) => {
             })
             blobStream.end(Buffer.from(data.image, 'base64'))
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve({
                 "status_code": "301",
                 "status_phrase": "FAIL",
@@ -537,7 +537,7 @@ const technicianCoverUpload = async (data) => {
             dataUpload = await uploadFileTechnician(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -553,7 +553,7 @@ const technicianImageUpload = async (data, imageData) => {
             dataUpload = await uploadFileTechnician(dataUpload)
             resolve(dataUpload.url)
         } catch (error) {
-            console.log(error)
+            console.error(error)
             resolve(false)
         }
     })
@@ -568,7 +568,7 @@ const deleteTechnicianCover = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }
@@ -582,7 +582,7 @@ const deleteTechnicianImage = async (originalname) => {
         })
         return (true)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (false)
     }
 }

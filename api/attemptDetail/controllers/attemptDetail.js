@@ -10,7 +10,7 @@ router.route("/createAttemptDetail").post(async (req, res) => {
     let response = await func.createAttemptDetail(req.body);
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });
@@ -19,7 +19,7 @@ router.route("/getAttemptDetail").post(async (req, res) => {
     let response = await func.getAttemptDetail();
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });
@@ -28,7 +28,7 @@ router.route("/getAttemptDetailById").get(async (req, res) => {
     let response = await func.getAttemptDetailById(req.body);
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });
@@ -43,9 +43,9 @@ router.route("/:attemptId/:studentId/:quizId").get(async (req, res) => {
     const quizRes = quiz.data;
     const attemptDetailsRes = attemptDetails.data;
     const studentRes = student.data[0];
-    res.render("attemptScorePreDt", { attemptDetails: attemptDetailsRes, student: studentRes, quizRes });
+    res.render("attemptScoreDetail", { attemptDetails: attemptDetailsRes, student: studentRes, quizRes });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });

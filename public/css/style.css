@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto Sans Thai:wght@200;300;400;500;600;700&display=swap");
 
 :root {
   --main-color: #8e44ad;
@@ -18,7 +18,7 @@
   background-color: #939393;
 }
 * {
-  font-family: "Nunito", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -154,7 +154,6 @@ section {
   margin-top: 1rem;
 }
 
-
 .delete-btn,
 .option-btn {
   display: block;
@@ -166,7 +165,6 @@ section {
 .inline-delete-btn {
   display: inline-block;
 }
-
 
 .inline-btn {
   background-color: var(--main-color);
@@ -207,7 +205,7 @@ section {
   border-bottom: var(--border);
 }
 
-.header .flex{
+.header .flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1435,5 +1433,3 @@ section {
     height: 25rem;
   }
 }
-
-

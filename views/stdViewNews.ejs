@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+  <link rel="manifest" href="/public/site.webmanifest">
+  <title>
+    <%= news.title %>
+  </title>
+  <link rel="stylesheet" href="/public/css/form.css">
+  <link rel="stylesheet" href="/public/css/table.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+  <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+  <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+  <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      height: 100vh;
+      z-index: 1050;
+      /* Ensure it stays above other elements */
+
+    }
+
+    .content-wrapper {
+      margin-left: 150px;
+      /* Offset the sidebar width */
+      padding-top: 70px;
+      /* Offset the height of the top navbar */
+    }
+
+    .navbar {
+      z-index: 1000;
+      /* Ensure it stays above the content */
+    }
+
+    .container {
+      font-family: "Noto Sans Thai", sans-serif !important;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 3%;
+    }
+
+    #img_container img {
+      width: 40%;
+      margin-top: 3%;
+      margin-bottom: 3%;
+      margin: auto auto;
+      display: block;
+    }
+
+    .content {
+      margin: 3%;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span>
+          E-learning</div>
+      </a>
+      <hr class="sidebar-divider my-0">
+
+      <li class="nav-item ">
+        <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>ห้องเรียน</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+          <i class="fa-solid fa-book"></i>
+          <span>บทเรียน</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/news/std">
+          <i class="fas fa-newspaper"></i>
+          <span>บทความ</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="scorelink">
+          <i class="fa-solid fa-chart-simple"></i>
+          <span>คะแนน</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/theme">
+          <i class="fas fa-question"></i>
+          <span>กระทู้ถาม-ตอบ</span></a>
+      </li>
+    </ul>
+
+    <div id="content-wrapper" class="content-wrapper d-flex flex-column">
+      <div id="content">
+        <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 shadow">
+          <form class="form-inline">
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+          </form>
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
+                aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  แก้ไขโปรไฟล์
+                </a>
+                <a class="dropdown-item" href="/change-password">
+                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                  จัดการรหัสผ่าน
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  ออกจากระบบ
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="container mt-5">
+        <div class="text-1" style="text-align: center;">
+          <h1>
+            <%= news.title %>
+          </h1>
+        </div>
+        <div id="img_container">
+          <img src="data:image/jpeg;base64,<%= news.image %>" alt="รูปข่าว">
+        </div>
+        <div class="text-1" style="text-align: center; margin-top: 10px;">
+          <p>วันที่โพสต์ข่าว: <%= news.date %>
+          </p>
+        </div>
+        <div class="content">
+          <p><%- news.content %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/public/js/script.js"></script>
+  <script src="/public/js/tinymceInit.js"></script>
+  <script src="/public/js/getdata.js"></script>
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/public/js/sb-admin-2.min.js"></script>
+  <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+  <script src="/public/js/profileDetail.js"></script>
+  <script src="/public/js/logout.js"></script>
+  <script src="/public/js/studentRoleCheck.js"></script>
+  <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Assuming your token is stored in localStorage under the key 'token'
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+          // Assuming userId is a field in your token
+          const userId = decodedToken.userId;
+          const email = decodedToken.email;
+          const role = decodedToken.role;
+          const firstname = decodedToken.firstname;
+
+          // Example usage: set the userId value to an input field
+          document.getElementById('studentId').value = userId;
+          document.getElementById('email').value = email;
+          document.getElementById('role').value = role;
+          document.getElementById('firstname').value = firstname;
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          // Handle error if decoding fails
+        }
+      }
+    });
+    document.getElementById('createClassroomForm').addEventListener('submit', async function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/classroomAttempt/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          const { studentId, newToken } = result;
+          // Save the new token back to localStorage
+          localStorage.setItem('token', newToken);
+
+          // Redirect the user or perform other actions
+          window.location.href = `/classroom/std/${studentId}`;
+        } else {
+          console.error('Failed to create classroom attempt');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+
+  </script>
+
+  <!-- Copy 2 -->
+  <script>
+    // Ensure the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token); // Decodes the JWT token
+      const classroomId = decodedToken.classroomId;
+      // Assuming userId is a field in your token
+      const userId = decodedToken.userId;
+      if (userId) {
+        // Set the href attribute with the userId
+        const classroomLink = document.getElementById('classroomLink');
+        classroomLink.href = `/classroom/std/${userId}`;
+
+        const scorelink = document.getElementById('scorelink');
+        scorelink.href = `/attempt/score/${userId}`;
+      }
+
+      if (classroomId) {
+        const lessonLink = document.getElementById('lessonLink');
+        lessonLink.href = `/lesson/std/${classroomId}`;
+      }
+      if (userId && classroomId) {
+        const quitLink = document.getElementById('quit-link');
+        quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
+      }
+    });
+  </script>
+  <!-- End Copy -->
+
+</body>
+
+</html>

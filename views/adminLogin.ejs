@@ -5,7 +5,12 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>login</title>
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+  <link rel="manifest" href="/public/site.webmanifest">
+  <title>adminLogin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <link rel="stylesheet" href="./public/css/auth.css" />
 </head>
@@ -15,13 +20,12 @@
     <h2>เข้าสู่ระบบ Admin</h2>
     <div class="form-group">
       <label for="email">อีเมล</label>
-      <input type="text" name="email" placeholder="กรอกอีเมล" />
+      <input type="text" name="email" placeholder="กรอกอีเมล" required />
     </div>
     <div class="form-group password">
       <label for="password">รหัสผ่าน</label>
-      <input type="password" name="password" placeholder="กรอกรหัสผ่าน" />
-      <i id="pass-toggle-btn" class="fa-solid fa-eye"></i>
-    </div>
+      <input type="password" id="password" name="password" placeholder="กรอกรหัสผ่าน" required />
+      <i id="pass-toggle-btn" class="fa-solid fa-eye" onclick="togglePassword()"></i>
     </div>
     <div class="form-group submit-btn">
       <input type="submit" name="submit" value="เข้าสู่ระบบ" />
@@ -30,6 +34,22 @@
 
   <script src="./public/js/script.js"></script>
   <script src="/public/js/adminLogin.js"></script>
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('pass-toggle-btn');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+  </script>
 </body>
 
 </html>

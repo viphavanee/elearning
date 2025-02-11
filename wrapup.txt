@@ -1,42 +1,27 @@
 Admin
--กระทู้ (Delete)
-//จัดการ user (Edit, Delete)
+-dashboard
+
 
 Teacher
--กระทู้ (Reply, Delete)
-//ดูคะแนน Quiz
 -ติดตามผลการเรียน ***
-// จัดการ Classroom
+
 
 Student
-// Join ห้องเรียน
-- กระทู้ (Create, Edit, Delete own)
 - ค้นหาชื่อบทเรียน
-- ห้องเรียน (แสดงผล) **
+
 
 Global
--ลืมรหัสผ่าน (nodemailer)
--เปลี่ยนรหัสผ่าน (nodemailer)
--Profile
+
 
 เพิ่มเติม
--แจ้งเตือนก่อนกดส่งคำตอบ
--แจ้งเตือนว่ายังไม่ได้เลือกคำตอบในข้อนั้นหรือคำตอบไม่ครบ
 -ต้องกดย้อนกลับไปหน้าข้อสอบตัวเดิมไม่ได้
--บทเรียนต้องล็อคทำเป็น step ห้ามข้าม
--ลบเลขข้อสอบออก ไม่จำเป็น
--แยกผู้ใช้งาน ดึงข้อมูลผู้ใช้งาน
+
+-----------------------------------------------------------------------
 
 
+<i class="fa-solid fa-chart-simple"></i>
 
-Y-axis: Scores
-X-axis: Date
-
-Chart: AVG. score
-
-
-
-
+<script src="/public/js/teacherRoleCheck.js"></script>
 
 
 //Admin role check
@@ -46,8 +31,8 @@ Chart: AVG. score
 
 2.แปะสคริป
 
-    <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
-    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+    <script src="/public/js/studentRoleCheck.js"></script>
+    <script src="/public/js/tokenChecked.js"></script>
 
 ______________________________________________________________________________________
 
@@ -117,20 +102,84 @@ ________________________________________________________________________________
 5.Fixed topbar viewLesson.ejs
 
 
-6.Model กระทู้
 
-model blog {
-  id           Int            @id @default(autoincrement())
-  userId       Int
-  header        String
-  message      String
-  createAt      datetime
-}
+-----------------------------------------
 
-model comment_blog {
-  id      Int    @id @default(autoincrement())
-  blogId  Int
-  message String
-  userId  Int
-  createAt      datetime
-}
+classroomStd
+
+
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="lessonLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/newsAdmin/newsStd">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+
+        </ul>
+
+
+
+
+<!-- Copy 2 -->
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const classroomId = decodedToken.classroomId;
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                classroomLink.href = `/classroom/std/${userId}`;
+
+                const scorelink = document.getElementById('scorelink');
+                scorelink.href = `/attempt/score/${userId}`;
+            }
+
+            if (classroomId){
+                const lessonLink = document.getElementById('lessonLink');
+                lessonLink.href = `/lesson/std/${classroomId}`;
+            }
+        });
+    </script>
+    <!-- End Copy -->
+
+
+
+
+
+
+<a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+
+                                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;

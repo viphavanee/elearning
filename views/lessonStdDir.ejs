@@ -5,20 +5,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>หน้าแรก</title>
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title> บทที่ <%= lessons.lessonNum %>
+            <%= lessons.lessonName %>
+    </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/std.css">
     <link rel="stylesheet" href="/public/css/table.css">
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -26,27 +37,32 @@
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <hr class="sidebar-divider">
+            <li class="nav-item ">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
+            </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/lesson/std">
-                    <i class="fa-solid fa-house"></i>
-                    <span>หน้าแรก</span></a>
+                <a class="nav-link" href="#" id="lessonLinkMenu"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/newsStd">
+                <a class="nav-link" href="/news/std">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/scoreStd">
-                    <i class="fas fa-chalkboard-user"></i>
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
                     <span>คะแนน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/QAstd">
+                <a class="nav-link" href="/theme">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
@@ -77,8 +93,11 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
@@ -86,12 +105,18 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    ออกจากระบบ
                                 </a>
                             </div>
+
                         </li>
                     </ul>
                 </nav>
@@ -102,26 +127,47 @@
                     </h3>
                     <div class="d-flex flex-column justify-content-center align-items-center p-3">
 
-                        <a class="card w-100 p-3 mb-3 text-decoration-none" href="#">
-                            <p class="h4">แบบทดสอบก่อนเรียน</p>
-                            <p class="text-secondary">ทำแบบทดสอบเพื่อวัดความรู้ก่อนเรียน</p>
+                        <div class="card w-100 p-3 mb-3 text-decoration-none">
+                            <div>
+                                <a class="h4" href="#" id="preLink">แบบทดสอบก่อนเรียน</a>
+                                <div class="mt-2">
+                                    <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
+                                    <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
+                                </div>
+                                <span id="pre_status">
+                                </span>
+                            </div>
+
+                        </div>
+                        <a class="card w-100 p-3 mb-3 text-decoration-none" id="lessonLink" href="#">
+                            <div>
+                                <p class="h4">บทเรียน</p>
+                                <span id="lesson_status"></span>
+                            </div>
+
                         </a>
-                        <a class="card w-100 p-3 mb-3 text-decoration-none" href="#">
-                            <p class="h4">บทเรียน</p>
-                            <p class="text-secondary">...................</p>
-                        </a>
-                        <a class="card w-100 p-3 mb-3 text-decoration-none" href="#">
-                            <p class="h4">แบบทดสอบหลังเรียน</p>
-                            <p class="text-secondary">......................</p>
-                        </a>
+                        <div class="card w-100 p-3 mb-3 text-decoration-none">
+                            <div>
+                                <a class="h4" href="#" id="postTestLink">แบบทดสอบหลังเรียน</a>
+
+                                <div class="mt-2">
+                                    <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
+                                    <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
+                                </div>
+                                <span id="post_status"></span>
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -134,6 +180,136 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
+
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+
+    <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const decodedToken = jwtDecode(token);
+                const userId = decodedToken.userId;
+                const classroomId = decodedToken.classroomId;
+                const lessonNum = "<%- lessons.lessonNum %>";
+                const quizId = "<%- quiz._id %>";
+                const roomCode = decodedToken.roomCode;
+
+                try {
+                    // Fetch all required data concurrently
+                    const [preTestRes, postTestRes, lessonStatusRes] = await Promise.all([
+                        axios.get(`/lesson/Std/preTestChecked/${userId}/${roomCode}/${quizId}`, { headers: { 'Content-Type': 'application/json' } }),
+                        axios.get(`/lesson/Std/postTestChecked/${userId}/${roomCode}/${quizId}`, { headers: { 'Content-Type': 'application/json' } }),
+                        axios.get(`/lessonLog/getLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, { headers: { 'Content-Type': 'application/json' } }),
+                    ]);
+
+                    const resultPre = preTestRes.data;
+                    const resultPost = postTestRes.data;
+                    const lessonStatus = lessonStatusRes.data.status;
+
+                    const preStatusElement = document.getElementById("pre_status");
+                    const lessonStatusElement = document.getElementById("lesson_status");
+                    const postStatusElement = document.getElementById("post_status");
+                    const preLink = document.getElementById("preLink");
+                    const lessonLink = document.getElementById("lessonLink");
+                    const postTestLink = document.getElementById("postTestLink");
+
+                    // Pre-test status
+                    if (resultPre.data) {
+                        preStatusElement.textContent = "สำเร็จ";
+                        preStatusElement.className = "badge badge-pill badge-success";
+                        preLink.classList.add("disabled");
+                        preLink.style.pointerEvents = "none";
+
+                        // Lesson status handling
+                        if (lessonStatus === 'Incomplete' || !lessonStatus) {
+                            lessonStatusElement.textContent = "ยังไม่เสร็จ";
+                            lessonStatusElement.className = "badge badge-pill badge-secondary";
+
+                            postTestLink.classList.add("disabled");
+                            postTestLink.style.pointerEvents = "none";
+                            postStatusElement.textContent = "จบบทเรียนเพื่อปลดล็อค";
+                            postStatusElement.className = "text-danger";
+                        } else {
+                            lessonStatusElement.textContent = "สำเร็จ";
+                            lessonStatusElement.className = "badge badge-pill badge-success";
+                            postStatusElement.textContent = resultPost.data ? "สำเร็จ" : "ยังไม่เสร็จ";
+                            postStatusElement.className = resultPost.data ? "badge badge-pill badge-success" : "badge badge-pill badge-secondary";
+                        }
+                    } else {
+                        // Pre-test incomplete
+                        preStatusElement.textContent = "ยังไม่เสร็จ";
+                        preStatusElement.className = "badge badge-pill badge-secondary";
+                        lessonStatusElement.textContent = "ทำแบบทดสอบก่อนเรียนเพื่อปลดล็อค";
+                        lessonStatusElement.className = "text-danger";
+                        postStatusElement.textContent = "ทำแบบทดสอบก่อนเรียนเพื่อปลดล็อค";
+                        postStatusElement.className = "text-danger";
+
+                        lessonLink.classList.add("disabled");
+                        lessonLink.style.pointerEvents = "none";
+                        postTestLink.classList.add("disabled");
+                        postTestLink.style.pointerEvents = "none";
+                    }
+
+
+                } catch (error) {
+                    console.error('Error fetching lesson and test data:', error);
+                }
+            }
+        });
+    </script>
+    <!-- Copy 2 -->
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const classroomId = decodedToken.classroomId;
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            const roomCode = decodedToken.roomCode;
+            const lessonId = "<%= lessons._id %>";
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                classroomLink.href = `/classroom/std/${userId}`;
+
+                const scorelink = document.getElementById('scorelink');
+                scorelink.href = `/attempt/score/${userId}`;
+
+                console.log(decodedToken)
+            }
+
+            if (classroomId) {
+                const lessonLink = document.getElementById('lessonLinkMenu');
+                lessonLink.href = `/lesson/std/${classroomId}`;
+            }
+            if (userId && lessonId && roomCode) {
+
+                const preLink = document.getElementById('preLink');
+                const postTestLink = document.getElementById('postTestLink');
+
+
+                if (preLink && postTestLink) { // Check if elements exist
+                    preLink.href = `/question/pre/${lessonId}/${userId}/${roomCode}`;
+                    postTestLink.href = `/question/post/${lessonId}/${userId}/${roomCode}`;
+                } else {
+                    console.error('preLink or postTestLink element not found');
+                }
+            }
+            if (lessonId && userId) {
+                const lessonLink = document.getElementById('lessonLink');
+                if (lessonLink) {
+                    lessonLink.href = `/lesson/stdViewLesson/${lessonId}/${userId}`
+                }
+            }
+
+        });
+    </script>
+    <!-- End Copy -->
 
 </body>
 

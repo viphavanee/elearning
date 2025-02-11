@@ -150,6 +150,38 @@ const getClassroomByRoomCode = async (data) => {
   }
 };
 
+const getByRoomCode = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("classroom");
+    const classroom = await collection.findOne({ roomCode: data.roomCode });
+    await client.close();
+    if (classroom) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get classroom by id success`,
+        data: classroom,
+      };
+    } else {
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `classroom with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting classroom by roomcode:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
 const getClassroombyTeacherId = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -221,26 +253,18 @@ const updateClassroomImage = async (data) => {
     await client.connect();
     const database = client.db("project1");
     const collection = database.collection("classroom");
-
+    const image = data.newImage;
+    const newImage =  image ? image.buffer.toString("base64") : null;
     const objectId = new ObjectId(data.id);
     const currentDate = new Date();
 
-    let newImageData = {};
-    let newClassroomData = {};
-
-    if (data.newImage) {
-      newImageData.image = data.newImage;
-    }
-    if (data.newClassroomName) {
-      newClassroomData.ClassroomName = data.newClassroomName;
-    }
 
 
     const updateData = {
       $set: {
         updateDate: currentDate,
-        ...newImageData,
-        ...newClassroomData
+        image: newImage,
+        classroomName: data.newClassroomName
       }
     };
 
@@ -278,6 +302,7 @@ module.exports = {
   createClassroom,
   getClassroom,
   getClassroomById,
+  getByRoomCode,
   getClassroombyTeacherId,
   softDelete,
   updateClassroomImage,

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+  <link rel="manifest" href="/public/site.webmanifest">
+  <title>โปรไฟล์</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container my-5">
+    <div class="card p-3">
+      <form action="/user/updateUserById/<%= user._id %>" method="POST">
+        <h2>แก้ไขโปรไฟล์</h2>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">ชื่อ</label>
+            <input type="text" class="form-control" name="newFirstName" placeholder="ชื่อ" value="<%= user.firstname %>"
+              required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="lastname">นามสกุล</label>
+            <input type="text" class="form-control" name="newLastName" value="<%= user.lastname %>" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">อีเมล</label>
+            <input type="email" class="form-control" name="email" value="<%= user.email %>" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputSchool">โรงเรียน</label>
+            <input type="text" class="form-control" name="newSchool" value="<%= user.school %>" required>
+          </div>
+        </div>
+        <input type="hidden" name="id" value="<%= user._id %>" />
+        <div class="form-group">
+          <input class="btn btn-primary w-100" type="submit" name="submit" value="บันทึก" />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/public/js/scrptForSS.js"></script>
+</body>
+
+</html>

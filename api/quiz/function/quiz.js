@@ -108,6 +108,76 @@ const getQuizById = async (data) => {
     };
   }
 };
+const getMultiQuizById = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("quiz");
+    const objectId = new ObjectId(data.id);
+    const quiz = await collection.find({ _id: objectId, isDeleted: { $ne: true } }).toArray();
+    await client.close();
+
+    if (quiz) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get quiz by id success`,
+        data: quiz,
+      };
+    } else {
+      console.log(`quiz with id ${data.id} not found`);
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `quiz with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting quiz by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
+
+
+const getQuizByLessonNum = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("quiz");
+    const lessonNum = data.lessonNum;
+    const quiz = await collection.findOne({ lessonId: lessonNum, isDeleted: { $ne: true } });
+    await client.close();
+
+    if (quiz) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get quiz by id success`,
+        data: quiz,
+      };
+    } else {
+      console.log(`quiz with id ${data.id} not found`);
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `quiz with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting quiz by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
 
 
 const updateQuiz = async (data) => {
@@ -224,6 +294,8 @@ module.exports = {
   createQuiz,
   getQuiz,
   getQuizById,
+  getMultiQuizById,
   updateQuiz,
-  softDelete
+  softDelete,
+  getQuizByLessonNum
 };

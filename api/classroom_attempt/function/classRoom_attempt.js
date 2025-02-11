@@ -18,18 +18,21 @@ const createClassroomAttempt = async (data) => {
 
     await userCollect.updateOne({
       _id: studentId
-    }, 
-    {$set: {
-      isJoined: true,
-      roomCode: data.roomCode
-    }}
-  );
+    },
+      {
+        $set: {
+          isJoined: true,
+          roomCode: data.roomCode
+        }
+      }
+    );
 
     await client.close();
     return {
       status_code: "200",
       status_phrase: "ok",
       message: `create classroom success`,
+      redirect: studentId.toString()
     };
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);

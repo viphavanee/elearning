@@ -5,6 +5,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
     <title>บทความ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
@@ -13,8 +18,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -23,26 +30,22 @@
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
         .News-image {
-      height: 200px;
-      object-fit: cover;
-    }
+            height: 200px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item">
+
+            <li class="nav-item ">
                 <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
                     <span>บทเรียน</span></a>
@@ -53,26 +56,25 @@
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/newsTchr">
+                <a class="nav-link" href="/news/tchr">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
                 <a id="attemptLink" class="nav-link" href="/attempt/list">
-                   <i class="fas fa-chalkboard-user"></i>
-                   <span>คะแนน</span></a>
-             </li>
-            <li class="nav-item ">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
                 <a id="classroomLink" class="nav-link" href="#">
                     <i class="fas fa-chalkboard-user"></i>
                     <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/theme/teacher">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
-
 
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
@@ -113,11 +115,15 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    ออกจากระบบ
                                 </a>
                             </div>
                         </li>
@@ -133,7 +139,7 @@
                                             <div class="card h-100">
                                                 <% if (news.image && news.image.length> 0) { %>
                                                     <img src="data:image/png;base64,<%= news.image %>"
-                                                        class="card-img-top News-image" alt="News Image"/>
+                                                        class="card-img-top News-image" alt="News Image" />
                                                     <% } else { %>
                                                         <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                         <% } %>
@@ -145,9 +151,9 @@
                                                                 </p>
                                                             </div>
                                                             <div class="card-footer d-flex justify-content-end">
-                                                                <a href="/newsAdmin/viewNews/<%= news._id %>"><i
+                                                                <a href="/news/viewNews/<%= news._id %>"><i
                                                                         class="fas fa-eye" id="view"></i></a>
-                                                            
+
                                                             </div>
                                             </div>
                                         </div>
@@ -175,20 +181,20 @@
                 <script>
                     // Ensure the DOM is fully loaded
                     document.addEventListener('DOMContentLoaded', function () {
-                       const token = localStorage.getItem('token');
-                       const decodedToken = jwtDecode(token); // Decodes the JWT token
-              
-                       // Assuming userId is a field in your token
-                       const userId = decodedToken.userId;
-                       if (userId) {
-                          // Set the href attribute with the userId
-                          const classroomLink = document.getElementById('classroomLink');
-                          const attemptLink = document.getElementById('attemptLink');
-                          classroomLink.href = `/classroom/teacher/${userId}`;
-                          attemptLink.href = `/attempt/list/${userId}`;
-                       }
+                        const token = localStorage.getItem('token');
+                        const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+                        // Assuming userId is a field in your token
+                        const userId = decodedToken.userId;
+                        if (userId) {
+                            // Set the href attribute with the userId
+                            const classroomLink = document.getElementById('classroomLink');
+                            const attemptLink = document.getElementById('attemptLink');
+                            classroomLink.href = `/classroom/teacher/${userId}`;
+                            attemptLink.href = `/attempt/list/${userId}`;
+                        }
                     });
-                 </script>
+                </script>
 </body>
 
 </html>

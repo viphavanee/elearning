@@ -6,6 +6,11 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+  <link rel="manifest" href="/public/site.webmanifest">
   <title>เพิ่มบทเรียน</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
@@ -16,7 +21,7 @@
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
   <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -25,6 +30,10 @@
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <style>
     .headL {
       margin: 2%;
@@ -36,18 +45,18 @@
 <body id="page-top">
   <div id="wrapper">
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span>
+          E-learning</div>
       </a>
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="/index">
+        <a class="nav-link" href="/admin/dashboard">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider">
-
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="/lesson">
           <i class="fas fa-book"></i>
           <span>บทเรียน</span></a>
@@ -58,26 +67,25 @@
           <span>แบบทดสอบ</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/newsAdmin">
+        <a class="nav-link" href="/news">
           <i class="fas fa-newspaper"></i>
           <span>บทความ</span></a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/user">
           <i class="fas fa-user-group"></i>
           <span>จัดการผู้ใช้งาน</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/classroom">
-          <i class="fas fa-chalkboard-user"></i>
-          <span>จัดการห้องเรียน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/theme/admin">
           <i class="fas fa-question"></i>
           <span>กระทู้ถาม-ตอบ</span></a>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="/report/admin">
+          <i class="bi bi-flag-fill"></i>
+          <span>จัดการรายงาน</span></a>
+      </li>
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
@@ -103,18 +111,25 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                <div class="d-flex flex-column align-items-end">
+                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                </div>
+                <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   แก้ไขโปรไฟล์
                 </a>
+                <a class="dropdown-item" href="/change-password">
+                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                  จัดการรหัสผ่าน
+                </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/logout" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
+                  ออกจากระบบ
                 </a>
               </div>
             </li>
@@ -140,6 +155,11 @@
           </div>
         </form>
       </section>
+      <script src="
+      https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+      <script src="/public/js/profileDetail.js"></script>
+      <script src="/public/js/logout.js"></script>
       <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
       <script src="/public/js/tinymceInit.js"></script>
       <script src="/public/js/script.js"></script>
@@ -151,6 +171,10 @@
       <script type="application/javascript">
         document.getElementById("createLessonForm").addEventListener("submit", async function (event) {
           event.preventDefault();
+
+          // อัปเดตเนื้อหาใน TinyMCE ก่อนที่ข้อมูลจะถูกส่ง
+          tinymce.get('my-expressjs-tinymce-app').save();
+
           const form = event.target;
           const formData = new FormData(form);
 
@@ -166,6 +190,8 @@
                 icon: 'success',
                 title: 'สำเร็จ',
                 text: result.message,
+              }).then(() => {
+                window.location.href = "/lesson"; // Redirect to /lesson
               });
             } else {
               Swal.fire({
@@ -182,6 +208,8 @@
             });
           }
         });
+
+
       </script>
 </body>
 </body>

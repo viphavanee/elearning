@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>รายละเอียดห้องเรียน</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15px;">STD<span style="font-size: 12px;">s</span>
+                    E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/lesson/tchr">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/quizAdmin/tchr">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news/tchr">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a id="attemptLink" class="nav-link" href="/attempt/list">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
+                <a id="classroomLink" class="nav-link" href="#">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <span>จัดการห้องเรียน</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>ติดตามผลการเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme/teacher">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-dark">ความคืบหน้าการเรียนรู้ บทที่ <%= lessonNum %> :
+                                    <%= lessonName %>
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" id="searchInput" placeholder="ค้นหาชื่อ..." onkeyup="filterTable()" class="form-control mb-3">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%"
+                                    cellspacing="0">
+
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ชื่อ-นามสกุล</th>
+                                            <th>การเรียนรู้</th>
+                                            <th>Pre-test</th>
+                                            <th>สื่อการสอน (Video)</th>
+                                            <th>Post-test</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (processData && processData.length> 0) { %>
+                                            <% processData.forEach(function(progress, index) { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= index + 1 %>
+                                                    </td>
+                                                    <td>
+                                                        <%= progress.firstname %>
+                                                            <%= progress.lastname %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (progress.progress) { %>
+                                                            <% const total=35 + 30 + 35; const
+                                                                completed=(progress.progress.isPre ? 35 : 0) +
+                                                                (progress.progress.isLearn ? 30 : 0) +
+                                                                (progress.progress.isPost ? 35 : 0); const
+                                                                percentage=(completed / total) * 100; %>
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" role="progressbar"
+                                                                        style="width: <%= percentage %>%;"
+                                                                        aria-valuenow="<%= percentage %>"
+                                                                        aria-valuemin="0" aria-valuemax="100">
+                                                                        <%= percentage %> %
+                                                                    </div>
+                                                                </div>
+                                                                <% } else { %>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 0px;"
+                                                                            aria-valuenow="0"
+                                                                            aria-valuemin="0" aria-valuemax="100">
+                                                                            0 %
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (progress.progress) { %>
+                                                            <span
+                                                                class="badge <%= progress.progress.isPre ? 'badge-success' : 'badge-warning' %>">
+                                                                <%= progress.progress.isPre ? "เสร็จสิ้น"
+                                                                    : "รอดำเนินการ" %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                ไม่มีข้อมูล
+                                                                <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (progress.progress) { %>
+                                                            <span
+                                                                class="badge <%= progress.progress.isLearn ? 'badge-success' : 'badge-warning' %>">
+                                                                <%= progress.progress.isLearn ? "เสร็จสิ้น"
+                                                                    : "รอดำเนินการ" %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                ไม่มีข้อมูล
+                                                                <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (progress.progress) { %>
+                                                            <span
+                                                                class="badge <%= progress.progress.isPost ? 'badge-success' : 'badge-warning' %>">
+                                                                <%= progress.progress.isPost ? "เสร็จสิ้น"
+                                                                    : "รอดำเนินการ" %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                ไม่มีข้อมูล
+                                                                <% } %>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="6">No user available.</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Logout Modal-->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">คุณต้องการออกจากระบบหรือไม่?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-primary" href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/demo/datatables-demo.js"></script>
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                const attemptLink = document.getElementById('attemptLink');
+                classroomLink.href = `/classroom/teacher/${userId}`;
+                attemptLink.href = `/attempt/list/${userId}`;
+            }
+        });
+    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let rowsPerPage = 5; // Number of rows per page
+        let currentPage = 1; 
+    
+        function filterTable() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let table = document.getElementById("dataTable");
+            let rows = table.getElementsByTagName("tr");
+            let filteredRows = [];
+    
+            for (let i = 1; i < rows.length; i++) { // Skip the header row
+                let nameCell = rows[i].getElementsByTagName("td")[1]; // Adjust index based on table structure
+                if (nameCell) {
+                    let name = nameCell.textContent.toLowerCase();
+                    if (name.includes(input)) {
+                        rows[i].style.display = "";
+                        filteredRows.push(rows[i]);
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+            paginate(filteredRows);
+        }
+    
+        function paginate(filteredRows = null) {
+            let table = document.getElementById("dataTable");
+            let rows = filteredRows || Array.from(table.getElementsByTagName("tr")).slice(1); // Ignore header
+    
+            let totalPages = Math.ceil(rows.length / rowsPerPage);
+            currentPage = Math.min(currentPage, totalPages) || 1;
+    
+            rows.forEach((row, index) => {
+                row.style.display = index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage ? "" : "none";
+            });
+    
+            renderPagination(totalPages);
+        }
+    
+        function renderPagination(totalPages) {
+            let paginationContainer = document.getElementById("pagination");
+            paginationContainer.innerHTML = "";
+    
+            for (let i = 1; i <= totalPages; i++) {
+                let btn = document.createElement("button");
+                btn.textContent = i;
+                btn.classList.add("btn", "btn-sm", "btn-primary", "mx-1");
+                if (i === currentPage) btn.classList.add("active");
+                btn.onclick = () => { currentPage = i; paginate(); };
+                paginationContainer.appendChild(btn);
+            }
+        }
+    
+        let tableContainer = document.querySelector(".table-responsive");
+        let paginationDiv = document.createElement("div");
+        paginationDiv.id = "pagination";
+        paginationDiv.classList.add("mt-3");
+        tableContainer.appendChild(paginationDiv);
+    
+        paginate();
+        document.getElementById("searchInput").addEventListener("keyup", () => filterTable());
+    });
+    </script>
+    
+</body>
+
+</html>

@@ -2,12 +2,6 @@ node_modules/
 /node_modules
 package-lock.json*
 
-# ENV
-.env
-.env-prod
-.env-uat
-.DS_Store
-
 #################
 ## Eclipse
 #################
@@ -223,3 +217,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+.vercel

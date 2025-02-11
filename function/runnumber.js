@@ -4,7 +4,7 @@ const getRunnumber = async (name) => {
     try {
         return (`${name}${moment().format('YYYYMMDD')}-${(((uuidv4()).toString()).padStart(10, '0'))}`)
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return (`${name}${moment().format('YYYYMMDD')}-${(((uuidv4()).toString()).padStart(10, '0'))}`)
     }
 }

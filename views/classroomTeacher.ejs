@@ -5,14 +5,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
     <title>จัดการห้องเรียน</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
     <link rel="stylesheet" href="/public/css/table.css">
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -25,17 +32,12 @@
 
 <body id="page-top">
     <div id="wrapper">
+        
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
-                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">Sexual learning</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15px;">STD<span style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            <hr class="sidebar-divider">
             <li class="nav-item">
                 <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
@@ -47,27 +49,25 @@
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/newsAdmin/tchr">
+                <a class="nav-link" href="/news/tchr">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
                 <a id="attemptLink" class="nav-link" href="/attempt/list">
-                   <i class="fas fa-chalkboard-user"></i>
-                   <span>คะแนน</span></a>
-             </li>    
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
             <li class="nav-item active">
                 <a id="classroomLink" class="nav-link" href="#">
                     <i class="fas fa-chalkboard-user"></i>
                     <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/theme/teacher">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
-
-
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -89,30 +89,50 @@
                             </div>
                         </div>
                     </form>
+                    <!-- notify -->
+                    <div class="dropdown no-arrow">
+                        <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-bell fa-2x"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                id="notifyCount"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                            <li class="dropdown-item text-muted">No new notifications</li>
+                        </ul>
+                    </div>
+                    <!-- profile -->
                     <ul class="navbar-nav ml-auto">
 
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                              aria-haspopup="true" aria-expanded="false">
-                              <div class="d-flex flex-column align-items-end">
-                                <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
-                                <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                              </div>
-                              <i class="fa fa-user-circle-o fa-2x"></i>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                              <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                แก้ไขโปรไฟล์
-                              </a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                              </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <a class="dropdown-item" href="/change-password">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    จัดการรหัสผ่าน
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
+                                </a>
                             </div>
-                          </li>
+                        </li>
                     </ul>
                 </nav>
                 <div class="container-fluid">
@@ -138,42 +158,51 @@
                                                         <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                         <% } %>
                                                             <div class="card-body">
-                                                                <p class="text-secondary">
-                                                                    CODE: <%= classroom.roomCode %>
-
-                                                                        <h5 class="card-title">
-                                                                            <%= classroom.classroomName %>
-                                                                        </h5>
-                                                                        <% if (teacher) { %>
-                                                                            <p class="card-text">
-                                                                                <%= teacher.firstname %>
-                                                                                    <%= teacher.lastname %>
-                                                                            </p>
-                                                                            <% } else { %>
-                                                                                <p class="card-text">Teacher data not
-                                                                                    available
-                                                                                </p>
-                                                                                <% } %>
+                                                                <div class="pb-3 d-flex align-items-center">
+                                                                    <p class="h4 text-dark font-weight-bold">
+                                                                        <%= classroom.classroomName %>
+                                                                    </p>
+                                                                    <small class="text-muted ml-2">
+                                                                        #<%= classroom.roomCode %>
+                                                                    </small>
+                                                                </div>
+                                                                <% if (teacher) { %>
+                                                                    <p class="card-text">
+                                                                        ครูผู้สอน <%= teacher.firstname %>
+                                                                            <%= teacher.lastname %>
+                                                                    </p>
+                                                                    <p class="card-text">
+                                                                        โรงเรียน<%= teacher.school %>
+                                                                    </p>
+                                                                    <p class="card-text">
+                                                                        จำนวนนักเรียนทั้งหมด: <%= classroom.attemptCount
+                                                                            %> คน
+                                                                    </p>
+                                                                    <% } else { %>
+                                                                        <p class="card-text">Teacher data not
+                                                                            available
+                                                                        </p>
+                                                                        <% } %>
                                                             </div>
-                                                            <div class="card-footer d-flex justify-content-between">
+                                                            <div class="card-footer d-flex justify-content-end">
                                                                 <a href="/classroom/id/<%= classroom._id %>"
                                                                     class="btn btn-secondary">
-                                                                    <i class="fas fa-circle-info"></i> details
+                                                                    <i class="fas fa-user"></i>
                                                                 </a>
-                                                                <button type="button" class="btn btn-primary edit-btn"
+                                                                <button type="button"
+                                                                    class="btn btn-primary edit-btn ml-2"
                                                                     data-toggle="modal"
                                                                     data-target="#editClassroomModal"
                                                                     data-id="<%= classroom._id %>">
-                                                                    <i class="fas fa-pen-square"></i> Edit
+                                                                    <i class="fas fa-pen-square"></i>
                                                                 </button>
-                                                                <a href="#" class="btn btn-danger delete-btn"
+                                                                <a href="#" class="btn btn-danger delete-btn ml-2"
                                                                     data-id="<%= classroom._id %>"
                                                                     data-teacher-id="<%= classroom.teacherId %>">
-                                                                    <i class="fas fa-trash"></i> Delete
+                                                                    <i class="fas fa-trash"></i>
                                                                 </a>
-
-
                                                             </div>
+
                                             </div>
                                         </div>
                                         <% }); %>
@@ -295,6 +324,7 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
+    <script src="/public/js/notification.js"></script>
     <script src="
     https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <script>
@@ -411,43 +441,29 @@
             });
         });
     </script>
-  
-   <script>
-    // Ensure the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', function () {
-       const token = localStorage.getItem('token');
-       const decodedToken = jwtDecode(token); // Decodes the JWT token
 
-       // Assuming userId is a field in your token
-       const userId = decodedToken.userId;
-       if (userId) {
-          // Set the href attribute with the userId
-          const classroomLink = document.getElementById('classroomLink');
-          const attemptLink = document.getElementById('attemptLink');
-          classroomLink.href = `/classroom/teacher/${userId}`;
-          attemptLink.href = `/attempt/list/${userId}`;
-       }
-    });
- </script>
- <script>
-      // Ensure the DOM is fully loaded
-      document.addEventListener('DOMContentLoaded', function () {
-         const token = localStorage.getItem('token');
-         const decodedToken = jwtDecode(token); // Decodes the JWT token
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
 
-         // Assuming userId is a field in your token
-         const userId = decodedToken.userId;
-         if (userId) {
-            // Set the href attribute with the userId
-            const classroomLink = document.getElementById('classroomLink');
-            const attemptLink = document.getElementById('attemptLink');
-            classroomLink.href = `/classroom/teacher/${userId}`;
-            attemptLink.href = `/attempt/list/${userId}`;
-         }
-      });
-   </script>
- <script src="/public/js/profileDetail.js"></script>
- <script src="/public/js/logout.js"></script>
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                const attemptLink = document.getElementById('attemptLink');
+                classroomLink.href = `/classroom/teacher/${userId}`;
+                attemptLink.href = `/attempt/list/${userId}`;
+            }
+
+            // Fetch notifications
+            fetchNotifications(userId);
+        });
+    </script>
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
     <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
     <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 </body>
