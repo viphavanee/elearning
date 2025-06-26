@@ -20,9 +20,20 @@ router.route("/getLessonLog").get(async (req, res) => {
     const { studentId, lessonNum, roomCode } = req.query;
     try {
         let response = await func.getLessonLog({ studentId, lessonNum, roomCode });
-        if (response.status_code === '400') {
-            return res.status(404).json({ data: "lesson log not found" })
+        if(!response.data) {
+            return res.status(404).json({ message: "Lesson log not found" });
         }
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error });
+    }
+});
+router.route("/directory/getLessonLog").get(async (req, res) => {
+    const { studentId, lessonNum, roomCode } = req.query;
+    try {
+        let response = await func.getLessonLog({ studentId, lessonNum, roomCode });
+
         res.status(200).json(response.data);
     } catch (error) {
         console.error(error);

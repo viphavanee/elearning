@@ -4,7 +4,7 @@ const createClassroomAttempt = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
     await client.connect();
-
+    console.log(data)
     const database = client.db("project1");
     const collection = database.collection("classroom_attempt");
     const userCollect = database.collection("users");

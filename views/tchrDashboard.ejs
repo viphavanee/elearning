@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
     <link rel="manifest" href="/public/site.webmanifest">
-    <title>Dasnboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
@@ -27,98 +27,124 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
-        <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<style>
-   /* Style for the column containing the select dropdown */
-.col-md-4 {
-    margin-bottom: 15px;
-}
+    <style>
+        /* Style for the column containing the select dropdown */
+        .col-md-4 {
+            margin-bottom: 15px;
+        }
 
-/* Style the label to make it stand out */
-.form-label {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-    font-size: 1rem;
-    display: block;
-}
+        /* Style the label to make it stand out */
+        .form-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1rem;
+            display: block;
+        }
 
-/* Style the select input field */
-.form-select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    width: 100%;
-    background-color: #fff;
-}
-@media (max-width: 768px) {
-    #preChart, #postChart {
-        height: 100%; /* Adjust height for smaller screens */
-        width: 100%; /* Make charts responsive */
-    }
-    
-}
-@media (max-width: 390px) {
-    #preChart, #postChart {
-        height: 100%; /* Adjust height for smaller screens */
-        width: 100%; /* Make charts responsive */
-    }
-}
+        /* Style the select input field */
+        .form-select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            width: 100%;
+            background-color: #fff;
+        }
 
- 
-</style>
+        @media (max-width: 768px) {
+
+            #preChart,
+            #postChart {
+                height: 100%;
+                /* Adjust height for smaller screens */
+                width: 100%;
+                /* Make charts responsive */
+            }
+
+        }
+
+        @media (max-width: 390px) {
+
+            #preChart,
+            #postChart {
+                height: 100%;
+                /* Adjust height for smaller screens */
+                width: 100%;
+                /* Make charts responsive */
+            }
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -0.75rem;
+            margin-left: -0.75rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 1023px) {
+            .d-flex {
+                display: flex !important;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
                         style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item active">
-                <a class="nav-link" href="/admin/dashboard">
+                <a class="nav-link" href="#" id="dashboardLink">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link" href="/lesson">
+                <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
                     <span>บทเรียน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/quizAdmin">
+                <a class="nav-link" href="/quizAdmin/tchr">
                     <i class="fas fa-book-open"></i>
                     <span>แบบทดสอบ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/news">
+                <a class="nav-link" href="/news/tchr">
                     <i class="fas fa-newspaper"></i>
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/user">
-                    <i class="fas fa-user-group"></i>
-                    <span>จัดการผู้ใช้งาน</span></a>
+                <a id="attemptLink" class="nav-link" href="/attempt/list">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item ">
+                <a id="classroomLink" class="nav-link" href="#">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/theme/admin">
+                <a class="nav-link" href="#" id="progressLink">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>ติดตามผลการเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme/teacher">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/report/admin">
-                    <i class="bi bi-flag-fill"></i>
-                    <span>จัดการรายงาน</span></a>
             </li>
         </ul>
 
@@ -130,7 +156,21 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-
+                    <!-- notify -->
+                    <div class="d-flex justify-content-end w-100">
+                        <div class="dropdown no-arrow">
+                            <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                    id="notifyCount"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                                <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                            </ul>
+                        </div>
+                    </div>
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -144,10 +184,15 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    แก้ไขโปรไฟล์
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    ออกจากระบบ
+                                    Logout
                                 </a>
                             </div>
                         </li>
@@ -161,101 +206,66 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <div class="row">
-                                    <!-- First Column: Student Count -->
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-3">
-                                                    <p class="h2" style="color: #0F52BA;">
-                                                        <%= stdCount %>
-                                                    </p>
-                                                    <p class="h5">จำนวนนักเรียน</p>
-                                                </div>
-                                                <img src="/public/img/std.png" alt="student" />
+                                <!-- First Column: Student Count -->
+                                <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+                                    <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="mr-3">
+                                                <p class="h2" style="color: #0F52BA;">
+                                                    <%= stdCount %>
+                                                </p>
+                                                <p class="h5">จำนวนนักเรียน</p>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Second Column: Teacher Count -->
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-3">
-                                                    <p class="h2" style="color: #0F52BA;">
-                                                        <%= tchrCount %>
-                                                    </p>
-                                                    <p class="h5">จำนวนครู</p>
-                                                </div>
-                                                <img src="/public/img/tchr.png" alt="teacher" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-3">
-                                                    <p class="h2" style="color: #0F52BA;">
-                                                        <%= schoolCount %>
-                                                    </p>
-                                                    <p class="h5">จำนวนโรงเรียน</p>
-                                                </div>
-                                                <img src="/public/img/school.png" alt="teacher" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Third Column: Lesson Count -->
-                                    <div class="col-md-6">
-                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-3">
-                                                    <p class="h2" style="color: #0F52BA;">
-                                                        <%= lessonCount %>
-                                                    </p>
-                                                    <p class="h5">จำนวนบทเรียน</p>
-                                                </div>
-                                                <img src="/public/img/lesson.png" alt="lesson" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Fourth Column: Classroom Count -->
-                                    <div class="col-md-6">
-                                        <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-3">
-                                                    <p class="h2" style="color: #0F52BA">
-                                                        <%= classroomCount %>
-                                                    </p>
-                                                    <p class="h5">จำนวนห้องเรียน</p>
-                                                </div>
-                                                <img src="/public/img/classroom.png" alt="classroom" />
-                                            </div>
+                                            <img src="/public/img/std.png" alt="student" />
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Second Column: Lesson Count -->
+                                <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+                                    <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="mr-3">
+                                                <p class="h2" style="color: #0F52BA;">
+                                                    <%= lessonCount %>
+                                                </p>
+                                                <p class="h5">จำนวนบทเรียน</p>
+                                            </div>
+                                            <img src="/public/img/lesson.png" alt="lesson" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Third Column: Classroom Count -->
+                                <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+                                    <div class="card p-3 shadow-sm bg-light h-100 d-flex justify-content-center">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="mr-3">
+                                                <p class="h2" style="color: #0F52BA;">
+                                                    <%= classroomCount %>
+                                                </p>
+                                                <p class="h5">จำนวนห้องเรียน</p>
+                                            </div>
+                                            <img src="/public/img/classroom.png" alt="classroom" />
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <!-- Pie chart -->
                         <div class="card bg-light shadow-sm p-3 m-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-dark">สรุปผลการสอบ</h6>
+                            <div class="card-header text-center">
+                                <h3 class="fw-bold">สรุปผลการสอบ</h3>
                             </div>
 
                             <!-- Filter Section -->
                             <div class="card-body">
                                 <form id="filterFormPie" class="row g-3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-none">
                                         <label for="teacherSelect" class="form-label">เลือกอาจารย์:</label>
-                                        <select id="teacherSelect" class="form-select" aria-label="Teacher Select">
-                                            <% groupedData.forEach(teacher=> { %>
-                                                <option value="<%= teacher._id %>">
-                                                    <%= teacher.firstname %>
-                                                        <%= teacher.lastname %>
-                                                </option>
-                                                <% }); %>
-                                        </select>
+                                        <input id="teacherSelect" class="form-select" value="<%- teacherId %>"
+                                            aria-label="Teacher Select" />
                                     </div>
 
                                     <div class="col-md-4">
@@ -280,10 +290,10 @@
                             <div class="card-body">
                                 <div class="row justify-content-between">
                                     <div class="col-md-5">
-                                        <div id="preChart"></div>
+                                        <div id="preChart" style="height: 350px;"></div>
                                     </div>
                                     <div class="col-md-5">
-                                        <div id="postChart"></div>
+                                        <div id="postChart" style="height: 350px;"></div>
                                     </div>
                                 </div>
 
@@ -297,23 +307,18 @@
 
                         <!-- Column chart -->
                         <div class="card bg-light shadow-sm p-3 m-3">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-dark">เปรียบเทียบคะแนน</h6>
+                            <div class="card-header text-center">
+                                <h3 class="fw-bold">เปรียบเทียบคะแนน</h3>
                             </div>
 
                             <!-- Filter Section -->
                             <div class="card-body">
                                 <form id="filterFormCol" class="row g-3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-none">
                                         <label for="teacherSelectCol" class="form-label">เลือกอาจารย์:</label>
-                                        <select id="teacherSelectCol" class="form-select" aria-label="Teacher Select">
-                                            <% groupedData.forEach(teacher=> { %>
-                                                <option value="<%= teacher._id %>">
-                                                    <%= teacher.firstname %>
-                                                        <%= teacher.lastname %>
-                                                </option>
-                                                <% }); %>
-                                        </select>
+                                        <input id="teacherSelectCol" class="form-select" value="<%- teacherId %>"
+                                            aria-label="Teacher Select" />
+
                                     </div>
 
                                     <div class="col-md-4">
@@ -351,71 +356,46 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="m-3">
-                            <p class="h5">ผู้ใช้งานใหม่</p>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="userTable" width="100%" cellspacing="0">
-                                    <thead style="background-color:#4e73df; color:white;">
-                                        <tr>
-                                            <th>ชื่อ</th>
-                                            <th>อีเมล</th>
-                                            <th>โรงเรียน</th>
-                                            <th>บทบาท</th>
-                                            <th>สร้างเมื่อ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (latestUser && latestUser.length > 0) { %>
-                                            <% latestUser.forEach(function(user) { %>
-                                                <tr>
-                                                    <td><%= user.firstname %> <%= user.lastname %></td>
-                                                    <td><%= user.email %></td>
-                                                    <td><%= user.school %></td>
-                                                    <td><%= user.role %></td>
-                                                    <td>
-                                                        <%= new Date(user.createDate).toLocaleString('th-TH', {
-                                                            year: 'numeric', month: 'long', day: 'numeric',
-                                                            hour: 'numeric', minute: 'numeric', second: 'numeric',
-                                                            hour12: false }) %>
-                                                    </td>
-                                                </tr>
-                                            <% }); %>
-                                        <% } else { %>
-                                            <tr>
-                                                <td colspan="5">No user available.</td>
-                                            </tr>
-                                        <% } %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
+
                     </div>
 
                 </div>
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
-                        </div>
-                    </div>
-                </footer>
             </div>
-        </div>
-    </div>
 
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+    </div>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/demo/datatables-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/notification.js"></script>
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/public/js/sb-admin-2.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/public/js/demo/datatables-demo.js"></script>
-    <script src="
-    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
 
-    <script src="/public/js/profileDetail.js"></script>
-    <script src="/public/js/adminLogout.js"></script>
+
     <script>
         // Parse data from server-side rendering
         const groupedData = <%- JSON.stringify(groupedData) %>;
@@ -529,30 +509,28 @@
 
         // ฟังก์ชันหาคะแนนต่ำสุด-สูงสุดของ Pre/Post-Test
         function prepareChartColumn(roomCode, lessonNum) {
-    const preAttempts = attempts.filter(item =>
-        item.roomCode === roomCode &&
-        parseInt(item.lessonNum, 10) === parseInt(lessonNum, 10) &&
-        item.attemptType === "pre"
-    );
+            const preAttempts = attempts.filter(item =>
+                item.roomCode === roomCode &&
+                parseInt(item.lessonNum, 10) === parseInt(lessonNum, 10) &&
+                item.attemptType === "pre"
+            );
 
-    const postAttempts = attempts.filter(item =>
-        item.roomCode === roomCode &&
-        parseInt(item.lessonNum, 10) === parseInt(lessonNum, 10) &&
-        item.attemptType === "post"
-    );
+            const postAttempts = attempts.filter(item =>
+                item.roomCode === roomCode &&
+                parseInt(item.lessonNum, 10) === parseInt(lessonNum, 10) &&
+                item.attemptType === "post"
+            );
 
-    const preScores = preAttempts.length ? preAttempts.map(item => item.totalScore) : [0];
-    const postScores = postAttempts.length ? postAttempts.map(item => item.totalScore) : [0];
+            const preScores = preAttempts.length ? preAttempts.map(item => item.totalScore) : [0];
+            const postScores = postAttempts.length ? postAttempts.map(item => item.totalScore) : [0];
 
-    // Calculate average scores
-    const preAvg = preScores.reduce((sum, score) => sum + score, 0) / preScores.length;
-    const postAvg = postScores.reduce((sum, score) => sum + score, 0) / postScores.length;
-
-    return {
-        preAvg: preAvg,
-        postAvg: postAvg
-    };
-}
+            return {
+                preMin: Math.min(...preScores),
+                preMax: Math.max(...preScores),
+                postMin: Math.min(...postScores),
+                postMax: Math.max(...postScores)
+            };
+        }
 
         // ฟังก์ชันสร้าง Pie Chart
         function renderPieChart(chartData, elementId, titleText) {
@@ -571,19 +549,20 @@
 
         // ฟังก์ชันสร้าง Column Chart
         function renderColumnChart(elementId) {
-    const options = {
-        chart: { type: "bar", height: 350 },
-        series: [
-            { name: "ค่าเฉลี่ย", data: [0, 0] }  // Changed "ต่ำสุด" and "สูงสุด" to "ค่าเฉลี่ย"
-        ],
-        labels: ["คะแนนก่อนเรียน", "คะแนนหลังเรียน"],
-        title: { text: "คะแนนเฉลี่ยก่อนและหลังเรียน", align: "center" }  // Updated title
-    };
+            const options = {
+                chart: { type: "bar", height: 350 },
+                series: [
+                    { name: "ต่ำสุด", data: [0, 0] },
+                    { name: "สูงสุด", data: [0, 0] }
+                ],
+                labels: ["คะแนนก่อนเรียน", "คะแนนหลังเรียน"],
+                title: { text: "คะแนนต่ำสุด-สูงสุด", align: "center" }
+            };
 
-    const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
-    chart.render();
-    return chart;
-}
+            const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
+            chart.render();
+            return chart;
+        }
 
         // ฟังก์ชันอัปเดต Pie Chart
         async function updateChart() {
@@ -600,15 +579,16 @@
 
         // ฟังก์ชันอัปเดต Column Chart
         async function updateChartCol() {
-    await fetchStudentCount(classroomSelectCol);
-    const lessonNum = lessonSelectCol.value;
-    if (!lessonNum) return;
+            await fetchStudentCount(classroomSelectCol);
+            const lessonNum = lessonSelectCol.value;
+            if (!lessonNum) return;
 
-    const scoreData = prepareChartColumn(classroomSelectCol.value, lessonNum);
-    columnChart.updateSeries([
-        { name: "ค่าเฉลี่ย", data: [scoreData.preAvg, scoreData.postAvg] }  // Updated to show averages
-    ]);
-}
+            const scoreData = prepareChartColumn(classroomSelectCol.value, lessonNum);
+            columnChart.updateSeries([
+                { name: "ต่ำสุด", data: [scoreData.preMin, scoreData.preMax] },
+                { name: "สูงสุด", data: [scoreData.postMin, scoreData.postMax] }
+            ]);
+        }
 
         // Event Listeners
         teacherSelect.addEventListener("change", () => populateClassrooms(teacherSelect.value, classroomSelect, lessonSelect));
@@ -632,12 +612,39 @@
             }
         });
     </script>
-    <script src="/public/js/adminLogin.js"></script>
-    <script src="/public/js/adminLogout.js"></script>
-    <script src="/public/js/adminRoleCheck.js"></script>
+
+    <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                const attemptLink = document.getElementById('attemptLink');
+                const progressLink = document.getElementById('progressLink');
+                const dashboardLink = document.getElementById('dashboardLink');
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
+                dashboardLink.href = `/teacher/dashboard/${userId}`;
+                progressLink.href = `/progress/${userId}`;
+                classroomLink.href = `/classroom/teacher/${userId}`;
+                attemptLink.href = `/attempt/list/${userId}`;
+            }
+             // Fetch notifications
+             fetchNotifications(userId);
+        });
+    </script>
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+    <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 
 </body>
-
-
 
 </html>

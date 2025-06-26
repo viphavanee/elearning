@@ -10,12 +10,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
   <link rel="manifest" href="/public/site.webmanifest">
-  <title>บทที่ <%= lesson.lessonNum %>
-      <%= lesson.lessonName %>
-  </title>
+  <title><%= news.title %></title>
   <link rel="stylesheet" href="/public/css/form.css">
   <link rel="stylesheet" href="/public/css/table.css">
-  <!-- <link rel="stylesheet" href="/public/css/menu.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
   <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
   <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +24,8 @@
     integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
 
@@ -39,16 +38,24 @@
       margin: 3%;
     }
 
+    #img_container img {
+      width: 40%;
+      margin-top: 3%;
+      margin-bottom: 3%;
+      margin: auto auto;
+      display: block;
+    }
+
     .content {
       margin: 3%;
       font-size: 1rem;
     }
-    
   </style>
 </head>
 
 <body id="page-top">
   <div id="wrapper">
+    
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
           <div class="sidebar-brand-text mx-3" style="font-size: 15px;">STD<span style="font-size: 12px;">s</span>
@@ -56,45 +63,45 @@
       </a>
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-          <a class="nav-link" href="#" id="dashboardLink">
-              <i class="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span></a>
-      </li>
-      <li class="nav-item active">
-          <a class="nav-link" href="/lesson/tchr">
-              <i class="fas fa-book"></i>
-              <span>บทเรียน</span></a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="/quizAdmin/tchr">
-              <i class="fas fa-book-open"></i>
-              <span>แบบทดสอบ</span></a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="/news/tchr">
-              <i class="fas fa-newspaper"></i>
-              <span>บทความ</span></a>
-      </li>
-      <li class="nav-item">
-          <a id="attemptLink" class="nav-link" href="/attempt/list">
-              <i class="fa-solid fa-chart-simple"></i>
-              <span>คะแนน</span></a>
-      </li>
-      <li class="nav-item">
-          <a id="classroomLink" class="nav-link" href="#">
-              <i class="fas fa-chalkboard-user"></i>
-              <span>จัดการห้องเรียน</span></a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="#" id="progressLink">
-              <i class="fa-solid fa-list-check"></i>
-              <span>ติดตามผลการเรียน</span></a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="/theme/teacher">
-              <i class="fas fa-question"></i>
-              <span>กระทู้ถาม-ตอบ</span></a>
-      </li>
+        <a class="nav-link" href="#" id="dashboardLink">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/lesson/tchr">
+            <i class="fas fa-book"></i>
+            <span>บทเรียน</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/quizAdmin/tchr">
+            <i class="fas fa-book-open"></i>
+            <span>แบบทดสอบ</span></a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/news/tchr">
+            <i class="fas fa-newspaper"></i>
+            <span>บทความ</span></a>
+    </li>
+    <li class="nav-item">
+        <a id="attemptLink" class="nav-link" href="/attempt/list">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>คะแนน</span></a>
+    </li>
+    <li class="nav-item ">
+        <a id="classroomLink" class="nav-link" href="#">
+            <i class="fas fa-chalkboard-user"></i>
+            <span>จัดการห้องเรียน</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" id="progressLink">
+            <i class="fa-solid fa-list-check"></i>
+            <span>ติดตามผลการเรียน</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/theme/teacher">
+            <i class="fas fa-question"></i>
+            <span>กระทู้ถาม-ตอบ</span></a>
+    </li>
   </ul>
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
@@ -105,21 +112,21 @@
                 </button>
             </form>
 
-        <!-- notify -->
-        <div class="d-flex justify-content-end w-100">
-            <div class="dropdown no-arrow">
-                <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
-                        id="notifyCount"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
-                    <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
-                </ul>
+            <!-- notify -->
+            <div class="d-flex justify-content-end w-100">
+                <div class="dropdown no-arrow">
+                    <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                            id="notifyCount"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                        <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                    </ul>
+                </div>
             </div>
-        </div>
             <!-- profile -->
             <ul class="navbar-nav ml-auto">
 
@@ -154,90 +161,73 @@
             </ul>
         </nav>
       </div>
-      <div class="container">
-        <div class="h1 pt-5 text-center">
+      <div class="container mt-5">
+        <div class="text-1" style="text-align: center;">
           <h1>
-            บทที่ <%= lesson.lessonNum %>
-              <%= lesson.lessonName %>
+            <%= news.title %>
           </h1>
         </div>
-        <div class="container mt-5">
-          <div class="embed-responsive embed-responsive-16by9">
-            <% if (lesson && lesson.vdo_url) { %>
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/<%=
-                lesson.vdo_url.includes('youtu.be') && lesson.vdo_url.includes('si=') 
-                  ? lesson.vdo_url.split('/')[3].split('?')[0]
-                  : lesson.vdo_url.includes('youtube.com/watch?v=') 
-                    ? lesson.vdo_url.split('v=')[1].split('&')[0]
-                    : lesson.vdo_url.includes('youtu.be') 
-                      ? lesson.vdo_url.split('/')[3]
-                      : ''
-              %>" title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              <% } else { %>
-                <p>Video URL is not available</p>
-                <% } %>
-          </div>
+        <div id="img_container">
+          <img src="data:image/jpeg;base64,<%= news.image %>" alt="รูปข่าว">
         </div>
-
+        <div class="text-1" style="text-align: center;margin-top: 10px;">
+          <p>วันที่โพสต์ข่าว : <%= news.date %>
+          </p>
+        </div>
         <div class="content">
           <p>
-            <%- lesson.content %>
+            <%- news.content %>
           </p>
         </div>
       </div>
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
-            </div>
-        </div>
-    </footer>
       <script src="
-      https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
       <script src="/public/js/script.js"></script>
+      <script src="/public/js/tinymceInit.js"></script>
+      <script src="/public/js/getdata.js"></script>
       <script src="/public/vendor/jquery/jquery.min.js"></script>
       <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
       <script src="/public/js/sb-admin-2.min.js"></script>
+   <script src="/public/js/notification.js"></script>
+   <script src="/public/vendor/jquery/jquery.min.js"></script>
+   <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+   <script src="/public/js/sb-admin-2.js"></script>
+   <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+   <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
       <script src="/public/js/profileDetail.js"></script>
-      <script src="/public/js/notification.js"></script>
-      <script src="/public/js/teacherRoleCheck.js"></script>
-      <script src="/public/js/tokenChecked.js"></script>
-      <script src="/public/js/logout.js"></script>
-      <script src="
-   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
       <script>
         // Ensure the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
-          const token = localStorage.getItem('token');
-          const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
 
-          // Assuming userId is a field in your token
-          const userId = decodedToken.userId;
-          if (userId) {
-            // Set the href attribute with the userId
-            const classroomLink = document.getElementById('classroomLink');
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
                 const attemptLink = document.getElementById('attemptLink');
                 const progressLink = document.getElementById('progressLink');
-                const profileLink = document.getElementById('profile-link');
                 const dashboardLink = document.getElementById('dashboardLink');
+                const profileLink = document.getElementById('profile-link');
                 profileLink.href = `/profile/${userId}`;
+                dashboardLink.href = `/teacher/dashboard/${userId}`;
                 progressLink.href = `/progress/${userId}`;
                 classroomLink.href = `/classroom/teacher/${userId}`;
                 attemptLink.href = `/attempt/list/${userId}`;
-                dashboardLink.href = `/teacher/dashboard/${userId}`;
-          }
-           // Fetch notifications
-           fetchNotifications(userId);
-        });
-      </script>
+            }
 
-      <!-- end get userId -->
-      <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
-      <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
-      <script src="/public/js/logout.js"></script>
+
+            // Fetch notifications
+            fetchNotifications(userId);
+        });
+    </script>
+    <script src="/public/js/logout.js"></script>
+    <script src="/public/js/teacherRoleCheck.js"></script><!-- Check teacher role -->
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+      
 </body>
 
 </html>

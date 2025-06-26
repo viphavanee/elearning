@@ -1,5 +1,6 @@
 async function fetchNotifications(userId) {
   try {
+    console.log("work!!")
     // Fetch notifications from the endpoint
     const response = await fetch(`/notification/${userId}`);
 
@@ -41,7 +42,7 @@ async function fetchNotifications(userId) {
 
           // Check if the notification is unread
           const isNew = !notification.isRead;
-          const newSymbol = isNew ? '<span class="badge bg-danger text-white ms-2 style="width: 14px; height: 14px; border-radius: 50%;"></span>' : '';
+          const newSymbol = isNew ? '<span class="badge bg-danger text-white ms-2 style="width: 14px; height: 14px; border-radius: 50%;">ใหม่</span>' : '';
 
           item.innerHTML = `
             <a class="pb-2 text-decoration-none text-dark" href="/comment/getCommentByThemeId/${notification.themeId}">

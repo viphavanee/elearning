@@ -28,6 +28,177 @@
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+  <style>
+    .container-fluid {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .card-header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .form-row {
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+    .card-body input[type="text"],
+    .card-body input[type="date"],
+    .card-body textarea,
+    .card-body input[type="file"] {
+      border: 1px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      width: 100%;
+      height: 3rem;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    img.img-fluid {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    /* Centering the button */
+    .submit-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      /* optional for spacing */
+    }
+
+    button {
+      padding: 12px 15px;
+      font-size: 18px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: auto;
+      /* Let the button adjust based on content width */
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    #butEditL {
+      padding: 8px 10px;
+            font-size: 18px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 30%;
+            cursor: pointer;
+    }
+    /* Submit Button */
+    .submit-btn input[type="submit"] {
+      padding: 8px 10px;
+      font-size: 18px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 30%;
+      cursor: pointer;
+    }
+
+
+    /* Responsive Design */
+
+    /* Mobile Devices */
+    @media (max-width: 767px) {
+      .card {
+        margin: 10px;
+      }
+
+      .form-row {
+        display: block;
+      }
+
+      button {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .submit-btn input[type="submit"] {
+        width: 50%;
+      }
+      #butEditL {
+            width: 100%;    
+    }
+
+    }
+
+    /* Tablets */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      button {
+        width: 100%;
+      }
+      #butEditL {
+            width: 50%;    
+    }
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -83,19 +254,8 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
 
+          <ul class="navbar-nav ml-auto">
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -107,11 +267,6 @@
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -120,59 +275,95 @@
             </li>
           </ul>
         </nav>
-
+        <h1 class="headL" style="text-align: center; color: #333; margin-top: 2rem; ">แก้ไขบทความ</h1>
         <div class="container-fluid">
-          <form action="/news/edit/<%= editNews._id %>" method="POST" enctype="multipart/form-data">
-            <h2>แก้ไขบทความ</h2>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">ชื่อบทความ</label>
-                <input type="text" class="form-control" class="bx" name="newtitleName" placeholder="ชื่อบทความ"
-                  value="<%= editNews.title %>">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">เนื้อหา</label>
-                <textarea id="my-expressjs-tinymce-app" name="newContent"
-                  value="<%= editNews.content %>"><%= editNews.content %></textarea><br />
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                  <label for="inputEmail4">วันที่ข่าวโพสต์</label><br>
-                  <input type="date" id="myDate" name="newdate" value="<%= editNews.date %>">
+          <div class="card">
+            <div class="card-body">
+              <form action="/news/edit/<%= editNews._id %>" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="name">ชื่อบทความ</label>
+                    <input type="text" class="form-control" name="newtitleName" placeholder="ชื่อบทความ"
+                      value="<%= editNews.title %>">
+                  </div>
                 </div>
-              </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">เนื้อหา</label>
+                    <textarea id="my-expressjs-tinymce-app" name="newContent"><%= editNews.content %></textarea><br />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">วันที่ข่าวโพสต์</label><br>
+                    <input type="date" id="myDate" name="newdate" value="<%= editNews.date %>">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">รูปภาพประกอบ</label><br>
+                    <% if (editNews.image) { %>
+                      <img src="data:image/jpeg;base64,<%= editNews.image %>" alt="Image" class="img-fluid mb-3">
+                      <% } %>
+                        <input type="file" id="image" name="newImage" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary" id="butEditL">บันทึก</button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">รูปภาพประกอบ</label><br>
-                <% if (editNews.image) { %>
-                  <img src="data:image/jpeg;base64,<%= editNews.image %>" alt="Image" class="img-fluid">
-                  <% } %> <br>
-                    <input type="file" id="image" name="newImage" />
-              </div>
-            </div>
-            <div class="form-group submit-btn">
-              <button type="submit" class="btn btn-primary" id="butEditL">บันทึก</button>
-            </div>
-          </form>
+          </div>
         </div>
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   </div>
   <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
   <script src="/public/js/tinymceInit.js"></script>
   <script src="/public/js/script.js"></script>
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/public/js/sb-admin-2.min.js"></script>
+  <script src="/public/js/getdata.js"></script>
   <script src="
-   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
-
+                        https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+  <script src="/public/js/script.js"></script>
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/public/js/sb-admin-2.min.js"></script>
+  <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="/public/js/datatables-demo.js"></script>
   <script src="/public/js/profileDetail.js"></script>
+  <script src="/public/js/adminLogin.js"></script>
   <script src="/public/js/adminLogout.js"></script>
+  <script src="/public/js/adminRoleCheck.js"></script>
+  <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+  <script src="/public/js/tinymceInit.js"></script>
+  <script src="/public/js/sb-admin-2.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/public/js/demo/datatables-demo.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- This should be loaded first -->
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+  
 </body>
 
 </html>

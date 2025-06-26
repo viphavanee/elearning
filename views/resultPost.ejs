@@ -32,40 +32,51 @@
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @media (max-width: 767px) {
+    #notifyCount.translate-middle {
+        transform: translate(-600%, 60%) !important;
+    }
+}
+
+
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
                         style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/lesson/std">
-                    <i class="fa-solid fa-house"></i>
-                    <span>หน้าแรก</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/newsStd">
-                    <i class="fas fa-newspaper"></i>
-                    <span>บทความ</span>
-                </a>
+            <li class="nav-item ">
+                <a class="nav-link" href="#" id="classroomLink"> <!-- Copy 1 -->
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>ห้องเรียน</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" id="scoreLink" href="/scoreStd">
-                    <i class="fas fa-chalkboard-user"></i>
-                    <span>คะแนน</span>
-                </a>
+                <a class="nav-link" href="#" id="lessonLink">
+                    <i class="fa-solid fa-book"></i>
+                    <span>บทเรียน</span></a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item">
+                <a class="nav-link" href="/news/std">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="scorelink">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>คะแนน</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/theme">
                     <i class="fas fa-question"></i>
-                    <span>กระทู้ถาม-ตอบ</span>
-                </a>
+                    <span>กระทู้ถาม-ตอบ</span></a>
             </li>
+
         </ul>
 
         <div id="content-wrapper" class="d-flex flex-column">
@@ -76,6 +87,23 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
+
+                    <!-- notify -->
+                    <div class="d-flex justify-content-end w-100">
+                        <div class="dropdown no-arrow">
+                            <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                    id="notifyCount"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                                <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -89,8 +117,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" id="profileLink">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <a class="dropdown-item" href="/change-password">
@@ -101,22 +129,21 @@
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    ออกจากระบบ
                                 </a>
                             </div>
                         </li>
                     </ul>
                 </nav>
-
                 <div class="container-fluid py-3">
                     <div class="card">
-                        <div class="card-header">
-                            <h2>ผลการทำแบบทดสอบบทที่ <%= lesson.lessonNum %> - <%= lesson.lessonName %>
-                            </h2>
+                        <div class="card-header" style="background-color:#7492ed; color:white;">
+                            <h4>ผลการทำแบบทดสอบบทที่ <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                            </h4>
                         </div>
                         <div class="d-flex justify-content-center">
                             <div class="card m-3 p-3 w-100">
-                                <h4>แบบทดสอบก่อนเรียน (Pre-test)</h4>
+                                <h4 style="color: #585858;">แบบทดสอบก่อนเรียน (Pre-test)</h4>
                                 <div class="d-flex mb-2">
                                     <p class="mr-2">จำนวนข้อทั้งหมด <%= fullScore %> ข้อ</p>
                                     <p>วันที่สอบ <%= result[0]?.createAt.toLocaleDateString("th-TH", { day: '2-digit' ,
@@ -139,7 +166,7 @@
                             </div>
 
                             <div class="card m-3 p-3 w-100">
-                                <h4>แบบทดสอบหลังเรียน (Post-test)</h4>
+                                <h4 style="color: #585858;">แบบทดสอบหลังเรียน (Post-test)</h4>
                                 <div class="d-flex mb-2">
                                     <p class="mr-2">จำนวนข้อทั้งหมด <%= fullScore %> ข้อ</p>
                                     <p>วันที่สอบ <%= result[1]?.createAt.toLocaleDateString("th-TH", { day: '2-digit' ,
@@ -172,6 +199,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/js/notification.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/logout.js"></script>
+
+    <script src="/public/js/studentRoleCheck.js"></script>
+    <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
@@ -188,6 +227,36 @@
             if (lessonId) {
                 document.getElementById('back-btn').href = `/lesson/std/${lessonId}/directory`;
             }
+        });
+    </script>
+    <script>
+        // Ensure the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token); // Decodes the JWT token
+            const classroomId = decodedToken.classroomId;
+            // Assuming userId is a field in your token
+            const userId = decodedToken.userId;
+            if (userId) {
+                // Set the href attribute with the userId
+                const classroomLink = document.getElementById('classroomLink');
+                classroomLink.href = `/classroom/std/${userId}`;
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
+                const scorelink = document.getElementById('scorelink');
+                scorelink.href = `/attempt/score/${userId}`;
+            }
+
+            if (classroomId) {
+                const lessonLink = document.getElementById('lessonLink');
+                lessonLink.href = `/lesson/std/${classroomId}`;
+            }
+            // if (userId && classroomId) {
+            //     const quitLink = document.getElementById('quit-link');
+            //     quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
+            // }
+             // Fetch notifications
+             fetchNotifications(userId);
         });
     </script>
 </body>

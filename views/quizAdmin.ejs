@@ -30,6 +30,79 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+  <style>
+    /* Modal Styles */
+    .modal-content {
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .modal-header {
+      background-color: #4e73df;
+      color: white;
+      border-radius: 10px 10px 0 0;
+      padding: 15px;
+      font-size: 18px;
+    }
+
+    .card-header {
+      background-color: #4e73df !important;
+      color: white !important;
+      padding: 15px;
+      border-radius: 8px 8px 0 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .modal-title {
+      font-weight: bold;
+    }
+
+    .close {
+      color: white;
+      font-size: 1.5rem;
+      padding: 0;
+    }
+
+    .modal-body {
+      padding: 20px;
+      color: #333;
+    }
+
+    .modal-footer {
+      padding: 10px;
+      text-align: right;
+    }
+
+    /* Button Styles */
+    .btn-primary,
+    .btn-secondary {
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+    }
+
+    .btn-primary {
+      border: none;
+    }
+
+    select#select-option {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    option {
+      padding: 50px;
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -56,7 +129,7 @@
           <i class="fas fa-book-open"></i>
           <span>แบบทดสอบ</span></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item ">
         <a class="nav-link" href="/news">
           <i class="fas fa-newspaper"></i>
           <span>บทความ</span></a>
@@ -85,19 +158,8 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
 
+          <ul class="navbar-nav ml-auto">
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -109,11 +171,6 @@
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -122,238 +179,259 @@
             </li>
           </ul>
         </nav>
-        <div class="container-fluid">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">จัดการแบบทดสอบ</h6>
-            </div>
-            <Card></Card>
-            <div class="card-body">
-              <div class="table-responsive">
-                <button class="btn btn-primary" id="btnCreate" data-toggle="modal"
-                  data-target="#createQuizModal">เพิ่มแบบทดสอบ</button>
-                <!-- <a class="btn btn-primary" href="/quizAdmin/createQuiz" id="btnCreate" >เพิ่มแบบทดสอบ</a> -->
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>บทที่</th>
-                      <th>ชื่อแบบทดสอบ</th>
-                      <th>จำนวนคำถาม</th>
-                      <th>เวลา(นาที)</th>
-                      <th>คะแนน</th>
-                      <th>จัดการ</th>
-                      <th>แก้ไข</th>
-                      <th>ลบ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (quiz && quiz.length> 0) { %><% quiz.forEach(function(quiz) { %>
-                        <tr>
-                          <td>
-                            <%= quiz.lessonId %>
-                          </td>
-                          <td>
-                            <%= quiz.quizName %>
-                          </td>
-                          <td>
-                            <%= quiz.numberOfQuestions %>
-                          </td>
-                          <td>
-                            <%= quiz.timeInMinutes %>
-                          </td>
-                          <td>
-                            <%= quiz.score %>
-                          </td>
-                          <td><a href="/question/<%= quiz._id %>"><i class="fas fa-eye" id="view"></i></i></i></a>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-link edit-btn" data-toggle="modal"
-                              data-target="#editQuizModal" data-id="<%= quiz._id %>">
-                              <i class="fas fa-pen-square"></i>
-                            </button>
-                          </td>
-                          <td><a href="/quizAdmin/delete/<%= quiz._id %>" class="delete-link"><i class="fas fa-trash"
-                                id="delete"></i></a>
-                          </td>
-                        </tr>
-                        <% }); %>
-                          <% } else { %>
-                            <tr>
-                              <td colspan="4">No quiz available.</td>
-                            </tr>
-                            <% } %>
-                  </tbody>
-                </table>
-              </div>
+      </div>
+      <div class="container-fluid">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold">จัดการแบบทดสอบ</h6>
+          </div>
+          <Card></Card>
+          <div class="card-body">
+            <div class="table-responsive">
+              <button class="btn btn-primary" id="btnCreate" data-toggle="modal" data-target="#createQuizModal"
+                style="background-color: #4e73df; color: white;">เพิ่มแบบทดสอบ</button>
+              <!-- <a class="btn btn-primary" href="/quizAdmin/createQuiz" id="btnCreate" >เพิ่มแบบทดสอบ</a> -->
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>บทที่</th>
+                    <th>ชื่อแบบทดสอบ</th>
+                    <th>จำนวนคำถาม</th>
+                    <th>เวลา(นาที)</th>
+                    <th>คะแนน</th>
+                    <th>เพิ่มคำถาม</th>
+                    <th>แก้ไข</th>
+                    <th>ลบ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (quiz && quiz.length> 0) { %><% quiz.forEach(function(quiz) { %>
+                      <tr>
+                        <td>
+                          <%= quiz.lessonId %>
+                        </td>
+                        <td>
+                          <%= quiz.quizName %>
+                        </td>
+                        <td>
+                          <%= quiz.numberOfQuestions %>
+                        </td>
+                        <td>
+                          <%= quiz.timeInMinutes %>
+                        </td>
+                        <td>
+                          <%= quiz.score %>
+                        </td>
+                        <td><a href="/question/<%= quiz._id %>"><i class="fa-solid fa-file-pen"></class= id="view"
+                                style="font-size: 18px; margin-top: 5px;"></i></i></i></a>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-link edit-btn" data-toggle="modal"
+                            data-target="#editQuizModal" data-id="<%= quiz._id %> ">
+                            <i class="fas fa-pen-square" style="font-size: 18px;"></i>
+                          </button>
+                        </td>
+                        <td><a href="/quizAdmin/delete/<%= quiz._id %>" class="delete-link"><i class="fas fa-trash"
+                              id="delete"></i></a>
+                        </td>
+                      </tr>
+                      <% }); %>
+                        <% } else { %>
+                          <tr>
+                            <td colspan="4">No quiz available.</td>
+                          </tr>
+                          <% } %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="modal fade" id="createQuizModal" tabindex="-1" role="dialog" aria-labelledby="createQuizModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="createQuizModalLabel">เพิ่มแบบทดสอบ</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form id="createQuizForm" action="/quizAdmin/createQuiz" method="POST" style="margin: 0; width: 100%;">
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label for="lessonNum">บทที่</label>
-                    <select id="select-option" name="lessonId">
-                      <% lessons.forEach((lesson)=> { %>
-                        <option value="<%= lesson.lessonNum %>">
-                          <%= lesson.lessonNum %> - <%= lesson.lessonName %>
-                        </option>
-                        <% }); %>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="quizName">ชื่อแบบทดสอบ</label>
-                    <input type="text" name="quizName" class="form-control" placeholder="ชื่อแบบทดสอบ" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="numberOfQuestions">จำนวนคำถาม</label>
-                    <input type="number" name="numberOfQuestions" class="form-control" placeholder="จำนวนคำถาม"
-                      required>
-                  </div>
-                  <div class="form-group">
-                    <label for="timeInMinutes">เวลา (นาที)</label>
-                    <input type="number" name="timeInMinutes" class="form-control" placeholder="เวลา" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="score">คะแนน</label>
-                    <input type="number" name="score" class="form-control" placeholder="คะแนน" required>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                  <button type="submit" name="submit" class="btn btn-primary">เพิ่มแบบทดสอบ</button>
-                </div>
-              </form>
-
+      <!-- Create Modal -->
+      <div class="modal fade" id="createQuizModal" tabindex="-1" role="dialog" aria-labelledby="createQuizModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createQuizModalLabel">เพิ่มแบบทดสอบ</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <form id="createQuizForm" action="/quizAdmin/createQuiz" method="POST" style="margin: 0; width: 100%;">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="lessonNum">บทที่</label>
+                  <select id="select-option" name="lessonId">
+                    <% lessons.forEach((lesson)=> { %>
+                      <option value="<%= lesson.lessonNum %>">
+                        <%= lesson.lessonNum %> - <%= lesson.lessonName %>
+                      </option>
+                      <% }); %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="quizName">ชื่อแบบทดสอบ</label>
+                  <input type="text" name="quizName" id="quizName" class="form-control" placeholder="ชื่อแบบทดสอบ"
+                    required>
+                </div>
+                <div class="form-group">
+                  <label for="numberOfQuestions">จำนวนคำถาม</label>
+                  <input type="number" name="numberOfQuestions" class="form-control" placeholder="จำนวนคำถาม" required>
+                </div>
+                <div class="form-group">
+                  <label for="timeInMinutes">เวลา (นาที)</label>
+                  <input type="number" name="timeInMinutes" class="form-control" placeholder="เวลา" required>
+                </div>
+                <div class="form-group">
+                  <label for="score">คะแนน</label>
+                  <input type="number" name="score" class="form-control" placeholder="คะแนน" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                <button type="submit" name="submit" class="btn btn-primary">เพิ่มแบบทดสอบ</button>
+              </div>
+            </form>
+
           </div>
         </div>
+      </div>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+          </div>
+        </div>
+      </footer>
 
 
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            const editButtons = document.querySelectorAll('.edit-btn');
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const editButtons = document.querySelectorAll('.edit-btn');
 
-            editButtons.forEach(button => {
-              button.addEventListener('click', async function () {
-                const quizId = this.getAttribute('data-id');
+          editButtons.forEach(button => {
+            button.addEventListener('click', async function () {
+              const quizId = this.getAttribute('data-id');
 
-                try {
-                  const response = await fetch(`/quizAdmin/edit/${quizId}`);
-                  const quiz = await response.json();
-                  const editQuiz = quiz.data;
+              try {
+                const response = await fetch(`/quizAdmin/edit/${quizId}`);
+                const quiz = await response.json();
+                const editQuiz = quiz.data;
 
-                  document.querySelector('#editQuizModal input[name="newlessonId"]').value = editQuiz.lessonId;
-                  document.querySelector('#editQuizModal input[name="newquizName"]').value = editQuiz.quizName;
-                  document.querySelector('#editQuizModal input[name="newnumberOfQuestions"]').value = editQuiz.numberOfQuestions;
-                  document.querySelector('#editQuizModal input[name="newtimeInMinutes"]').value = editQuiz.timeInMinutes;
-                  document.querySelector('#editQuizModal input[name="newscore"]').value = editQuiz.score;
-                  document.querySelector('#editQuizModal input[name="quizId"]').value = editQuiz.quizId;
-                  const editQuestionForm = document.querySelector('#editQuestionForm');
-                  if (editQuestionForm) {
-                    editQuestionForm.action = `/quizAdmin/edit/${quizId}`;
-                  }
-                } catch (error) {
-                  console.error('Error fetching quiz data:', error);
+                document.querySelector('#editQuizModal input[name="newlessonId"]').value = editQuiz.lessonId;
+                document.querySelector('#editQuizModal input[name="newquizName"]').value = editQuiz.quizName;
+                document.querySelector('#editQuizModal input[name="newnumberOfQuestions"]').value = editQuiz.numberOfQuestions;
+                document.querySelector('#editQuizModal input[name="newtimeInMinutes"]').value = editQuiz.timeInMinutes;
+                document.querySelector('#editQuizModal input[name="newscore"]').value = editQuiz.score;
+                document.querySelector('#editQuizModal input[name="quizId"]').value = editQuiz.quizId;
+                const editQuestionForm = document.querySelector('#editQuestionForm');
+                if (editQuestionForm) {
+                  editQuestionForm.action = `/quizAdmin/edit/${quizId}`;
+                }
+              } catch (error) {
+                console.error('Error fetching quiz data:', error);
+              }
+            });
+          });
+        });
+      </script>
+
+      <!-- Edit Modal -->
+      <div class="modal fade" id="editQuizModal" tabindex="-1" role="dialog" aria-labelledby="editQuizModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editQuizModalLabel">แก้ไขแบบทดสอบ</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form id="editQuestionForm" action="" method="POST" style="margin: 0; width: 100%;">
+              <div class="modal-body">
+
+                <div class="form-group">
+                  <label>บทที่:</label>
+                  <input type="text" name="newlessonId" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>ชื่อแบบทดสอบ:</label>
+                  <input type="text" name="newquizName" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>จำนวนคำถาม:</label>
+                  <input type="number" name="newnumberOfQuestions" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>เวลา(นาที):</label>
+                  <input type="number" name="newtimeInMinutes" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>คะแนน:</label>
+                  <input type="number" name="newscore" class="form-control">
+                </div>
+              </div>
+              <input type="hidden" id="quizId" name="quizId">
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                <button type="submit" name="submit" class="btn btn-primary">บันทึก</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+      <script src="/public/js/script.js"></script>
+      <script src="/public/vendor/jquery/jquery.min.js"></script>
+      <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/public/js/sb-admin-2.js"></script>
+      <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+      <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+      <script src="/public/js/datatables-demo.js"></script>
+
+      <script src="/public/js/profileDetail.js"></script>
+      <script src="/public/js/adminLogout.js"></script>
+      <script type="application/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+          const deleteLinks = document.querySelectorAll(".delete-link");
+
+          deleteLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+              event.preventDefault();
+              const href = this.getAttribute("href");
+
+              Swal.fire({
+                title: 'ต้องการลบแบบทดสอบนี้ใช่หรือไม่?',
+                text: 'ข้อมูลที่เกี่ยวข้องกับแบบทดสอบนี้จะถูกลบด้วย เช่น คำถามของแบบทดสอบ',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = href;
                 }
               });
             });
           });
-        </script>
-
-        <div class="modal fade" id="editQuizModal" tabindex="-1" role="dialog" aria-labelledby="editQuizModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="editQuizModalLabel">แก้ไขแบบทดสอบ</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form id="editQuestionForm" action="" method="POST" style="margin: 0; width: 100%;">
-                <div class="modal-body">
-
-                  <div class="form-group">
-                    <label>บทที่:</label>
-                    <input type="text" name="newlessonId" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>ชื่อแบบทดสอบ:</label>
-                    <input type="text" name="newquizName" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>จำนวนคำถาม:</label>
-                    <input type="number" name="newnumberOfQuestions" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>เวลา(นาที):</label>
-                    <input type="number" name="newtimeInMinutes" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>คะแนน:</label>
-                    <input type="number" name="newscore" class="form-control">
-                  </div>
-                </div>
-                <input type="hidden" id="quizId" name="quizId">
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                  <button type="submit" name="submit" class="btn btn-primary">บันทึก</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <script src="
-   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
-        <script src="/public/js/script.js"></script>
-        <script src="/public/vendor/jquery/jquery.min.js"></script>
-        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="/public/js/sb-admin-2.min.js"></script>
-        <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="/public/js/datatables-demo.js"></script>
-
-        <script src="/public/js/profileDetail.js"></script>
-        <script src="/public/js/adminLogout.js"></script>
-        <script type="application/javascript">
-          document.addEventListener("DOMContentLoaded", function () {
-            const deleteLinks = document.querySelectorAll(".delete-link");
-
-            deleteLinks.forEach(link => {
-              link.addEventListener("click", function (event) {
-                event.preventDefault();
-                const href = this.getAttribute("href");
-
-                Swal.fire({
-                  title: 'ต้องการลบแบบทดสอบนี้ใช่หรือไม่?',
-                  text: 'ข้อมูลที่เกี่ยวข้องกับแบบทดสอบนี้จะถูกลบด้วย เช่น คำถามของแบบทดสอบ',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'ใช่, ลบเลย!',
-                  cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.href = href;
-                  }
-                });
-              });
+          const quizName = document.getElementById("quizName");
+          if (quizName.value.includes(" ")) {
+            Swal.fire({
+              icon: "warning",
+              title: "ชื่อแบบทดสอบของคุณมีช่องว่าง",
+              text: "ข้อมูลของคุณมีช่องว่างโปรดตรวจสอบข้อมูล.",
             });
-          });
-        </script>
+            quizName.focus();
+            return; // Stop form submission if there is any space
+          }
+        });
+      </script>
 
 </body>
 

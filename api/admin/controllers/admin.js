@@ -62,7 +62,17 @@ router.route("/dashboard").get(async (req, res) => {
     const getLatestUser = await Ufunc.getLastFiveUsers();
     const latestUser = getLatestUser.data;
 
-    console.log(attemptWithLessonNum);
+    const teachers = getTchr.data;
+    const classrooms = getClassroom.data;
+
+    const groupedData = teachers.map(teacher => {
+      return {
+        ...teacher,
+        classrooms: classrooms.filter(classroom => classroom.teacherId === teacher._id.toString()),
+      };
+    });
+
+
     // Render adminDashboard view and pass the retrieved data
     res.render("adminDashboard", {
       stdCount,
@@ -71,6 +81,7 @@ router.route("/dashboard").get(async (req, res) => {
       classroomCount,
       latestUser,  // List of the latest users
       schoolCount, // School count data
+      groupedData,
       attempts: attemptWithLessonNum,
       lesson: getLesson.data,
     });

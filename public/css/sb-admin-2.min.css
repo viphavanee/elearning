@@ -7214,10 +7214,7 @@ button.bg-dark:hover {
 .p-5 {
   padding: 3rem !important;
 }
-.pt-5,
-.py-5 {
-  padding-top: 3rem !important;
-}
+
 .pr-5,
 .px-5 {
   padding-right: 3rem !important;
@@ -9612,7 +9609,7 @@ a:focus {
 }
 @media (min-width: 768px) {
   .sidebar {
-    width: 14rem !important;
+    width: 15rem !important;
   }
   .sidebar .nav-item .collapse {
     position: relative;
@@ -10320,7 +10317,7 @@ form.user .btn-user {
   animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 footer.sticky-footer {
-  padding: 2rem 0;
+  padding: 30px;
   flex-shrink: 0;
 }
 footer.sticky-footer .copyright {

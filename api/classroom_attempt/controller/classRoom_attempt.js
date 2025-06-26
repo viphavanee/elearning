@@ -7,19 +7,24 @@ const Ufunc = require("../../user/function/user");
 
 router.route("/create").post(async (req, res) => {
   try {
+    const classroom = await Cfunc.getByRoomCode({roomCode: req.body.roomCode});
+
+    if(!classroom.data){
+      return res.status(404).json({message: "Classroom not found"});
+    }
 
     const response = await func.createClassroomAttempt(req.body);
-    const classroom = await Cfunc.getByRoomCode({roomCode: req.body.roomCode});
     const payload = {
       userId: req.body.studentId,
       email: req.body.email,
       role: req.body.role,
       firstname: req.body.firstname,
-      classroomId: classroom.data._id
+      classroomId: classroom.data._id,
+      roomCode: classroom.data.roomCode
     }
     const newToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
 
-    res.json({studentId: req.body.studentId, newToken});
+    res.status(200).json({studentId: req.body.studentId, newToken});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });
@@ -67,13 +72,18 @@ router.route("/delete/:studentId/:roomCode/:classId").get(async (req, res) => {
 });
 router.route("/std/delete/:studentId/:classroomId").get(async (req, res) => {
   const { studentId, classroomId } = req.params;
-
   try {
     const classroom = await Cfunc.getClassroomById({id: classroomId})
     let response = await func.softDelete({ studentId: studentId, roomCode: classroom.data.roomCode });
     const updateUser = await Ufunc.updateIsJoined({id: studentId})
-    res.redirect(`/classroom/std/${studentId}`);
-
+    const payload = {
+      userId: updateUser.data._id.toString(),
+      email: updateUser.data.email,
+      role: updateUser.data.role,
+      firstname: updateUser.data.firstname,
+    }
+    const newToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+    res.status(200).json({studentId, newToken});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });

@@ -15,7 +15,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="../public/css/register.css" />
+  
   <style>
+    
     .error-message {
       color: red;
       font-size: 0.875em;
@@ -33,149 +35,206 @@
       transform: translateY(-50%);
       cursor: pointer;
     }
+    i {
+  position: absolute;
+  right: 10px;
+  top: 42px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #939393;
+}
   </style>
 </head>
 
 <body>
-
   <form id="registrationForm" action="/register" method="POST">
     <h2>ลงทะเบียน</h2>
+
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="name">ชื่อ</label>
-        <input type="text" class="form-control" name="firstname" placeholder="ชื่อ" required>
-        <div class="error-message" id="firstnameError"></div>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="lastname">นามสกุล</label>
-        <input type="text" class="form-control" name="lastname" placeholder="นามสกุล" required>
-        <div class="error-message" id="lastnameError"></div>
-      </div>
+        <div class="form-group col-md-6">
+            <label for="firstname">ชื่อ</label>
+            <input type="text" class="form-control" name="firstname" id="firstname" placeholder="ชื่อ">
+            <div class="error-message" id="firstnameError" style="color:red;"></div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastname">นามสกุล</label>
+            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="นามสกุล">
+            <div class="error-message" id="lastnameError" style="color:red;"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="email">อีเมล</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Example@gmail.com">
+            <div class="error-message" id="emailError" style="color:red;"></div>
+        </div>
     </div>
 
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputEmail4">อีเมล</label>
-        <input type="email" class="form-control" name="email" placeholder="Example@gmail.com" required>
-        <div class="error-message" id="emailError"></div>
+          <label for="password">รหัสผ่าน</label>
+          <div class="password-wrapper">
+              <input type="password" class="form-control" name="password" id="password" placeholder="รหัสผ่าน">
+              <i id="pass-toggle-btn" class="fa-solid fa-eye toggle-password"></i>
+          </div>
+          <div class="error-message" id="passwordError" style="color:red;"></div>
       </div>
       <div class="form-group col-md-6">
-        <label for="inputPassword4">รหัสผ่าน</label>
-        <div class="input-group">
-          <input type="password" class="form-control" name="password" placeholder="รหัสผ่าน" required>
-          <span class="toggle-password" id="togglePassword">
-            <i class="fas fa-eye"></i>
-          </span>
-        </div>
-        <div class="error-message" id="passwordError"></div>
+          <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+          <div class="password-wrapper">
+              <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน">
+              <i id="confirm-pass-toggle-btn" class="fa-solid fa-eye toggle-password"></i>
+          </div>
+          <div class="error-message" id="confirmPasswordError" style="color:red;"></div>
       </div>
-    </div>
+  </div>
+
     <div class="form-row">
-      <div class="form-group col-md-12">
-        <label for="inputEmail4">โรงเรียน</label>
-        <input type="text" class="form-control" name="school" placeholder="โรงเรียน" required>
-        <div class="error-message" id="schoolError"></div>
-      </div>
+        <div class="form-group col-md-12">
+            <label for="school">โรงเรียน</label>
+            <input type="text" class="form-control" name="school" id="school" placeholder="โรงเรียน">
+            <div class="error-message" id="schoolError" style="color:red;"></div>
+        </div>
     </div>
+
     <label for="role">กลุ่มผู้ใช้งาน</label>
-    <select class="form-select" name="role" id="role" required>
-      <option value="" selected disabled>เลือกกลุ่มผู้ใช้งาน</option>
-      <option value="student">นักเรียน</option>
-      <option value="teacher">คุณครู</option>
+    <select class="form-select" name="role" id="role">
+        <option value="" selected disabled>เลือกกลุ่มผู้ใช้งาน</option>
+        <option value="student">นักเรียน</option>
+        <option value="teacher">คุณครู</option>
     </select>
-    <div class="error-message" id="roleError"></div>
+    <div class="error-message" id="roleError" style="color:red;"></div>
+
     <div class="form-group submit-btn">
-      <input type="submit" name="submit" value="ยืนยันการลงทะเบียน" />
+        <input type="submit" name="submit" value="ยืนยันการลงทะเบียน">
     </div>
     <div class="link-container">
-      <a href="#" class="noAc">มีบัญชีแล้ว?</a>
-      <a href="/login" class="link">เข้าสู่ระบบ</a>
+        <a href="#" class="noAc" style="pointer-events: none; color: gray;">มีบัญชีแล้ว?</a>
+        <a href="/login" class="link" style="text-decoration: none;">เข้าสู่ระบบ</a>
     </div>
-  </form>
-
+</form>
+<!-- trim check input -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+  <script>
+    document.getElementById("password").addEventListener("keydown", function(event) {
+        if (event.key === " ") {
+            event.preventDefault(); 
+        }
+    });
+
+    document.getElementById("password").addEventListener("paste", function(event) {
+        let pastedText = (event.clipboardData || window.clipboardData).getData("text");
+        if (pastedText.includes(" ")) {
+            event.preventDefault(); 
+        }
+    });
+</script>
   <script type="module">
     import z from 'https://cdn.jsdelivr.net/npm/zod@3.23.8/+esm';
+    import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/+esm';
 
     // Define the validation schema using Zod
     const formSchema = z.object({
-      firstname: z.string().min(1, 'จำเป็นต้องกรอกชื่อ'),
-      lastname: z.string().min(1, 'จำเป็นต้องกรอกนามสกุล'),
-      email: z.string().email('รูปแบบอีเมลไม่ถูกต้อง'),
+      firstname: z.string().trim().min(1, 'กรุณากรอกชื่อ'),
+      lastname: z.string().trim().min(1, 'กรุณากรอกนามสกุล'),
+      email: z.string().trim().email('รูปแบบอีเมลไม่ถูกต้อง'),
       password: z.string()
         .min(8, 'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร')
         .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, 'รหัสผ่านจะต้องมีตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก และตัวเลข'),
-
-      school: z.string().min(1, 'จำเป็นกรอกมีโรงเรียน'),
-      role: z.string().min(1, 'กรุณาเลือกกลุ่มผู้ใช้งาน'),
+      school: z.string().trim().min(1, 'กรุณากรอกชื่อโรงเรียน'),
+      role: z.string().trim().min(1, 'กรุณาเลือกกลุ่มผู้ใช้งาน'),
     });
+
+    // Automatically trim whitespace from inputs (excluding password)
+    document.querySelectorAll('input:not([name="password"]), select').forEach(input => {
+      input.addEventListener('input', function () {
+        this.value = this.value.trim();
+      });
+    });
+
+    // Toggle visibility for password fields
+document.getElementById('pass-toggle-btn').addEventListener('click', function () {
+  const passwordInput = document.getElementById('password');
+  const type = passwordInput.type === 'password' ? 'text' : 'password';
+  passwordInput.type = type;
+  this.classList.toggle('fa-eye-slash');
+  this.classList.toggle('fa-eye');
+});
+
+document.getElementById('confirm-pass-toggle-btn').addEventListener('click', function () {
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+  confirmPasswordInput.type = type;
+  this.classList.toggle('fa-eye-slash');
+  this.classList.toggle('fa-eye');
+});
 
     document.getElementById('registrationForm').addEventListener('submit', async function (e) {
-      e.preventDefault(); // Prevent default form submission
+  e.preventDefault(); 
 
-      // Clear previous error messages
-      const errorElements = document.querySelectorAll('.error-message');
-      errorElements.forEach(el => el.textContent = '');
+  
+  document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 
-      // Collect form values
-      const formData = {
-        firstname: document.querySelector('input[name="firstname"]').value,
-        lastname: document.querySelector('input[name="lastname"]').value,
-        email: document.querySelector('input[name="email"]').value,
-        password: document.querySelector('input[name="password"]').value,
-        school: document.querySelector('input[name="school"]').value,
-        role: document.querySelector('select[name="role"]').value,
-      };
+ 
+  const formData = {
+    firstname: document.querySelector('input[name="firstname"]').value,
+    lastname: document.querySelector('input[name="lastname"]').value,
+    email: document.querySelector('input[name="email"]').value,
+    password: document.querySelector('input[name="password"]').value, 
+    confirmPassword: document.querySelector('input[name="confirmPassword"]').value,
+    school: document.querySelector('input[name="school"]').value,
+    role: document.querySelector('select[name="role"]').value,
+  };
 
-      // Validate the form data using Zod
-      const result = formSchema.safeParse(formData);
-
-      if (!result.success) {
-        const errors = result.error.errors;
-        errors.forEach(error => {
-          const errorMessage = error.message;
-          const fieldName = error.path[0]; // Get the field name that caused the error
-
-          // Display error message under the respective field
-          document.getElementById(`${fieldName}Error`).textContent = errorMessage;
-        });
-      } else {
-        // Send form data to the endpoint using Axios
-        try {
-          const response = await axios.post('/register', formData, {
-            headers: {
-              'Content-Type': 'application/json', // Send as JSON
-            },
-          });
-
-          // Handle successful registration
-          alert('Registration successful!'); // Customize this as needed
-          window.location.replace("http://localhost:9999/login");
-          // Optionally, redirect to another page
-          // window.location.href = '/somewhere';
-        } catch (error) {
-          console.error('Error during registration:', error);
-          if (error.response && error.response.data) {
-            alert(`Registration failed: ${error.response.data.error || 'Please try again.'}`);
-          } else {
-            alert('Registration failed. Please try again.');
-          }
-        }
-      }
+  // Check if password and confirmPassword match
+  if (formData.password !== formData.confirmPassword) {
+    Swal.fire({
+      title: 'รหัสผ่านไม่ตรงกัน',
+      text: 'กรุณาตรวจสอบรหัสผ่านและยืนยันรหัสผ่านให้ตรงกัน',
+      icon: 'error',
+      confirmButtonText: 'ตกลง'
     });
+    return; 
+  }
 
-    // Password toggle functionality
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.querySelector('input[name="password"]');
+  // Validate the form data using Zod
+  const result = formSchema.safeParse(formData);
 
-    togglePassword.addEventListener('click', function () {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+  if (!result.success) {
+    result.error.errors.forEach(error => {
+      document.getElementById(`${error.path[0]}Error`).textContent = error.message;
     });
-  </script>
+  } else {
+    // Send form data to the endpoint using Axios
+    try {
+      const response = await axios.post('/register', formData, {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
+      // Show success alert
+      Swal.fire({
+        title: 'ลงทะเบียนสำเร็จ',
+        icon: 'success',
+        confirmButtonText: 'ตกลง'
+      }).then(() => {
+        window.location.replace("https://stdslearning.com/login");
+      });
+
+    } catch (error) {
+      console.error('Error during registration:', error);
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด',
+        text: error.response?.data?.error || 'โปรดลองอีกครั้ง',
+        icon: 'error',
+        confirmButtonText: 'ตกลง'
+      });
+    }
+  }
+});
+
+</script>
 </body>
 
 </html>

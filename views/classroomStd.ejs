@@ -26,7 +26,37 @@
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .row-cols-md-3>.col {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
 
+            .card.h-100 {
+                height: auto;
+            }
+
+        }
+
+        @media (min-width: 1024px) {
+            .row-cols-md-3>.col {
+                flex: 0 0 33.3333%;
+                max-width: 33.3333%;
+            }
+
+            .card.h-100 {
+                min-height: 100%;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card-body {
+                flex-grow: 1;
+            }
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -73,6 +103,8 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
+
+                    <!-- notify -->
                     <div class="d-flex justify-content-end w-100">
                         <div class="dropdown no-arrow">
                             <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
@@ -97,7 +129,7 @@
                                     <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
                                     <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
                                 </div>
-                                <i class="fa fa-user-circle-o fa-2x" style="color: #393939;"></i>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
@@ -143,7 +175,8 @@
                                                                     <div class="card-body">
                                                                         <div class="pb-3">
                                                                             <a href="/lesson/std/<%= classroom._id %>"
-                                                                                class="h4 text-dark font-weight-bold">
+                                                                                class="h4 text-dark font-weight-bold"
+                                                                                style="text-decoration: none;">
                                                                                 <%= classroom.classroomName %>
                                                                             </a>
                                                                             <small class="text-muted">#<%=
@@ -241,42 +274,58 @@
 
     <script src="/public/js/studentRoleCheck.js"></script>
     <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/public/js/notification.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Assuming your token is stored in localStorage under the key 'token'
             const token = localStorage.getItem('token');
 
             if (token) {
                 try {
-                    const decodedToken = jwtDecode(token); // Decodes the JWT token
-
-                    // Assuming userId is a field in your token
+                    const decodedToken = jwtDecode(token);
                     const userId = decodedToken.userId;
                     const email = decodedToken.email;
                     const role = decodedToken.role;
                     const firstname = decodedToken.firstname;
+
                     if (userId) {
-                        fetchNotifications(userId); // Ensure fetchNotifications is defined
+                        fetchNotifications(userId);
                     }
-                    // Example usage: set the userId value to an input field
+
                     document.getElementById('studentId').value = userId;
                     document.getElementById('email').value = email;
                     document.getElementById('role').value = role;
                     document.getElementById('firstname').value = firstname;
                 } catch (error) {
                     console.error('Error decoding token:', error);
-                    // Handle error if decoding fails
                 }
             }
         });
 
-
         document.getElementById('createClassroomForm').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
+            
+
+            if (!data.roomCode.trim()) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณากรอกรหัสห้องเรียน!',
+                    text: 'โปรดป้อนรหัสเข้าห้องเรียนก่อนดำเนินการต่อ',
+                    confirmButtonText: 'ตกลง'
+                });
+                return;
+            }
 
             try {
                 const response = await fetch('/classroomAttempt/create', {
@@ -285,23 +334,35 @@
                     body: JSON.stringify(data)
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    const { studentId, newToken } = result;
-                    // Save the new token back to localStorage
-                    localStorage.setItem('token', newToken);
-
-                    // Redirect the user or perform other actions
-                    window.location.href = `/classroom/std/${studentId}`;
-                } else {
-                    console.error('Failed to create classroom attempt');
+                const result = await response.json();
+                if (!response.ok) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถเข้าร่วมห้องเรียนได้ ตรวจสอบรหัส บัญชี และลองอีกครั้ง',
+                        confirmButtonText: 'ตกลง'
+                    });
+                    return;
                 }
+
+                //  ถ้าเข้าร่วมห้องเรียนสำเร็จ → บันทึก token และไปยังหน้าห้องเรียน
+                const { studentId, newToken } = result;
+                localStorage.setItem('token', newToken);
+                window.location.href = `/classroom/std/${studentId}`;
+
             } catch (error) {
                 console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์ โปรดลองอีกครั้งภายหลัง',
+                    confirmButtonText: 'ตกลง'
+                });
             }
         });
 
     </script>
+
 
     <!-- Copy 2 -->
     <script>
@@ -330,9 +391,49 @@
             }
 
             if (userId && classroomId) {
-                const quitLink = document.getElementById('quit-link');
-                quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
+                document.getElementById('quit-link').addEventListener('click', async function (event) {
+                    event.preventDefault();
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/classroomAttempt/std/delete/${userId}/${classroomId}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                          
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            localStorage.setItem('token', result.newToken); // Save the new token
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ออกจากห้องสำเร็จ',
+                                confirmButtonText: 'ตกลง'
+                            }).then(() => {
+                                window.location.href = `/classroom/std/${result.studentId}`; // Redirect user
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาด',
+                                text: result.message,
+                                confirmButtonText: 'ตกลง'
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถออกจากห้องเรียนได้',
+                            confirmButtonText: 'ตกลง'
+                        });
+                    }
+                });
             }
+            // Fetch notifications
+            fetchNotifications(userId);
         });
     </script>
     <!-- End Copy -->

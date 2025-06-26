@@ -39,7 +39,7 @@
     }
 
     #img_container img {
-      width: 40%;
+      width: 60%;
       margin-top: 3%;
       margin-bottom: 3%;
       margin: auto auto;
@@ -61,7 +61,12 @@
           E-learning</div>
       </a>
       <hr class="sidebar-divider my-0">
-
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/dashboard">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
       <li class="nav-item">
         <a class="nav-link" href="/lesson">
           <i class="fas fa-book"></i>
@@ -101,19 +106,8 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
 
+          <ul class="navbar-nav ml-auto">
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -125,11 +119,6 @@
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -139,8 +128,8 @@
           </ul>
         </nav>
       </div>
-      <div class="container mt-5">
-        <div class="text-1" style="text-align: center;">
+      <div class="container mt-3">
+        <div class="h1 text-center" style="text-align: center; color:#333;">
           <h1>
             <%= news.title %>
           </h1>
@@ -157,14 +146,22 @@
             <%- news.content %>
           </p>
         </div>
+        
       </div>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+            </div>
+        </div>
+    </footer>
       <script src="/public/js/script.js"></script>
       <script src="/public/js/tinymceInit.js"></script>
       <script src="/public/js/getdata.js"></script>
       <script src="/public/vendor/jquery/jquery.min.js"></script>
       <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-      <script src="/public/js/sb-admin-2.min.js"></script>
+      <script src="/public/js/sb-admin-2.js"></script>
       <script src="
    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
 

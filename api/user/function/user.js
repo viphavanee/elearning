@@ -65,6 +65,34 @@ const getUsers = async () => {
     };
   }
 };
+const getUsersByClassroom = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+
+    const database = client.db("project1");
+    const collection = database.collection("users");
+
+    const users = await collection.find({ roomCode: data.roomCode, isDeleted: { $ne: true } }).toArray();
+
+
+    await client.close();
+
+    return {
+      status_code: "200",
+      status_phrase: "ok",
+      message: `get users success`,
+      data: users,
+    };
+  } catch (error) {
+    console.error("Error getting users:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
 
 const getUsersByRole = async (data) => {
   try {
@@ -348,6 +376,8 @@ const updateIsJoined = async (id) => {
       updateData
     );
 
+    const data = await collection.findOne({ _id: objectId });
+
     await client.close();
 
     if (result.matchedCount === 1) {
@@ -355,6 +385,7 @@ const updateIsJoined = async (id) => {
         status_code: "200",
         status_phrase: "ok",
         message: `Update success for user with id ${id}`,
+        data: data
       };
     } else {
       return {

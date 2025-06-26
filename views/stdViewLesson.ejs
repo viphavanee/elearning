@@ -111,31 +111,35 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <!--                     <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> -->
+          <!-- notify -->
+          <div class="d-flex justify-content-end w-100">
+            <div class="dropdown no-arrow">
+                <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                        id="notifyCount"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                    <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                </ul>
+            </div>
+        </div>
+
           <ul class="navbar-nav ml-auto">
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <div class="d-flex flex-column align-items-end">
+                <div class="d-flex flex-column align-items-end" id>
                   <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
                   <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
                 </div>
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" id="profile-link">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   แก้ไขโปรไฟล์
                 </a>
@@ -333,7 +337,7 @@
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-
+              console.log('Checkpoint sent successfully:', response);
               return await response.json(); // Return the parsed JSON response
             } catch (error) {
               console.error('Error sending checkpoint:', error);
@@ -344,6 +348,7 @@
 
           const getCheckpointFromServer = async () => {
             try {
+              console.log('Getting checkpoint from server...');
               const response = await fetch(`/lessonLog/getLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, {
                 method: 'GET',
                 headers: {
@@ -351,11 +356,12 @@
                 },
               });
 
-              const data = await response.json();
-
               if (!response.ok) {
+                console.log('No checkpoint found. Creating a new one...');
                 return await createNewCheckpoint();
               } else {
+                const data = response.json();
+                console.log('Checkpoint found:', data);
                 return data; // Return the entire data object (including status)
               }
             } catch (error) {
@@ -399,7 +405,7 @@
 
         <script src="/public/js/profileDetail.js"></script>
         <script src="/public/js/logout.js"></script>
-
+        <script src="/public/js/notification.js"></script>
         <script src="/public/js/studentRoleCheck.js"></script>
         <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 
@@ -431,9 +437,16 @@
               const classroomLink = document.getElementById('classroomLink');
               classroomLink.href = `/classroom/std/${userId}`;
 
+              const profileLink = document.getElementById('profile-link');
+              profileLink.href = `/profile/${userId}`;
+
               const scoreLink = document.getElementById('scoreLink');
               scoreLink.href = `/attempt/score/${userId}`;
+
+               // Fetch notifications
+               fetchNotifications(userId);
             }
+
 
             if (userId && roomCode && lessonId) {
               const postLink = document.getElementById('postLink');

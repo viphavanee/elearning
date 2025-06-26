@@ -184,6 +184,40 @@ const getCommentByThemeId = async (data) => {
     };
   }
 };
+const getCommentByUserId = async (data) => {
+  try {
+    const client = new MongoClient(process.env.uri);
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("comment");
+    const userId = data.userId;
+    const themeId = data.themeId;
+    const comment = await collection.find({ userId, themeId, isDeleted: { $ne: true } }).toArray();
+
+    await client.close();
+    if (comment) {
+      return {
+        status_code: "200",
+        status_phrase: "ok",
+        message: `get theme by id success`,
+        data: comment
+      };
+    } else {
+      return {
+        status_code: "404",
+        status_phrase: "not found",
+        message: `comment with id ${data.id} not found`,
+      };
+    }
+  } catch (error) {
+    console.error("Error getting theme by id:", error);
+    return {
+      status_code: "301",
+      status_phrase: "fail",
+      message: `error`,
+    };
+  }
+};
 
 const updateCommentById = async ({ id, commentData }) => {
   try {
@@ -323,6 +357,9 @@ const checkedCommentById = async (data) => {
   }
 };
 
+
+
+
 const softDelete = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -412,6 +449,7 @@ module.exports = {
   getComment,
   getReportedComment,
   getCommentById,
+  getCommentByUserId,
   getCommentsByIds,
   getCommentByThemeId,
   updateCommentById,

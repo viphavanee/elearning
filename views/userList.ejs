@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
     <link rel="manifest" href="/public/site.webmanifest">
-    <title>Manage User</title>
+    <title>จัดการผู้ใช้งาน</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
@@ -30,6 +30,125 @@
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .card-header {
+            background-color: #4e73df !important;
+            color: white !important;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+
+        .modal-header {
+            background-color: #4e73df;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            padding: 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+            color: #333;
+        }
+
+        .modal-footer {
+            padding: 10px;
+            text-align: right;
+        }
+
+        /* Button Styles */
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-primary {
+            border: none;
+        }
+
+        select#select-option {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        option {
+            padding: 50px;
+        }
+        #searchForm {
+    display: flex;
+    align-items: center;  /* Vertically center the input and button */
+    gap: 10px;  /* Space between the input field and the button */
+    max-width: 600px;
+    margin: 0 auto 20px auto; /* Center the form and add space below */
+    justify-content: flex-end;  /* Push the button to the right */
+}
+
+#searchForm .form-group {
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+#searchForm .form-control {
+    width: 100%;
+    height: 38px;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#btnsch {
+    height: 38px;
+    font-size: 16px;
+    padding: 0 15px;
+    border-radius: 4px;
+    background-color:  #4e73df;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#btnsch:hover {
+    background-color: #0056b3;
+}
+
+#btnsch:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -86,18 +205,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -111,11 +219,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    แก้ไขโปรไฟล์
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -129,9 +232,15 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">จัดการผู้ใช้งาน</h6>
+                            <h6 class="m-0 font-weight-bold">จัดการผู้ใช้งาน</h6>
                         </div>
                         <div class="card-body">
+                            <form id="searchForm" class="mb-3">
+                                <div class="form-group">
+                                    <input type="text" id="searchName" class="form-control" placeholder="ค้นหาด้วยชื่อ" />
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="btnsch"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="userTable" width="100%" cellspacing="0">
                                     <thead>
@@ -184,7 +293,13 @@
                                                         </tr>
                                                         <% } %>
                                     </tbody>
+                                    
                                 </table>
+                                <nav aria-label="Page navigation" class="d-flex justify-content-end">
+                                    <ul class="pagination justify-content-center" id="pagination">
+                                        <!-- Pagination generated here -->
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -214,13 +329,16 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="newEmail">อีเมล</label>
-                                        <input type="email" class="form-control" id="newEmail" name="newEmail">
+                                        <input type="email" class="form-control" id="newEmail" name="newEmail" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="newSchool">โรงเรียน</label>
                                         <input type="text" class="form-control" id="newSchool" name="newSchool">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                                        <button type="submit" class="btn btn-primary">บันทึก</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -252,8 +370,8 @@
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
-                    <div class="copyright text-STD<span style=" font-size: 12px;">s</span> E-learning>
-                        <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning 2023</span>
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
                     </div>
                 </div>
             </footer>
@@ -263,10 +381,57 @@
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
     <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/public/js/demo/datatables-demo.js"></script>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            const searchQuery = document.getElementById('searchName').value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('search', searchQuery); // Update the URL with the search query
+            window.location.href = url.toString(); // Reload the page with the updated query
+        });
+    </script>    
+   <script>
+    const paginationContainer = document.getElementById('pagination');
+    const cardsPerPage = 15;
+    let currentPage = <%= currentPage %>;  // The current page passed from backend
+    const totalPages = <%= totalPages %>;  // The total number of pages passed from backend
+
+    function renderPagination() {
+        paginationContainer.innerHTML = "";  // Clear existing pagination
+
+        const createPageItem = (page, label, isDisabled = false, isActive = false) => {
+            const li = document.createElement('li');
+            li.className = `page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}`;
+            li.innerHTML = `<button class="page-link" data-page="${page}" onclick="navigateToPage(${page})">${label}</button>`;
+            return li;
+        };
+
+        // Previous Button
+        paginationContainer.appendChild(createPageItem(currentPage - 1, '«', currentPage === 1));
+
+        // Page Range
+        for (let i = 1; i <= totalPages; i++) {
+            paginationContainer.appendChild(createPageItem(i, i, false, currentPage === i));
+        }
+
+        // Next Button
+        paginationContainer.appendChild(createPageItem(currentPage + 1, '»', currentPage === totalPages));
+    }
+
+    function navigateToPage(page) {
+        if (page < 1 || page > totalPages) return;
+        window.location.href = `/user?page=${page}`;
+    }
+
+    // Initial rendering
+    renderPagination();
+</script>
+
+    
     <script>
         $('#updateUserModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -281,7 +446,7 @@
             modal.find('.modal-body #newLastName').val(lastname);
             modal.find('.modal-body #newEmail').val(email);
             modal.find('.modal-body #newSchool').val(school);
-            modal.find('form').attr('action', '/user/updateUserById/' + id);
+            modal.find('form').attr('action', `/user/updateUserById/${id}/admin`);
         });
 
         $('#updateUserForm').on('submit', function (event) {
@@ -300,11 +465,13 @@
                     location.reload();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    alert('Failed to update user: ' + textStatus);
+                    alert('Failed to update user: ' + errorThrown);
                 }
             });
         });
+
     </script>
+    
     <script src="
     https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
 

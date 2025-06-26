@@ -31,9 +31,100 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
     <style>
-        .headL {
-            margin: 2%;
-            text-align: center;
+        /* General Styles for the Card */
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* You can adjust the values as needed */
+
+        .card-body {
+            padding: 50px;
+            border-radius: 10px;
+        }
+
+        .card-body .form-row {
+            margin-bottom: 20px;
+        }
+
+        .card-body .form-group {
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            border: 1px solid #ccc;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .card-body input[type="text"],
+        .card-body input[type="date"],
+        .card-body textarea,
+        .card-body input[type="file"] {
+            border: 1px solid #ccc;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+            height: 3rem;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .card-body input[type="text"]:focus,
+        .card-body input[type="date"]:focus,
+        .card-body textarea:focus,
+        .card-body input[type="file"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Submit Button */
+        .submit-btn input[type="submit"] {
+            padding: 8px 10px;
+            font-size: 18px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #spanre {
+            color: red;
+        }
+
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 20px;
+            }
+
+            .card-header {
+                font-size: 20px;
+            }
+
+            .submit-btn input[type="submit"] {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-row {
+                margin-bottom: 8px;
+            }
+
+            .form-control {
+                padding: 6px;
+            }
+
+            .submit-btn input {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -43,7 +134,8 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
-                        style="font-size: 12px;">s</span> E-learning</div>
+                        style="font-size: 12px;">s</span>
+                    E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
@@ -91,35 +183,22 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
 
+                    <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">viphavanee</span>
-                                <img class="img-profile rounded-circle" src="/public/img/user.jpg">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    แก้ไขโปรไฟล์
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -127,40 +206,60 @@
                         </li>
                     </ul>
                 </nav>
+                <h1 class="headL" style="text-align: center; color: #333; ">เพิ่มบทความ</h1>
                 <div class="container-fluid">
-                    <form id="createNewsForm" action="/news/createNews" method="POST" enctype="multipart/form-data">
-                        <h1 class="headL">เพิ่มบทความ</h1>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="name">ชื่อบทความ</label><br>
-                                <input type="text" name="title" class="bx" placeholder="ชื่อบทความ" required>
-                            </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="createNewsForm" action="/news/createNews" method="POST"
+                                enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="name" style="color: #333;">ชื่อบทความ</label><span id="spanre">
+                                            *</span><br>
+                                        <input type="text" name="title" class="bx form-control" placeholder="ชื่อบทความ"
+                                            id="titleInput" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4" style="color: #333;">เนื้อหา</label><span id="spanre">
+                                            *</span><br>
+                                        <textarea id="my-expressjs-tinymce-app" name="content" class="form-control"
+                                            rows="5"></textarea><br />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4" style="color: #333;">วันที่ข่าวโพสต์</label><span
+                                            id="spanre"> *</span><br>
+                                        <input type="date" id="myDate" name="date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4" style="color: #333;">รูปภาพประกอบ</label><span
+                                            id="spanre"> *</span><br>
+                                        <input type="file" id="image" name="image" class="form-control"
+                                            style="margin:auto" required><br>
+                                    </div>
+                                </div>
+                                <div class="form-group submit-btn ">
+                                    <input type="submit" name="submit" value="เพิ่มบทความ" class="btn btn-primary">
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">เนื้อหา</label><br>
-                                <textarea id="my-expressjs-tinymce-app" name="content"></textarea><br />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">วันที่ข่าวโพสต์</label><br>
-                                <input type="date" id="myDate" name="date">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">รูปภาพประกอบ</label><br>
-                                <input type="file" id="image" name="image" />
-                            </div>
-                        </div>
-                        <div class="form-group submit-btn">
-                            <input type="submit" name="submit" value="เพิ่มบทความ" />
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+                    </div>
+                </div>
+            </footer>
         </div>
+
     </div>
     <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
     <script src="/public/js/tinymceInit.js"></script>
@@ -170,6 +269,119 @@
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/public/js/sb-admin-2.min.js"></script>
     <script src="/public/js/getdata.js"></script>
+    <script src="
+                        https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="/public/js/script.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/datatables-demo.js"></script>
+    <script src="/public/js/profileDetail.js"></script>
+    <script src="/public/js/adminLogin.js"></script>
+    <script src="/public/js/adminLogout.js"></script>
+    <script src="/public/js/adminRoleCheck.js"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+    <script src="/public/js/tinymceInit.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/public/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- This should be loaded first -->
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script type="application/javascript">
+
+        document.getElementById("createNewsForm").addEventListener("submit", async function (event) {
+            // Prevent form submission if validation fails
+            event.preventDefault();
+
+            // Check if all required fields are filled
+            const requiredFields = document.querySelectorAll("[required]");
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    alert("Please fill out all required fields.");
+                    field.focus();
+                    return; // Stop further processing if required field is empty
+                }
+            }
+            // Check if an image file is selected
+            const imageInput = document.getElementById("image");
+            const imageFile = imageInput.files[0]; // Get the selected file
+            if (!imageFile) {
+                alert("กรุณาอัปโหลดไฟล์รูปภาพ");
+                imageInput.focus();
+                return; // Stop the form submission if no file is selected
+            }
+
+            // Check if the file is an image
+            const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+            if (!allowedTypes.includes(imageFile.type)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กรุณาอัพโหลดไฟล์รูปภาพที่ถูกต้อง (JPG, PNG, GIF)', // This is the error message for invalid file types.
+                    text: 'ไฟล์ที่คุณอัพโหลดไม่ใช่ไฟล์รูปภาพที่รองรับ (JPG, PNG, GIF)', // Additional description to clarify the issue.
+                });
+                imageInput.focus();
+                return; // Stop the form submission if the file type is not valid
+            }
+
+
+            // Save the content from TinyMCE editor before submitting the form
+            tinymce.get('my-expressjs-tinymce-app').save();
+
+            // Prepare the form data
+            const form = event.target;
+            const formData = new FormData(form);
+
+            // Send the form data using fetch API
+            try {
+        const response = await fetch(event.target.action, {
+            method: "POST",
+            body: new FormData(event.target)
+        });
+
+        const result = await response.json();
+        
+        if (response.status === 200 && result.status_code === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: 'สร้างบทความสำเร็จ',
+            }).then(() => {
+                window.location.href = "/news"; // Redirect after success
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'เกิดข้อผิดพลาดในการสร้างบทความ',
+            });
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'เกิดข้อผิดพลาดในการสร้างบทความ',
+        });
+    }
+});
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let today = new Date().toISOString().split('T')[0]; // ดึงวันที่ปัจจุบันในรูปแบบ YYYY-MM-DD
+            document.getElementById("myDate").setAttribute("max", today); // กำหนด max เป็นวันนี้
+        });
+    </script>
 </body>
 
 </html>

@@ -85,18 +85,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -107,8 +96,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <div class="dropdown-divider"></div>
@@ -172,6 +161,9 @@
     <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
         <div id="toast-container" style="position: absolute; top: 0; right: 0;"></div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+      <script src="/public/js/adminLogout.js"></script>
+      <script src="/public/js/adminRoleCheck.js"></script>
     <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>

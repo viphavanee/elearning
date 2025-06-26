@@ -111,7 +111,12 @@
             .card {
                 margin-bottom: 1rem;
             }
+            #notifyCount.translate-middle {
+                transform: translate(-600%, 60%) !important;
         }
+    }
+
+
     </style>
 
 </head>
@@ -119,7 +124,7 @@
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
                         style="font-size: 12px;">s</span> E-learning</div>
             </a>
@@ -140,7 +145,7 @@
                     <span>บทความ</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/scoreStd">
+                <a class="nav-link" href="#" id="scorelink">
                     <i class="fas fa-chalkboard-user"></i>
                     <span>คะแนน</span></a>
             </li>
@@ -160,18 +165,23 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+
+                    <!-- notify -->
+                    <div class="d-flex justify-content-end w-100">
+                        <div class="dropdown no-arrow">
+                            <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                    id="notifyCount"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                                <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                            </ul>
                         </div>
-                    </form>
+                    </div>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -185,8 +195,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <a class="dropdown-item" href="/change-password">
@@ -281,6 +291,14 @@
 
     <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
     <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+    <script src="/public/js/notification.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Assuming your token is stored in localStorage under the key 'token'
@@ -349,10 +367,13 @@
                 // Set the href attribute with the userId
                 const classroomLink = document.getElementById('classroomLink');
                 classroomLink.href = `/classroom/std/${userId}`;
-
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
                 const scorelink = document.getElementById('scorelink');
                 scorelink.href = `/attempt/score/${userId}`;
             }
+             // Fetch notifications
+             fetchNotifications(userId);
 
             if (classroomId) {
                 const lessonLink = document.getElementById('lessonLink');
@@ -362,6 +383,7 @@
                 const quitLink = document.getElementById('quit-link');
                 quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
             }
+            
         });
     </script>
     <!-- End Copy -->

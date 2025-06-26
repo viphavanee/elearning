@@ -11,24 +11,26 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
   <link rel="manifest" href="/public/site.webmanifest">
   <title>เนื้อหา</title>
-  <link rel="stylesheet" href="/public/css/form.css">
-  <link rel="stylesheet" href="/public/css/table.css">
-  <link rel="stylesheet" href="/public/css/menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-  <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
-  <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-  <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     h1 {
       font-size: 1.5rem;
@@ -39,111 +41,161 @@
       margin: 3%;
       font-size: 1rem;
     }
+
+    /* General Styling */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 30px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    /* Video Container */
+    .embed-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      background: #000;
+      border-radius: 10px;
+    }
+
+    .embed-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+
+    /* Content Styling */
+    .content p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #555;
+      margin-top: 30px;
+      font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .embed-responsive iframe {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .content p {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 
 <body id="page-top">
   <div id="wrapper">
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion overflow-hidden" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span>
-          E-learning</div>
-      </a>
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/dashboard">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <hr class="sidebar-divider">
-      <li class="nav-item active">
-        <a class="nav-link" href="/lesson">
-          <i class="fas fa-book"></i>
-          <span>บทเรียน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/quizAdmin">
-          <i class="fas fa-book-open"></i>
-          <span>แบบทดสอบ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/news">
-          <i class="fas fa-newspaper"></i>
-          <span>บทความ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user">
-          <i class="fas fa-user-group"></i>
-          <span>จัดการผู้ใช้งาน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/theme/admin">
-          <i class="fas fa-question"></i>
-          <span>กระทู้ถาม-ตอบ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/report/admin">
-          <i class="bi bi-flag-fill"></i>
-          <span>จัดการรายงาน</span></a>
-      </li>
-    </ul>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <!-- fix top bar -->
-        <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 shadow"
-          style="z-index: 5; padding-left: 300px;">
-          <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-          </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+              <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                      style="font-size: 12px;">s</span> E-learning</div>
+          </a>
+          <hr class="sidebar-divider my-0">
+          <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                  <i class="fas fa-fw fa-tachometer-alt"></i>
+                  <span>Dashboard</span></a>
+          </li>
+          <hr class="sidebar-divider">
+          <li class="nav-item active">
+              <a class="nav-link" href="/lesson">
+                  <i class="fas fa-book"></i>
+                  <span>บทเรียน</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/quizAdmin">
+                  <i class="fas fa-book-open"></i>
+                  <span>แบบทดสอบ</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/news">
+                  <i class="fas fa-newspaper"></i>
+                  <span>บทความ</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/user">
+                  <i class="fas fa-user-group"></i>
+                  <span>จัดการผู้ใช้งาน</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/theme/admin">
+                  <i class="fas fa-question"></i>
+                  <span>กระทู้ถาม-ตอบ</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/report/admin">
+                  <i class="bi bi-flag-fill"></i>
+                  <span>จัดการรายงาน</span></a>
+          </li>
+      </ul>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <div class="d-flex flex-column align-items-end">
-                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
-                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                </div>
-                <i class="fa fa-user-circle-o fa-2x"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div>
-            </li>
+      <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+              <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
+                  <form class="form-inline">
+                      <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                          <i class="fa fa-bars"></i>
+                      </button>
+                  </form>
 
-          </ul>
-        </nav>
+                  <ul class="navbar-nav ml-auto">
+                      <div class="topbar-divider d-none d-sm-block"></div>
+                      <li class="nav-item dropdown no-arrow">
+                          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <div class="d-flex flex-column align-items-end">
+                                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                              </div>
+                              <i class="fa fa-user-circle-o fa-2x"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                              aria-labelledby="userDropdown">
+                              <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                  data-target="#logoutModal">
+                                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                  ออกจากระบบ
+                              </a>
+                          </div>
+                      </li>
+                  </ul>
+              </nav>
         <!-- end fix top bar -->
       </div>
-      <div class="container mt-5">
-        <div class="h1 pt-5 text-center">
+      <div class="container">
+        <div class="h1 text-center">
           <h1>
-            <%= lesson.lessonName %>
+           บทที่ <%= lesson.lessonNum %> <%= lesson.lessonName %>
           </h1>
         </div>
-        <div class="container mt-5">
+        <div class="container">
           <div class="embed-responsive embed-responsive-16by9">
             <% if (lesson && lesson.vdo_url) { %>
               <iframe width="560" height="315" src="https://www.youtube.com/embed/<%=
@@ -169,15 +221,23 @@
           </p>
         </div>
       </div>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+            </div>
+        </div>
+    </footer>
       <script src="
       https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
       <script src="/public/js/script.js"></script>
       <script src="/public/vendor/jquery/jquery.min.js"></script>
       <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-      <script src="/public/js/sb-admin-2.min.js"></script>
+      <script src="/public/js/sb-admin-2.js"></script>
       <script src="/public/js/profileDetail.js"></script>
       <script src="/public/js/adminLogout.js"></script>
+      <script src="/public/js/adminRoleCheck.js"></script>
       <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
 </body>
 

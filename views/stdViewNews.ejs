@@ -31,34 +31,6 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
 
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-
-      height: 100vh;
-      z-index: 1050;
-      /* Ensure it stays above other elements */
-
-    }
-
-    .content-wrapper {
-      margin-left: 150px;
-      /* Offset the sidebar width */
-      padding-top: 70px;
-      /* Offset the height of the top navbar */
-    }
-
-    .navbar {
-      z-index: 1000;
-      /* Ensure it stays above the content */
-    }
-
     .container {
       font-family: "Noto Sans Thai", sans-serif !important;
     }
@@ -69,17 +41,13 @@
     }
 
     #img_container img {
-      width: 40%;
+      width: 60%;
       margin-top: 3%;
       margin-bottom: 3%;
       margin: auto auto;
       display: block;
     }
-
-    .content {
-      margin: 3%;
-      font-size: 1rem;
-    }
+    
   </style>
 </head>
 
@@ -121,55 +89,62 @@
 
     <div id="content-wrapper" class="content-wrapper d-flex flex-column">
       <div id="content">
-        <nav class="navbar fixed-top navbar-expand navbar-light bg-white topbar mb-4 shadow">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
           <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
+              <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                  <i class="fa fa-bars"></i>
+              </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <div class="d-flex flex-column align-items-end">
-                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
-                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                </div>
-                <i class="fa fa-user-circle-o fa-2x"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <a class="dropdown-item" href="/change-password">
-                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                  จัดการรหัสผ่าน
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  ออกจากระบบ
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </div>
 
+          <!-- notify -->
+          <div class="d-flex justify-content-end w-100">
+              <div class="dropdown no-arrow">
+                  <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                      role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                      <span
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                          id="notifyCount"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                      <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                  </ul>
+              </div>
+          </div>
+
+          <ul class="navbar-nav ml-auto">
+              <div class="topbar-divider d-none d-sm-block"></div>
+              <li class="nav-item dropdown no-arrow">
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <div class="d-flex flex-column align-items-end">
+                          <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                          <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                      </div>
+                      <i class="fa fa-user-circle-o fa-2x"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                      aria-labelledby="userDropdown">
+                      <a class="dropdown-item" href="#" id="profile-link">
+                          <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                          แก้ไขโปรไฟล์
+                      </a>
+                      <a class="dropdown-item" href="/change-password">
+                          <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                          จัดการรหัสผ่าน
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                          data-target="#logoutModal">
+                          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                          ออกจากระบบ
+                      </a>
+                  </div>
+              </li>
+          </ul>
+      </nav>
       <div class="container mt-5">
-        <div class="text-1" style="text-align: center;">
+        <div class="text-1" style="text-align: center; color:#333;">
           <h1>
             <%= news.title %>
           </h1>
@@ -196,11 +171,20 @@
   <script src="/public/js/sb-admin-2.min.js"></script>
   <script src="
    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
-
+   <script src="/public/js/notification.js"></script>
   <script src="/public/js/profileDetail.js"></script>
   <script src="/public/js/logout.js"></script>
   <script src="/public/js/studentRoleCheck.js"></script>
   <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+  <script src="/public/js/notification.js"></script>
+    <script src="/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -272,7 +256,8 @@
         // Set the href attribute with the userId
         const classroomLink = document.getElementById('classroomLink');
         classroomLink.href = `/classroom/std/${userId}`;
-
+        const profileLink = document.getElementById('profile-link');
+        profileLink.href = `/profile/${userId}`;
         const scorelink = document.getElementById('scorelink');
         scorelink.href = `/attempt/score/${userId}`;
       }
@@ -281,10 +266,8 @@
         const lessonLink = document.getElementById('lessonLink');
         lessonLink.href = `/lesson/std/${classroomId}`;
       }
-      if (userId && classroomId) {
-        const quitLink = document.getElementById('quit-link');
-        quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
-      }
+       // Fetch notifications
+       fetchNotifications(userId);
     });
   </script>
   <!-- End Copy -->

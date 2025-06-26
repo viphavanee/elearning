@@ -15,6 +15,17 @@ const register = async (data) => {
 
     const database = client.db("project1");
     const collection = database.collection("users");
+
+    const existingUser = await collection.findOne({ email: data.email });
+    if (existingUser) {
+      await client.close();
+      return {
+        status_code: "400",
+        status_phrase: "fail",
+        message: "อีเมลนี้มีในระบบแล้ว",
+      };
+    }
+
     const userId = uuidv4();
     const currentDate = new Date();
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -46,6 +57,8 @@ const register = async (data) => {
   }
 };
 
+
+
 const userChecked = async (data) => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -59,7 +72,7 @@ const userChecked = async (data) => {
     // Find user by email
     const user = await collection.findOne({ email: data.email });
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('ไม่พบผู้ใช้งาน โปรดตรวจสอบอีเมลหรือรหัสผ่านของคุณอีกครั้ง');
     }
 
     // Verify password
@@ -165,6 +178,42 @@ const passwordChecked = async (data) => {
   }
 };
 
+const emailChecked = async (email) => {
+  const client = new MongoClient(process.env.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  try {
+    await client.connect();
+    const database = client.db("project1");
+    const collection = database.collection("users");
+
+    const user = await collection.findOne({ email: email.trim() });
+
+    if (!user) {
+      return {
+        status_code: 404,
+        status_phrase: "not found",
+        message: "User not found",
+        exists: false,
+      };
+    }
+
+    return {
+      status_code: 200,
+      status_phrase: "ok",
+      message: "User found",
+      exists: true,
+    };
+  } catch (error) {
+    return {
+      status_code: 500,
+      status_phrase: "error",
+      message: "Internal Server Error",
+      error: error.message,
+    };
+  } finally {
+    await client.close();
+  }
+};
 
 const adminChecked = async (data) => {
   try {
@@ -312,4 +361,4 @@ const changePassword = async (data) => {
   }
 };
 
-module.exports = { register, userChecked, adminChecked, resetPassword, passwordChecked, changePassword };
+module.exports = { register, userChecked, adminChecked, resetPassword, passwordChecked, changePassword, emailChecked };

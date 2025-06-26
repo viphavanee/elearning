@@ -32,6 +32,93 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <style>
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Filter Dropdown */
+        #themeFilter,
+        #commentFilter,
+        #replyFilter {
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #themeFilter:hover,
+        #themeFilter:focus,
+        #commentFilter:hover,
+        #commentFilter:focus,
+        #replyFilter:hover,
+        #replyFilter:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        /* Table Styling */
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .card-header {
+            background-color: #4e73df !important;
+            color: white !important;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Status Dots */
+        .bg-warning {
+            background-color: #ffc107 !important;
+        }
+
+        .bg-success {
+            background-color: #28a745 !important;
+        }
+
+        .bg-danger {
+            background-color: #dc3545 !important;
+        }
+
+        /* Button Styling */
+        .btn-sm {
+            border-radius: 6px;
+            padding: 6px 10px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-secondary:hover,
+        .btn-success:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -82,24 +169,13 @@
 
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
                     <form class="form-inline">
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -113,15 +189,10 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    แก้ไขโปรไฟล์
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    ออกจากระบบ
                                 </a>
                             </div>
                         </li>
@@ -131,14 +202,14 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">รายงานกระทู้</h6>
+                            <h6 class="m-0 font-weight-bold">รายงานกระทู้</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <!-- Filter Dropdown -->
                                 <div class="d-flex mb-3 align-items-center justify-content-between">
                                     <select id="themeFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
-                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option selected value="all">ทั้งหมด</option>
                                         <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
                                         <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
                                         <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
@@ -217,7 +288,7 @@
                                                     <% }); %>
                                                         <% } else { %>
                                                             <tr id="noThemetRow">
-                                                                <td colspan="4">No theme reported.</td>
+                                                                <td colspan="4">ไม่มีกระทู้ที่ถูกรายงาน.</td>
                                                             </tr>
                                                             <% } %>
                                     </tbody>
@@ -228,14 +299,14 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">รายงานความคิดเห็น</h6>
+                            <h6 class="m-0 font-weight-bold">รายงานความคิดเห็น</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <!-- Filter Dropdown -->
                                 <div class="d-flex mb-3 align-items-center justify-content-between">
                                     <select id="commentFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
-                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option selected value="all">ทั้งหมด</option>
                                         <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
                                         <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
                                         <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
@@ -314,7 +385,7 @@
                                                     <% }); %>
                                                         <% } else { %>
                                                             <tr id="noCommentRow">
-                                                                <td colspan="4">No theme reported.</td>
+                                                                <td colspan="4">ไม่มีความคิดเห็นที่ถูกรายงาน</td>
                                                             </tr>
                                                             <% } %>
                                     </tbody>
@@ -325,14 +396,14 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">รายงานตอบกลับ</h6>
+                            <h6 class="m-0 font-weight-bold">รายงานตอบกลับ</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <!-- Filter Dropdown -->
                                 <div class="d-flex mb-3 align-items-center justify-content-between">
                                     <select id="replyFilter" class="form-select w-auto" aria-label="เลือกสถานะ">
-                                        <option selected value="all">เลือกดูตามสถานะ</option>
+                                        <option selected value="all">ทั้งหมด</option>
                                         <option value="reported">ถูกรายงาน</option> <!-- isReport === 'reported' -->
                                         <option value="checked">ตรวจสอบแล้ว</option> <!-- isReport === 'checked' -->
                                         <option value="deleted">ลบแล้ว</option> <!-- isDeleted === 'true' -->
@@ -411,7 +482,7 @@
                                                     <% }); %>
                                                         <% } else { %>
                                                             <tr id="noReplyRow">
-                                                                <td colspan="4">No theme reported.</td>
+                                                                <td colspan="4">ไม่มีการตอบกลับที่ถูกรายงาน</td>
                                                             </tr>
                                                             <% } %>
                                     </tbody>
@@ -432,8 +503,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="d-flex justify-content-end mb-3">
-                                        <a id="navigateBtn" href="#" class="btn btn-primary" target="_blank"><i
-                                                class="fa-solid fa-eye"></i></a>
+                                        <a id="navigateBtn" href="#" class="btn btn-primary" target="_blank">ไปที่กระทู้ <i class="fa-solid fa-arrow-right"></i></a>
                                     </div>
                                     <!-- Modal content will be populated by JavaScript -->
                                     <table id="reportDetailsTable" class="table table-bordered">
@@ -461,11 +531,12 @@
                     </footer>
                 </div>
             </div>
+            
 
             <script src="/public/vendor/jquery/jquery.min.js"></script>
             <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/public/js/sb-admin-2.min.js"></script>
+            <script src="/public/js/sb-admin-2.js"></script>
             <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
             <script src="/public/js/demo/datatables-demo.js"></script>
@@ -474,6 +545,8 @@
 
             <script src="/public/js/profileDetail.js"></script>
             <script src="/public/js/adminLogout.js"></script>
+            <script src="/public/js/adminRoleCheck.js"></script>
+            <script src="/public/js/tokenChecked.js"></script>
 
 
 </body>

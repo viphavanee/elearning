@@ -69,14 +69,26 @@ router.route("/register").post(async (req, res) => {
         });
 
         if (result.status_code === '200') {
-            res.redirect('/login');
-        } else {
-            res.status(500).json({ error: result.message });
+            res.status(200).json({ message: "Registration successful" });
+          } else {
+            res.status(400).json({ error: result.message });
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: "Internal server error" });
         }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal server error" });
-    }
+});
+
+router.get("/check-email", async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) return res.status(400).json({ error: "กรุณาระบุอีเมล" });
+
+    const result = await func.emailChecked(email);
+    return res.status(result.status_code).json(result);
+  } catch (error) {
+    return res.status(500).json({ error: "เกิดข้อผิดพลาดในการตรวจสอบอีเมล" });
+  }
 });
 
 router.route("/login/adminChecked").post(async (req, res) => {
@@ -117,7 +129,7 @@ router.route("/forget").post(async (req, res) => {
         const response = await UFunc.getUserByEmail({ email });
 
         if (response.status_code !== "200") {
-            return res.status(401).json({ message: 'อีเมลไม่ถูกต้อง' });
+            return res.status(401).json({ message: 'อีเมลไม่ถูกต้องหรือไม่พบอีเมลของคุณในระบบ' });
         }
 
         const newPassword = generateRandomPassword();
@@ -146,7 +158,7 @@ router.route("/forget").post(async (req, res) => {
         await sendEmailMessage(email, emailSubject, emailMessage, true);
 
         await func.resetPassword({ email, hashedPassword });
-        return res.status(200).json({ message: 'พาสเวิร์ดใหม่ถูกส่งแล้ว' });
+        return res.status(200).json({ message: 'รหัสผ่านใหม่ถูกส่งแล้ว โปรดตรวจสอบอีเมลของคุณ' });
 
     } catch (error) {
         console.error(error);
@@ -185,6 +197,8 @@ router.route("/change-password/:userId").post(async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
 
 router.post("/logout", (req, res) => {
     try {

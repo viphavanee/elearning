@@ -26,7 +26,57 @@
     integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <style>
+    @media (min-width: 1024px) {
+        .row > [class*="col-"] .card {
+            min-height: 200px;
+        }
+    }
+    
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .row > [class*="col-"] {
+            flex: 0 0 33.33%;
+            max-width: 33.33%;
+        }
+        /* เพิ่มความสูงของการ์ด */
+        .row > [class*="col-"] .card {
+            min-height: 200px; /* ปรับความสูงตามที่ต้องการ */
+        }
+    }
+    
+    /* สำหรับ Smartphone (max-width: 767px) ให้แสดง 1 การ์ดต่อแถว และเพิ่มความสูงของการ์ด */
+    @media (max-width: 767px) {
+        .row > [class*="col-"] {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        #notifyCount.translate-middle {
+        transform: translate(-600%, 60%) !important;
+    }
+    }
+    /* สำหรับขนาด Desktop */
+@media (min-width: 1024px) {
+    .card {
+        height: 100%;
+    }
+}
 
+/* สำหรับขนาด Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .card {
+        height: 100%;
+    }
+}
+
+/* สำหรับขนาด Smartphone */
+@media (max-width: 767px) {
+    .card {
+        height: 100%;
+    }
+}
+
+
+        </style>
 </head>
 
 <body id="page-top">
@@ -73,6 +123,21 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
+          <!-- notify -->
+          <div class="d-flex justify-content-end w-100">
+            <div class="dropdown no-arrow">
+                <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                        id="notifyCount"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                    <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                </ul>
+            </div>
+        </div>
 
           <ul class="navbar-nav ml-auto">
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -86,7 +151,7 @@
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" id="profile-link">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   แก้ไขโปรไฟล์
                 </a>
@@ -117,32 +182,33 @@
             </div>
           </div>
 
-          <% if (lessons && lessons.length> 0) { %>
+          <% if (lessons && lessons.length > 0) { %>
             <div class="row">
-              <% lessons.forEach(function(lesson) { %>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                  <!-- 1 column on mobile, 2 on small, 3 on medium, 4 on large screens -->
-                  <a href="/lesson/std/<%= lesson._id %>/directory" class="card text-decoration-none">
-                    <% if (lesson.image && lesson.image.length> 0) { %>
-                      <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top" alt="Classroom Image" />
-                      <% } else { %>
-                        <img src="..." class="card-img-top" alt="ไม่พบรูป" />
-                        <% } %>
-
-                          <div class="card-body">
-                            <span class="card-title" style="font-weight: 500;">
-                              บทที่ <%= lesson.lessonNum %>
-                                <%= lesson.lessonName %>
-                            </span>
-                          </div>
-                  </a>
-                </div>
+                <% lessons.forEach(function(lesson) { %>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <!-- 1 column on mobile, 2 on small, 3 on medium, 4 on large screens -->
+                        <a href="/lesson/std/<%= lesson._id %>/directory" class="card text-decoration-none">
+                            <% if (lesson.image && lesson.image.length > 0) { %>
+                                <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top" alt="Classroom Image" />
+                            <% } else { %>
+                                <img src="..." class="card-img-top" alt="ไม่พบรูป" />
+                            <% } %>
+        
+                            <div class="card-body">
+                                <span data-id="<%= lesson._id %>" id="lesson-title" class="card-title" style="font-weight: 500;">
+                                    บทที่ <%= lesson.lessonNum %> 
+                                    <%= lesson.lessonName %>
+                                    <div id="success-badge" class="d-none badge bg-success">สำเร็จ</div>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 <% }); %>
             </div>
-            <% } else { %>
-              <p>ไม่มีบทเรียน</p>
-              <% } %>
-        </div>
+        <% } else { %>
+            <p>ไม่มีบทเรียน</p>
+        <% } %>
+        
 
       </div>
     </div>
@@ -167,27 +233,13 @@
 
   <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
   <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Assuming your token is stored in localStorage under the key 'token'
-      const token = localStorage.getItem('token');
 
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token); // Decodes the JWT token
-
-          // Assuming userId is a field in your token
-          const userId = decodedToken.userId;
-
-          // Example usage: set the userId value to an input field
-          document.getElementById('studentId').value = userId;
-        } catch (error) {
-          console.error('Error decoding token:', error);
-          // Handle error if decoding fails
-        }
-      }
-    });
-  </script>
+  <script src="/public/js/notification.js"></script>
+  <script src="/public/vendor/jquery/jquery.min.js"></script>
+   
+  <script src="/public/js/sb-admin-2.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
 
   <!-- Copy 2 -->
   <script>
@@ -196,25 +248,53 @@
       const token = localStorage.getItem('token');
       const decodedToken = jwtDecode(token); // Decodes the JWT token
       const classroomId = decodedToken.classroomId;
+      const roomCode = decodedToken.roomCode;
       // Assuming userId is a field in your token
       const userId = decodedToken.userId;
       if (userId) {
         // Set the href attribute with the userId
         const classroomLink = document.getElementById('classroomLink');
         classroomLink.href = `/classroom/std/${userId}`;
-
+        const profileLink = document.getElementById('profile-link');
+        profileLink.href = `/profile/${userId}`;
         const scorelink = document.getElementById('scorelink');
         scorelink.href = `/attempt/score/${userId}`;
 
+
+        // Fetch notifications
+        fetchNotifications(userId);
       }
 
       if (classroomId) {
         const lessonLink = document.getElementById('lessonLink');
         lessonLink.href = `/lesson/std/${classroomId}`;
       }
-      if (userId && classroomId) {
-        const quitLink = document.getElementById('quit-link');
-        quitLink.href = `/classroomAttempt/std/delete/${userId}/${classroomId}`
+     
+      if(userId && roomCode){
+        const getProgress = async () => {
+          try {
+              const response = await fetch(`/progress/std/${userId}/${roomCode}`);
+              const progressData = await response.json();
+      
+              // Convert progressData into a Set for efficient lookup
+              const completedLessons = new Set(progressData.filter(lesson => lesson.isPost).map(lesson => lesson.lessonId));
+      
+              // Loop through all lesson titles and check if their ID is in completedLessons
+              document.querySelectorAll('#lesson-title').forEach(title => {
+                  const lessonId = title.getAttribute('data-id');
+                  if (completedLessons.has(lessonId)) {
+                      title.classList.add('text-secondary');
+                      title.querySelectorAll('#success-badge').forEach(badge => {
+                          badge.classList.remove('d-none');
+                          badge.classList.add('text-white');
+                      });
+                  }
+              });
+          } catch (error) {
+              console.error("Error fetching progress data:", error);
+          }
+      };
+      getProgress();
       }
     });
 

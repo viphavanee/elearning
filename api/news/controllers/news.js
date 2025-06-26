@@ -9,8 +9,23 @@ router.route("/").get(async (req, res) => {
   try {
     const response = await func.getNews();
     if (response.status_code === "200") {
-      const news = response.data;
-      res.render("newsAdmin", { news });
+      let news = response.data;
+
+      // Pagination
+      const page = parseInt(req.query.page) || 1;
+      const limit = 9; // Limit per page
+      const skip = (page - 1) * limit;
+      const totalNews = news.length;
+      const totalPages = Math.ceil(totalNews / limit);
+
+      // Paginate News
+      const paginatedNews = news.slice(skip, skip + limit);
+
+      res.render("newsAdmin", { 
+        news: paginatedNews, 
+        totalPages, 
+        currentPage: page 
+      });
     } else {
       res.status(500).json({ error: response.message });
     }
@@ -54,15 +69,18 @@ router.route("/createNews").get(async (req, res) => {
   res.render("createNews");
 });
 
+// controller
 router.route("/createNews").post(upload.single("image"), async (req, res) => {
   try {
     const response = await func.createNews(req.body, req.file);
-    res.redirect('/news');
+    // Send a JSON response indicating success
+    res.status(200).json({ status_code: 200, message: 'News created successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 router.route("/edit/:id").get(async (req, res) => {
   try {
     const newsId = req.params.id;
@@ -176,6 +194,46 @@ router.route("/stdViewNews/:id").get(async (req, res) => {
 
     if (news.status_code === "200") {
       res.render("stdViewNews", { news: news.data });
+    } else {
+      res.status(404).json({ error: "News not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.route("/stdViewNews/:id").get(async (req, res) => {
+  try {
+    const newsId = req.params.id;
+    if (!newsId) {
+      console.error("Invalid News ID:", newsId);
+      return res.status(400).json({ error: "Invalid news ID" });
+    }
+
+    const news = await func.getNewsById({ id: newsId });
+
+    if (news.status_code === "200") {
+      res.render("stdViewNews", { news: news.data });
+    } else {
+      res.status(404).json({ error: "News not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+router.route("/tchrViewNews/:id").get(async (req, res) => {
+  try {
+    const newsId = req.params.id;
+    if (!newsId) {
+      console.error("Invalid News ID:", newsId);
+      return res.status(400).json({ error: "Invalid news ID" });
+    }
+    const news = await func.getNewsById({ id: newsId });
+
+    if (news.status_code === "200") {
+      res.render("tchrViewNews", { news: news.data });
     } else {
       res.status(404).json({ error: "News not found" });
     }

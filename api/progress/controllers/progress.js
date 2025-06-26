@@ -10,8 +10,8 @@ const qFunc = require("../../quiz/function/quiz");
 router.route("/:teacherId").get(async (req, res) => {
     try {
         const classroomResponse = await cFunc.getClassroombyTeacherId({ id: req.params.teacherId });
-         const classroom = classroomResponse?.data || [];
-            res.render("progressTchr", { classroom, teacherId: req.params.teacherId });
+        const classroom = classroomResponse?.data || [];
+        res.render("progressTchr", { classroom, teacherId: req.params.teacherId });
       
     } catch (error) {
         console.error(error);
@@ -23,12 +23,36 @@ router.route("/:teacherId/:roomCode").get(async (req, res) => {
     try {
         const lessonResponse = await lFunc.getLesson();
         const lessons = lessonResponse?.data || [];
-        res.render("progressTchrDir", { lessons, teacherId: req.params.teacherId, roomCode: req.params.roomCode });
+      
+        const classroomResponse = await cFunc.getClassroombyTeacherId({ id: req.params.teacherId });
+        const classrooms = classroomResponse?.data || [];
+        
+        const classroom = classrooms.find(c => c.roomCode === req.params.roomCode);
+        
+        res.render("progressTchrDir", { classroom, lessons, teacherId: req.params.teacherId, roomCode: req.params.roomCode });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+router.route("/std/:studentId/:roomCode").get(async (req, res) => {
+    try {
+        const { studentId, roomCode } = req.params;
+      
+        const result = await func.getByStd({ studentId, roomCode });
+
+        const data = result.data;
+
+        console.log(data)
+        
+        return res.send(data);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 router.route("/:teacherId/:roomCode/:lessonId").get(async (req, res) => { 
     try {
@@ -46,10 +70,10 @@ router.route("/:teacherId/:roomCode/:lessonId").get(async (req, res) => {
             const studentProgress = progress.find(p => p.studentId.toString() === user._id.toString());
             return {
                 ...user, 
-                progress: studentProgress ? studentProgress : null, // Add progress data to user, or null if not found
+                progress: studentProgress ? studentProgress : null, 
             };
         });
-
+        console.log(mergedData);
         res.render("progressTchrDetail", { processData: mergedData, lessonNum: lesson.lessonNum, lessonName: lesson.lessonName});
     } catch (error) {
         console.error(error);

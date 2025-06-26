@@ -210,17 +210,18 @@ router.route("/delete/:id").get(async (req, res) => {
 
 router.route("/admin/delete/:id").get(async (req, res) => {
   try {
+    console.log("working!!!!")
     const themeId = req.params.id;
     let notificationData;
     if (!themeId) {
       console.error("Invalid theme ID:", themeId);
       return res.status(400).json({ error: "Invalid theme ID" });
     }
+    console.log(themeId)
     await Cfunc.softDeleteMany({ themeId: themeId });
     const deleteTheme = await func.softDelete({ id: themeId });
 
     const deletedData = deleteTheme.data;
-    console.log(deleteTheme)
 
      notificationData = {
       themeId,

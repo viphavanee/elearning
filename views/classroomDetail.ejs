@@ -28,15 +28,28 @@
         integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        @media (max-width: 767px) {
+            #notifyCount.translate-middle {
+                transform: translate(-600%, 60%) !important;
+    }
+}
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-text mx-3" style="font-size: 15px;">STD<span style="font-size: 12px;">s</span> E-learning</div>
+                <div class="sidebar-brand-text mx-3" style="font-size: 15px;">STD<span style="font-size: 12px;">s</span>
+                    E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="dashboardLink">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
@@ -63,6 +76,11 @@
                     <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#" id="progressLink">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>ติดตามผลการเรียน</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/theme/teacher">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
@@ -77,18 +95,21 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <!-- notify -->
+                <div class="d-flex justify-content-end w-100">
+                    <div class="dropdown no-arrow">
+                        <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                id="notifyCount"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                            <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                        </ul>
+                    </div>
+                </div>
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -102,8 +123,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <a class="dropdown-item" href="/change-password">
@@ -153,8 +174,8 @@
                                                         <%= student.school %>
                                                     </td>
                                                     <td>
-                                                        <a class="btn btn-danger"
-                                                            href="/classroomAttempt/delete/<%= student._id %>/<%= classroom.roomCode %>/<%= classroom._id %>">Delete</a>
+                                                        <a class="btn btn-danger btn-sm"
+                                                            href="/classroomAttempt/delete/<%= student._id %>/<%= classroom.roomCode %>/<%= classroom._id %>"><i class="fa-solid fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                                 <% }); %>
@@ -209,26 +230,6 @@
                     </div>
                 </div>
 
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">คุณต้องการออกจากระบบหรือไม่?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="/logout">Logout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Footer -->
@@ -253,6 +254,14 @@
     <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/public/js/demo/datatables-demo.js"></script>
+    <script src="/public/js/notification.js"></script>
+    <script src="/public/js/teacherRoleCheck.js"></script>
+    <script src="/public/js/tokenChecked.js"></script>
+    <script src="/public/js/logout.js"></script>
+    
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $('#updateUserModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -292,6 +301,34 @@
         });
     </script>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.preventDefault(); // ป้องกันการไปที่ลิงก์ทันที
+                    
+                    let studentId = this.getAttribute("data-student-id");
+                    let roomCode = this.getAttribute("data-room-code");
+                    let classroomId = this.getAttribute("data-classroom-id");
+    
+                    Swal.fire({
+                        title: "คุณแน่ใจหรือไม่?",
+                        text: "เมื่อลบแล้วจะไม่สามารถกู้คืนได้",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "ใช่, ลบเลย!",
+                        cancelButtonText: "ยกเลิก"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = `/classroomAttempt/delete/${studentId}/${roomCode}/${classroomId}`;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
         // Ensure the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
             const token = localStorage.getItem('token');
@@ -303,9 +340,16 @@
                 // Set the href attribute with the userId
                 const classroomLink = document.getElementById('classroomLink');
                 const attemptLink = document.getElementById('attemptLink');
+                const progressLink = document.getElementById('progressLink');
+                const dashboardLink = document.getElementById('dashboardLink');
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
+                dashboardLink.href = `/teacher/dashboard/${userId}`;
                 classroomLink.href = `/classroom/teacher/${userId}`;
                 attemptLink.href = `/attempt/list/${userId}`;
             }
+             // Fetch notifications
+             fetchNotifications(userId);
         });
     </script>
 </body>

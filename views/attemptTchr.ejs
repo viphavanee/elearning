@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
     <link rel="manifest" href="/public/site.webmanifest">
-    <title>จัดการคะแนน</title>
+    <title>จัดการคะแนน | เลือกห้องเรียน</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
@@ -28,17 +28,61 @@
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @media (min-width: 1024px) {
+    .row-cols-md-3 .col {
+        flex: 1 1 calc(33.333% - 16px); /* 3 การ์ดต่อแถว */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .row-cols-md-3 {
+        display: flex;
+        flex-direction: column; /* จัดเรียงการ์ดลงมาแถวเดียว */
+        align-items: center; /* จัดการ์ดให้อยู่กึ่งกลาง */
+    }
+
+    .row-cols-md-3 .col {
+        width: 80%; /* ปรับขนาดการ์ดให้ใหญ่ขึ้น */
+        max-width: 600px; /* กำหนดความกว้างสูงสุด */
+    }
+
+    .row-cols-md-3 .col .card {
+        height: auto; /* ให้การ์ดขยายตามเนื้อหา */
+        padding: 20px; /* เพิ่มพื้นที่ภายในการ์ด */
+    }
+    .col{
+        margin-bottom: 20px;    
+    }
+}
+@media (max-width: 767px) {
+    .row-cols-md-3 .col {
+        flex: 1 1 100%; /* 1 การ์ดต่อแถว */
+    }
+    .col{
+        margin-bottom: 20px;    
+    }
+    #notifyCount.translate-middle {
+        transform: translate(-600%, 60%) !important;
+    }
+
+}
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
                         style="font-size: 12px;">s</span> E-learning</div>
             </a>
             <hr class="sidebar-divider my-0">
-
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="dashboardLink">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/lesson/tchr">
                     <i class="fas fa-book"></i>
@@ -65,12 +109,15 @@
                     <span>จัดการห้องเรียน</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#" id="progressLink">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>ติดตามผลการเรียน</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/theme/teacher">
                     <i class="fas fa-question"></i>
                     <span>กระทู้ถาม-ตอบ</span></a>
             </li>
-
-
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -80,18 +127,21 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <!-- notify -->
+                <div class="d-flex justify-content-end w-100">
+                    <div class="dropdown no-arrow">
+                        <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                id="notifyCount"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                            <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                        </ul>
+                    </div>
+                </div>
                     <ul class="navbar-nav ml-auto">
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -106,8 +156,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <a class="dropdown-item" href="/change-password">
@@ -147,23 +197,22 @@
                                                             <img src="..." class="card-img-top" alt="ไม่พบรูป" />
                                                             <% } %>
 
-
-
-                                                                <div class="card-body text-dark">
+                                                                <div class="card-body">
                                                                     <p class="text-secondary">
-                                                                        #<%= classroom.roomCode %>
+                                                                        รหัสห้องเรียน : <%= classroom.roomCode %>
                                                                     </p>
-                                                                    <h5 class="card-title">
-                                                                        ห้องเรียน <%= classroom.classroomName %>
+                                                                    <h5 class="card-title text-dark font-weight-bold">
+                                                                       ห้อง <%= classroom.classroomName %>
                                                                     </h5>
-                                                                    <% if (teacher) { %>
-                                                                        <p class="card-text">
+                                                                    <!-- <% if (teacher) { %>
+                                                                        <p class="card-text text-dark">
                                                                             ครูผู้สอน <%= teacher.firstname %>
                                                                                 <%= teacher.lastname %>
                                                                         </p>
+                                                                        
                                                                         <% } else { %>
                                                                             <p class="card-text">ไม่พบชื่อครูผู้สอน</p>
-                                                                            <% } %>
+                                                                            <% } %> -->
                                                                 </div>
                                             </a>
                                         </div>
@@ -182,37 +231,10 @@
     </div>
     </div>
     </div>
-    <div class="modal fade" id="createClassroomModal" tabindex="-1" role="dialog"
-        aria-labelledby="createClassroomModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createClassroomModalLabel">สร้างห้องเรียน</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="createClassroomForm" style="margin: 0; width: 100%;" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="classroomName">ชื่อห้องเรียน</label>
-                            <input type="text" name="classroomName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="feature_image">รูปภาพ</label>
-                            <input type="file" id="feature_image" name="feature_image" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                        <button type="submit" name="submit" class="btn btn-primary">บันทึก</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+   
 
-
+    <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -225,9 +247,11 @@
     <script src="/public/js/tinymceInit.js"></script>
     <script src="/public/js/script.js"></script>
     <script src="/public/js/getdata.js"></script>
+    <script src="/public/js/notification.js"></script>
 
-    <script src="
-   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
     <script>
         // Ensure the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
@@ -240,9 +264,17 @@
                 // Set the href attribute with the userId
                 const classroomLink = document.getElementById('classroomLink');
                 const attemptLink = document.getElementById('attemptLink');
+                const progressLink = document.getElementById('progressLink');
+                const dashboardLink = document.getElementById('dashboardLink');
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
+                dashboardLink.href = `/teacher/dashboard/${userId}`;
+                progressLink.href = `/progress/${userId}`;
                 classroomLink.href = `/classroom/teacher/${userId}`;
                 attemptLink.href = `/attempt/list/${userId}`;
             }
+             // Fetch notifications
+             fetchNotifications(userId);
         });
     </script>
     <script src="/public/js/profileDetail.js"></script>

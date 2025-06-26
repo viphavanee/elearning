@@ -8,14 +8,35 @@ const Afunc = require("../../attempt/function/attempt");
 const UFunc = require("../../user/function/user");
 const Qfunc = require("../../quiz/function/quiz");
 const Cfunc = require("../../classroom/function/classroom");
+const PFunc = require("../../progress/function/progress");
 
 
 router.route("/").get(async (req, res) => {
   try {
-    const response = await func.getLesson();
-    if (response.status_code === "200") {//Login  ->  token sign -> localStorage
-      const lessons = response.data;      //Client -> Middleware -> API -> DB -> API -> Client
-      res.render("lesson", { lessons });
+    const response = await func.getLesson(); // Fetch all lessons
+    if (response.status_code === "200") {
+      let lessons = response.data;
+
+      // Pagination
+      const page = parseInt(req.query.page) || 1;
+      const limit = 9; // Limit per page
+      const skip = (page - 1) * limit;
+      const totalLessons = lessons.length;
+      const totalPages = Math.ceil(totalLessons / limit);
+
+      // Search functionality
+      const searchQuery = req.query.search ? req.query.search.toLowerCase() : "";
+      if (searchQuery) {
+        lessons = lessons.filter(lesson =>
+          lesson.title.toLowerCase().includes(searchQuery) ||
+          lesson.description.toLowerCase().includes(searchQuery)
+        );
+      }
+
+      // Paginate the filtered lessons
+      const paginatedLessons = lessons.slice(skip, skip + limit);
+
+      res.render("lesson", { lessons: paginatedLessons, totalPages, currentPage: page });
     } else {
       res.status(500).json({ error: response.message });
     }
@@ -26,22 +47,31 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/Std/:id").get(async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; 
+  const { studentId } = req.query; 
+
   try {
     let response = await func.getLesson();
-    const getClassroom = await Cfunc.getClassroomById({id});
+    const getClassroom = await Cfunc.getClassroomById({ id });
+    let progress = [];
+    if (studentId) {
+      const progressData = await PFunc.getProgressByStudentId({ studentId, classroomId: id });
+      progress = progressData?.progress || [];
+    }
+
     if (response.status_code === "200") {
       const lessons = response.data;
       const classroom = getClassroom.data;
-      res.render("lessonStd", { lessons, classroom });
+      res.render("lessonStd", { lessons, classroom, progress });
     } else {
       res.status(500).json({ error: response.message });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 router.route("/Std/:id/directory").get(async (req, res) => {
   const { id } = req.params;
@@ -50,8 +80,8 @@ router.route("/Std/:id/directory").get(async (req, res) => {
     if (response.status_code === "200") {
       const lessons = response.data;
       const lessonNum = lessons.lessonNum;
-      const quiz = await Qfunc.getQuizByLessonNum({lessonNum});
-      
+      const quiz = await Qfunc.getQuizByLessonNum({ lessonNum });
+
       res.render("lessonStdDir", { lessons, quiz: quiz.data });
     } else {
       res.status(500).json({ error: response.message });
@@ -66,8 +96,8 @@ router.route("/Std/preTestChecked/:studentId/:roomCode/:quizId").get(async (req,
   const { studentId, roomCode, quizId } = req.params;
   try {
     let response = await Afunc.preTestChecked({ studentId, roomCode, quizId });
-    
-      res.status(200).json({ data: response.data })
+
+    res.status(200).json({ data: response.data })
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });
@@ -78,7 +108,7 @@ router.route("/Std/postTestChecked/:studentId/:roomCode/:quizId").get(async (req
   const { studentId, roomCode, quizId } = req.params;
   try {
     let response = await Afunc.postTestChecked({ studentId, roomCode, quizId });
-      res.status(200).json({ data: response.data })
+    res.status(200).json({ data: response.data })
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error });
@@ -109,12 +139,15 @@ router.route("/createLesson").get(async (req, res) => {
 router.route("/createLesson").post(upload.single("image"), async (req, res) => {
   try {
     const response = await func.createLesson(req.body, req.file);
+    console.log(response);
     res.status(response.status_code).json(response);
   } catch (error) {
-    console.error(error);
+    console.error("Error in createLesson:", error);
     res.status(500).json({ status_code: "500", status_phrase: "fail", message: "Internal Server Error" });
   }
 });
+
+
 
 
 router.route("/lesson/:id").get(async (req, res) => {

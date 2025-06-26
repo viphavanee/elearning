@@ -30,13 +30,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/adminHome">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
                         style="font-size: 12px;">s</span> E-learning</div>
             </a>
@@ -76,18 +75,23 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+
+                    <!-- notify -->
+                    <div class="d-flex justify-content-end w-100">
+                        <div class="dropdown no-arrow">
+                            <a class="text-decoration-none dropdown-toggle text-secondary mx-3" href="#" id="notifyLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-bell" style="font-size: 1.5em;"></i>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white d-none"
+                                    id="notifyCount"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right mt-3" id="notifyDropdown">
+                                <li class="dropdown-item text-muted">ไม่พบการแจ้งเตือนใหม่</li>
+                            </ul>
                         </div>
-                    </form>
+                    </div>
+
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
@@ -101,8 +105,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <a class="dropdown-item" href="#" id="profile-link">
+                                    <i class=" fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     แก้ไขโปรไฟล์
                                 </a>
                                 <a class="dropdown-item" href="/change-password">
@@ -116,54 +120,65 @@
                                     ออกจากระบบ
                                 </a>
                             </div>
-
                         </li>
                     </ul>
                 </nav>
-                <div class="container-fluid">
-                    <h3 class="card-title">
-                        บทที่ <%= lessons.lessonNum %>
-                            <%= lessons.lessonName %>
-                    </h3>
-                    <div class="d-flex flex-column justify-content-center align-items-center p-3">
+            <div class="container-fluid">
+                <h3 class="card-title">
+                    บทที่ <%= lessons.lessonNum %>
+                        <%= lessons.lessonName %>
+                </h3>
+                <div class="d-flex flex-column justify-content-center align-items-center p-3">
 
-                        <div class="card w-100 p-3 mb-3 text-decoration-none">
-                            <div>
-                                <a class="h4" href="#" id="preLink">แบบทดสอบก่อนเรียน</a>
-                                <div class="mt-2">
-                                    <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
-                                    <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
-                                </div>
-                                <span id="pre_status">
-                                </span>
+                    <div class="card w-100 p-3 mb-3 text-decoration-none">
+                        <div>
+                            <a class="h4" href="#" id="preLink">แบบทดสอบก่อนเรียน</a>
+                            <div class="mt-2">
+                                <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
+                                <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
                             </div>
-
+                            <span id="pre_status">
+                            </span>
                         </div>
-                        <a class="card w-100 p-3 mb-3 text-decoration-none" id="lessonLink" href="#">
-                            <div>
-                                <p class="h4">บทเรียน</p>
-                                <span id="lesson_status"></span>
-                            </div>
 
-                        </a>
-                        <div class="card w-100 p-3 mb-3 text-decoration-none">
-                            <div>
-                                <a class="h4" href="#" id="postTestLink">แบบทดสอบหลังเรียน</a>
+                    </div>
+                    <a class="card w-100 p-3 mb-3 text-decoration-none" id="lessonLink" href="#">
+                        <div>
+                            <p class="h4">บทเรียน</p>
+                            
+                            <div id='player' class="d-none"></div>
 
-                                <div class="mt-2">
-                                    <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
-                                    <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
+                            <div class="mb-3">
+                                <small class="fw-bold text-secondary">ความคืบหน้า</small>
+                                <div class="progress mb-3" style="height: 14px;">
+                                    <div id="progress-bar" class="progress-bar bg-success d-flex align-items-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <span id="progress-text"></span>
+                                    </div>
                                 </div>
-                                <span id="post_status"></span>
                             </div>
 
+                            <span id="lesson_status"></span>
+                        </div>
+
+                    </a>
+                    <div class="card w-100 p-3 mb-3 text-decoration-none">
+                        <div>
+                            <a class="h4" href="#" id="postTestLink">แบบทดสอบหลังเรียน</a>
+
+                            <div class="mt-2">
+                                <div>จำนวนข้อ <%= quiz.numberOfQuestions %> ข้อ <%= quiz.score %> คะแนน</div>
+                                <div>เวลาในการทำแบบทดสอบ <%= quiz.timeInMinutes %> นาที</div>
+                            </div>
+                            <span id="post_status"></span>
                         </div>
 
                     </div>
 
                 </div>
+
             </div>
         </div>
+    </div>
 
     </div>
     <script src="
@@ -184,8 +199,12 @@
     <script src="/public/js/profileDetail.js"></script>
     <script src="/public/js/logout.js"></script>
 
+    <script src="/public/js/notification.js"></script>
     <script src="/public/js/studentRoleCheck.js"></script><!-- Check teacher role -->
     <script src="/public/js/tokenChecked.js"></script><!-- Check login -->
+    <script src="/public/js/sb-admin-2.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
@@ -194,50 +213,65 @@
                 const decodedToken = jwtDecode(token);
                 const userId = decodedToken.userId;
                 const classroomId = decodedToken.classroomId;
-                const lessonNum = "<%- lessons.lessonNum %>";
-                const quizId = "<%- quiz._id %>";
+                const lessonNum = <%- JSON.stringify(lessons.lessonNum) %>;
+                const quizId = <%- JSON.stringify(quiz._id) %>;
                 const roomCode = decodedToken.roomCode;
-
+    
                 try {
                     // Fetch all required data concurrently
                     const [preTestRes, postTestRes, lessonStatusRes] = await Promise.all([
                         axios.get(`/lesson/Std/preTestChecked/${userId}/${roomCode}/${quizId}`, { headers: { 'Content-Type': 'application/json' } }),
                         axios.get(`/lesson/Std/postTestChecked/${userId}/${roomCode}/${quizId}`, { headers: { 'Content-Type': 'application/json' } }),
-                        axios.get(`/lessonLog/getLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, { headers: { 'Content-Type': 'application/json' } }),
+                        axios.get(`/lessonLog/directory/getLessonLog?studentId=${userId}&lessonNum=${lessonNum}&roomCode=${roomCode}`, { headers: { 'Content-Type': 'application/json' } }),
                     ]);
-
+    
                     const resultPre = preTestRes.data;
                     const resultPost = postTestRes.data;
                     const lessonStatus = lessonStatusRes.data.status;
-
+    
                     const preStatusElement = document.getElementById("pre_status");
                     const lessonStatusElement = document.getElementById("lesson_status");
                     const postStatusElement = document.getElementById("post_status");
                     const preLink = document.getElementById("preLink");
                     const lessonLink = document.getElementById("lessonLink");
                     const postTestLink = document.getElementById("postTestLink");
-
+    
                     // Pre-test status
                     if (resultPre.data) {
                         preStatusElement.textContent = "สำเร็จ";
                         preStatusElement.className = "badge badge-pill badge-success";
-                        preLink.classList.add("disabled");
+    
+                        // Enable or disable links based on pre-test result
+                        preLink.href = "#";
+                        preLink.classList.add("text-muted")
                         preLink.style.pointerEvents = "none";
-
+    
                         // Lesson status handling
                         if (lessonStatus === 'Incomplete' || !lessonStatus) {
                             lessonStatusElement.textContent = "ยังไม่เสร็จ";
                             lessonStatusElement.className = "badge badge-pill badge-secondary";
-
-                            postTestLink.classList.add("disabled");
+    
+                            // Disable post-test link if lesson is incomplete
+                            postTestLink.href = "#";
+                            postTestLink.classList.add("text-muted")
                             postTestLink.style.pointerEvents = "none";
                             postStatusElement.textContent = "จบบทเรียนเพื่อปลดล็อค";
                             postStatusElement.className = "text-danger";
                         } else {
                             lessonStatusElement.textContent = "สำเร็จ";
                             lessonStatusElement.className = "badge badge-pill badge-success";
+                            lessonLink.classList.add("text-muted");
+                            // Enable post-test link if the lesson is complete
                             postStatusElement.textContent = resultPost.data ? "สำเร็จ" : "ยังไม่เสร็จ";
                             postStatusElement.className = resultPost.data ? "badge badge-pill badge-success" : "badge badge-pill badge-secondary";
+                            postTestLink.style.pointerEvents = "auto";
+                            
+                            //disable post test link when it completed
+                            if(resultPost.data){
+                                postTestLink.href = `#`;
+                                postTestLink.classList.add("text-muted");
+                                postTestLink.style.pointerEvents = "none";
+                            }
                         }
                     } else {
                         // Pre-test incomplete
@@ -247,40 +281,39 @@
                         lessonStatusElement.className = "text-danger";
                         postStatusElement.textContent = "ทำแบบทดสอบก่อนเรียนเพื่อปลดล็อค";
                         postStatusElement.className = "text-danger";
-
-                        lessonLink.classList.add("disabled");
+    
+                        // Disable all links if pre-test is incomplete
+                        lessonLink.href = "#";
                         lessonLink.style.pointerEvents = "none";
-                        postTestLink.classList.add("disabled");
+                        postTestLink.href = "#";
                         postTestLink.style.pointerEvents = "none";
                     }
-
-
                 } catch (error) {
                     console.error('Error fetching lesson and test data:', error);
                 }
             }
         });
     </script>
-    <!-- Copy 2 -->
+    
+   
     <script>
-        // Ensure the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
             const token = localStorage.getItem('token');
             const decodedToken = jwtDecode(token); // Decodes the JWT token
             const classroomId = decodedToken.classroomId;
-            // Assuming userId is a field in your token
+           
             const userId = decodedToken.userId;
             const roomCode = decodedToken.roomCode;
             const lessonId = "<%= lessons._id %>";
             if (userId) {
-                // Set the href attribute with the userId
                 const classroomLink = document.getElementById('classroomLink');
                 classroomLink.href = `/classroom/std/${userId}`;
-
+                const profileLink = document.getElementById('profile-link');
+                profileLink.href = `/profile/${userId}`;
                 const scorelink = document.getElementById('scorelink');
                 scorelink.href = `/attempt/score/${userId}`;
 
-                console.log(decodedToken)
+                 fetchNotifications(userId);
             }
 
             if (classroomId) {
@@ -288,11 +321,9 @@
                 lessonLink.href = `/lesson/std/${classroomId}`;
             }
             if (userId && lessonId && roomCode) {
-
                 const preLink = document.getElementById('preLink');
                 const postTestLink = document.getElementById('postTestLink');
-
-
+                
                 if (preLink && postTestLink) { // Check if elements exist
                     preLink.href = `/question/pre/${lessonId}/${userId}/${roomCode}`;
                     postTestLink.href = `/question/post/${lessonId}/${userId}/${roomCode}`;
@@ -306,11 +337,118 @@
                     lessonLink.href = `/lesson/stdViewLesson/${lessonId}/${userId}`
                 }
             }
-
         });
     </script>
-    <!-- End Copy -->
 
+    
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        const maxDiff = 2;
+        let vdoDuration;
+        let checkPoint;
+    
+        // Create an <iframe> (and YouTube player) after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            const videoUrl = '<%= lessons.vdo_url %>';
+            let videoId = '';
+        
+            if (videoUrl) {
+                try {
+                    const url = new URL(videoUrl);
+                    if (url.hostname.includes('youtu.be')) {
+                        videoId = url.pathname.substring(1).split('?')[0];
+                    } else if (url.hostname.includes('youtube.com')) {
+                        videoId = url.searchParams.get('v');
+                    }
+                } catch (error) {
+                    console.error("Invalid YouTube URL:", videoUrl);
+                }
+            }
+        
+            if (!videoId) {
+                console.error("Could not extract video ID from URL:", videoUrl);
+                return;
+            }
+        
+            player = new YT.Player('player', {
+                height: '390',
+                width: '640',
+                videoId: videoId,
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+    
+        function onPlayerReady(event) {
+            const duration = event.target.getDuration();
+            const formattedDuration = formatDuration(duration);
+            vdoDuration = formattedDuration;
+    
+            if (formattedDuration) {
+                const token = localStorage.getItem('token');
+                const decodedToken = jwtDecode(token);
+                const studentId = decodedToken.userId;
+                const lessonNum = '<%= lessons.lessonNum %>';
+                const roomCode = decodedToken.roomCode;
+    
+                // Using async/await for better handling of promises
+                (async function() {
+                    try {
+                        const response = await fetch(`/lessonLog/getLessonLog?studentId=${studentId}&lessonNum=${lessonNum}&roomCode=${roomCode}`);
+                        const data = await response.json();
+                        
+                        if (data) {
+                            checkPoint = Math.ceil(data.checkPoint);
+                            updateProgressBar(checkPoint);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching lesson log:', error);
+                    }
+                })();
+            }
+        }
+    
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                updateProgressBarFromPlayer();
+            }
+        }
+    
+        function updateProgressBarFromPlayer() {
+            if (vdoDuration && checkPoint !== undefined) {
+                const currentTime = player.getCurrentTime();
+                const progress = (currentTime / vdoDuration) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+                document.getElementById('progress-bar').setAttribute('aria-valuenow', progress);
+            }
+        }
+    
+        function updateProgressBar(checkPoint) {
+            if (vdoDuration && checkPoint !== undefined) {
+                const progress = (checkPoint / vdoDuration) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+                document.getElementById('progress-bar').setAttribute('aria-valuenow', progress);
+                document.getElementById('progress-text').textContent = `${Math.round(progress)}%`;
+            }
+        }
+    
+        function formatDuration(seconds) {
+            return seconds.toFixed(3); // Convert to string with three decimal places
+        }
+    </script>
 </body>
 
 </html>

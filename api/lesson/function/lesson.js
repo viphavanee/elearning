@@ -49,6 +49,33 @@ const createLesson = async (data, imageFile) => {
   }
 };
 
+const checkLessonNumExists = async () => {
+  try {
+    // Check if the lessonNum already exists in the database
+    const existingLesson = await Lesson.findOne({ lessonNum: lessonNum });
+
+    if (existingLesson) {
+      // If the lessonNum exists, show the error message
+      Swal.fire({
+        icon: "error",
+        title: "หมายเลขบทเรียนนี้มีอยู่ในระบบแล้ว",
+        text: "กรุณากรอกหมายเลขบทเรียนที่ไม่ซ้ำ",
+      });
+      return true; // Return true to indicate that the lesson number already exists
+    }
+
+    return false; // Return false if the lessonNum does not exist
+  } catch (error) {
+    console.error("Error checking lessonNum:", error);
+    Swal.fire({
+      icon: "error",
+      title: "เกิดข้อผิดพลาด",
+      text: "ไม่สามารถตรวจสอบหมายเลขบทเรียนได้ในขณะนี้",
+    });
+    return false;
+  }
+};
+
 const getLesson = async () => {
   try {
     const client = new MongoClient(process.env.uri);
@@ -156,25 +183,32 @@ const softDelete = async (data) => {
     const questionCollect = database.collection("questions");
 
     const objectId = new ObjectId(data.id);
-    const lessonNum = data.lessonNum;
+    const lessonNum = data.lessonNum; // Ensure this matches the database type
+
+    console.log("Soft delete started for lesson:", { id: data.id, lessonNum });
 
     // Find the quiz associated with the lesson
     const quiz = await quizCollect.findOne({ lessonId: lessonNum, isDeleted: { $ne: true } });
 
-    const quizId = quiz._id.toString();
-
-    // Update the questions associated with the quiz
-    const questionResult = await questionCollect.updateMany(
-      { quizId, isDeleted: { $ne: true } },
-      { $set: { isDeleted: true } }
-    );
-
-    // Update the quiz
-
-    const quizResult = await quizCollect.updateOne(
-      { lessonId: lessonNum, isDeleted: { $ne: true } },
-      { $set: { isDeleted: true } }
-    );
+    if (!quiz) {
+      console.warn(`No active quiz found for lessonNum: ${lessonNum}`);
+    } else {
+      const quizId = quiz._id.toString();
+      
+      // Update the questions associated with the quiz
+      const questionResult = await questionCollect.updateMany(
+        { quizId, isDeleted: { $ne: true } },
+        { $set: { isDeleted: true } }
+      );
+      console.log("Questions updated:", questionResult.modifiedCount);
+  
+      // Update the quiz
+      const quizResult = await quizCollect.updateOne(
+        { lessonId: lessonNum, isDeleted: { $ne: true } },
+        { $set: { isDeleted: true } }
+      );
+      console.log("Quiz updated:", quizResult.modifiedCount);
+    }
 
     // Update the lesson
     const lessonResult = await collection.updateOne(
@@ -182,20 +216,23 @@ const softDelete = async (data) => {
       { $set: { isDeleted: true } }
     );
 
+    console.log("Lesson update result:", lessonResult);
+
     await client.close();
 
-    // Check if the lesson was successfully updated
     if (lessonResult.matchedCount === 1) {
+      console.log("Soft delete successful for lesson:", data.id);
       return {
         status_code: "200",
         status_phrase: "ok",
-        message: `soft delete success for lesson with id ${data.id}`,
+        message: `Soft delete success for lesson with id ${data.id}`,
       };
     } else {
+      console.warn(`Lesson with id ${data.id} not found or already deleted`);
       return {
         status_code: "404",
         status_phrase: "not found",
-        message: `lesson with id ${data.id} not found or is already deleted`,
+        message: `Lesson with id ${data.id} not found or is already deleted`,
       };
     }
   } catch (error) {
@@ -207,6 +244,7 @@ const softDelete = async (data) => {
     };
   }
 };
+
 
 
 const updateLessonImage = async (data) => {
@@ -285,6 +323,7 @@ module.exports = {
   getLessonById,
   getLessonByLessonNum,
   updateLessonImage,
+  checkLessonNumExists,
   softDelete
 
 };

@@ -355,4 +355,18 @@ router.route("/admin/delete/:themeId/:id").get(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// router.route("/countComment/:id/:themeId").get(async (req, res) => {
+//   try {
+//     const {id, themeId} = req.params;
+//     let response = await func.getCommentByUserId({userId: id, themeId});
+//     const user = await Ufunc.getUserById({id});
+//     console.log(response.data)
+//     res.status(200).json({count: response.data.length, user: user.data});
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: error });
+//   }
+// });
+
 module.exports = router;

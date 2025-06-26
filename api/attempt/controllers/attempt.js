@@ -186,14 +186,17 @@ router.route("/:teacherId/quiz/:roomCode").get(async (req, res) => {
   try {
     // Fetch all quizzes
     let getQuiz = await QuizFunc.getQuiz();
+    const classroom = await Cfunc.getByRoomCode({ roomCode });
+
     // Render the quizzes page (or provide a download link)
-    res.render("score", { quiz: getQuiz.data, roomCode });
+    res.render("score", { quiz: getQuiz.data, roomCode, classroom: classroom.data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
 
+//Excel
 router.route("/generateXlsx/:roomCode/:quizId").get(async (req, res) => {
   const { roomCode, quizId } = req.params;
   try {
@@ -257,13 +260,13 @@ router.route("/generateXlsx/:roomCode/:quizId").get(async (req, res) => {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-  });
+    });
     const rows = [
       ['วันที่', formattedDate,],
       ['อาจารย์', teacherData.firstname + ' ' + teacherData.lastname],
       ['ห้อง', classroomData.classroomName],
       ['โรงเรียน', teacherData.school],
-      ['บทเรียน',lessonData.lessonNum + ' - ' + lessonData.lessonName],
+      ['บทเรียน', lessonData.lessonNum + ' - ' + lessonData.lessonName],
       [''],
       ['ลำดับที่', 'ชื่อ - สกุล', 'คะแนนก่อนเรียน', '(%)', 'คะแนนหลังเรียน', '(%)', 'ค่าความต่าง', '(%)'],
       ...processedData.map((data, idx) => [
@@ -358,7 +361,7 @@ router.route("/generateXlsx/:roomCode/:quizId").get(async (req, res) => {
 
     // Set row heights
     ws['!rows'] = rows.map((_, idx) => ({ hpt: idx === 5 ? 20 : 15 })); // Header row height 20, others 15
-    
+
     // Apply Tahoma font to all cells
 
     Object.keys(ws).forEach((cell) => {
@@ -547,6 +550,7 @@ router.route("/score/:studentId").get(async (req, res) => {
     // Group the data
     groupByLessonNum(preTestWithLessons, 'preTest');
     groupByLessonNum(postTestWithLessons, 'postTest');
+
     // Return the grouped data
     res.render("scoreStd", { data: groupedResults, lesson: allLesson.data });
 

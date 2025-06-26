@@ -28,6 +28,144 @@
   <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* General styles for the container and card */
+    .container-fluid {
+      padding-top: 20px;
+    }
+
+    .card {
+      border-radius: 20px !important;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      /* Adds a subtle shadow for a modern look */
+    }
+
+
+    .card-body {
+      background-color: #fff;
+      padding: 30px;
+    }
+
+    /* Styling for the form */
+    .form-row {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-control {
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    /* Image upload styling */
+    input[type="file"] {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    img {
+      margin-top: 10px;
+      max-width: 50%;
+      height: auto;
+    }
+
+    /* Button styling */
+    .submit-btn {
+      text-align: center;
+    }
+
+    .submit-btn .btn {
+      color: white;
+      padding: 8px 15px;
+      background-color: #4e73df;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      padding: 12px 30px;
+      font-size: 18px;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .img-fluid {
+      width: 500px;
+      /* Fixed width for the image */
+      height: 300px;
+      /* Fixed height for the image */
+      object-fit: cover;
+      /* Ensure the image covers the area without distortion */
+    }
+
+    /* Responsive design */
+    @media screen and (max-width: 768px) {
+      .card-body {
+        padding: 20px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+      }
+
+      .form-control {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .submit-btn .btn {
+        font-size: 16px;
+        padding: 8px 16px;
+      }
+
+      .container-fluid {
+        padding-top: 5px;
+      }
+    }
+
+    @media screen and (max-width: 576px) {
+      .submit-btn .btn {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body id="page-top">
@@ -83,17 +221,7 @@
               <i class="fa fa-bars"></i>
             </button>
           </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+
           <ul class="navbar-nav ml-auto">
 
             <div class="topbar-divider d-none d-sm-block"></div>
@@ -107,11 +235,6 @@
                 <i class="fa fa-user-circle-o fa-2x"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -121,67 +244,128 @@
 
           </ul>
         </nav>
-
+        <h1 class="headL" style="text-align: center; color: #333;">แก้ไขบทเรียน</h1>
         <div class="container-fluid">
-          <form action="/lesson/edit/<%= editLesson._id %>" method="POST" enctype="multipart/form-data">
-            <h2>แก้ไขบทเรียน</h2>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">บทที่</label>
-                <input type="text" class="form-control" class="bx" name="newLessonNum" placeholder="บทที่"
-                  value="<%= editLesson.lessonNum %>" required>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="lastname">ชื่อบทเรียน</label>
-                <input type="text" class="form-control" class="bx" name="newLessonName" placeholder="ชื่อบทเรียน"
-                  value="<%= editLesson.lessonName %>" required>
-              </div>
-            </div>
+          <div class="card">
+            <div class="card-body">
+              <form action="/lesson/edit/<%= editLesson._id %>" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="name">บทที่</label>
+                    <input type="text" class="form-control" class="bx" name="newLessonNum" placeholder="บทที่"
+                      value="<%= editLesson.lessonNum %>" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastname">ชื่อบทเรียน</label>
+                    <input type="text" class="form-control" class="bx" name="newLessonName" placeholder="ชื่อบทเรียน"
+                      value="<%= editLesson.lessonName %>" required>
+                  </div>
+                </div>
 
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">เนื้อหา</label>
-                <textarea id="my-expressjs-tinymce-app" name="newContent"
-                  value="<%= editLesson.content %>"><%= editLesson.content %></textarea><br />
-                <!-- <textarea id="my-expressjs-tinymce-app" name="newContent"
-                  value="<%= editLesson.content %>"><%= decodeURIComponent(escapedContent) %></textarea><br /> -->
-              </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">เนื้อหา</label>
+                    <textarea id="my-expressjs-tinymce-app" name="newContent"
+                      value="<%= editLesson.content %>"><%= editLesson.content %></textarea><br />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">รูปปก</label>
+                    <% if (editLesson.image) { %>
+                      <img src="data:image/jpeg;base64,<%= editLesson.image %>" alt="Image" class="img-fluid">
+                      <% } %> <br>
+                        <input type="file" id="image" name="newImage" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="newUrl">ลิงก์สื่อการสอน</label>
+                    <input type="text" class="form-control" name="newUrl" placeholder="ลิงก์สื่อการสอน" id="newUrl"
+                      value="<%= editLesson.vdo_url %>" required>
+                  </div>
+                  <div class="form-group col-md-12 text-center">
+                    <div class="form-group submit-btn">
+                      <button type="submit" class="btn btn-success" id="butEditL" style="width: 200px;">บันทึก</button>
+                    </div>
+                  </div>                  
+              </form>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-12">
-                <label for="inputEmail4">รูปปก</label>
-                <% if (editLesson.image) { %>
-                  <img src="data:image/jpeg;base64,<%= editLesson.image %>" alt="Image" class="img-fluid">
-                  <% } %> <br>
-                    <input type="file" id="image" name="newImage" />
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="newUrl">ลิงก์สื่อการสอน</label>
-              <input type="text" class="form-control" class="bx" name="newUrl" placeholder="ลิงก์สื่อการสอน"
-                value="<%= editLesson.vdo_url %>" required>
-            </div>
-            <div class="form-group submit-btn">
-              <button type="submit" class="btn btn-success" id="butEditL">บันทึก</button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <script src="
-   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
-  <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
-  <script src="/public/js/tinymceInit.js"></script>
-  <script src="/public/js/script.js"></script>
-  <!-- <script src="/public/js/getdata.js"></script> -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="js/sb-admin-2.min.js"></script>
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+            </div>
+          </div>
+        </footer>
 
-  <script src="/public/js/profileDetail.js"></script>
-  <script src="/public/js/adminLogout.js"></script>
+        <script src="
+   https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+        <script type="application/javascript" src="/tinymce/tinymce.min.js"></script>
+        <script src="/public/js/tinymceInit.js"></script>
+        <script src="/public/js/script.js"></script>
+        <!-- <script src="/public/js/getdata.js"></script> -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/public/vendor/jquery/jquery.min.js"></script>
+        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/public/js/sb-admin-2.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/js/demo/datatables-demo.js"></script>
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <script src="/public/js/profileDetail.js"></script>
+        <script src="/public/js/adminLogin.js"></script>
+        <script src="/public/js/adminLogout.js"></script>
+        <script src="/public/js/adminRoleCheck.js"></script>
+        <script type="application/javascript">
+          document.getElementById("createLessonForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // อัปเดตเนื้อหาใน TinyMCE ก่อนที่ข้อมูลจะถูกส่ง
+            tinymce.get('my-expressjs-tinymce-app').save();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+              const response = await fetch(form.action, {
+                method: "POST",
+                body: formData
+              });
+              const result = await response.json();
+
+              if (response.status === 200 && result.status_code === "200") {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'สำเร็จ',
+                  text: result.message,
+                }).then(() => {
+                  window.location.href = "/lesson"; // Redirect to /lesson
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด',
+                  text: result.message,
+                });
+              }
+            } catch (error) {
+              Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'Internal Server Error',
+              });
+            }
+          });
+        </script>
 </body>
 
 </html>

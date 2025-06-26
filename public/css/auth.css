@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto Sans Thai:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -12,42 +12,23 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background: #ffffff;
   padding: 0 10px;
-  /* background-image: url('your-gif-url.gif');
-  background-position: center;
-  background-size: cover;
-  overflow: hidden; */
-  background-image: url("https://img.freepik.com/premium-vector/people-using-sexed-app-human-biology-anatomy-lesson-sex-education-mental-physical-health-contraception-female-reproductive-system-concept-vector-illustration_48369-47260.jpg");
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: 85% center;
-  margin-right: 40%;
-  background-attachment: fixed;
 }
-.noAc {
-  color: rgb(117, 117, 117);
-  text-decoration: none;
-  cursor: default;
-}
-.link {
-  color: black;
-  text-decoration: none;
-}
-.link-container {
+
+.container {
   display: flex;
+  align-items: center;
   justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  gap: 50px;
 }
-.noAc,
-.link {
-  margin: 0 5px;
-}
-.link:hover {
-  color: red;
-}
-form {
+
+.form-wrapper {
   padding: 25px;
   background: #fff;
-  max-width: 500px;
+  max-width: 450px;
   width: 100%;
   border-radius: 7px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -56,10 +37,10 @@ form {
 form h2 {
   font-size: 27px;
   text-align: center;
-  margin: 0px 0 30px;
+  margin-bottom: 20px;
 }
 
-form .form-group {
+.form-group {
   margin-bottom: 15px;
   position: relative;
 }
@@ -70,8 +51,7 @@ form label {
   margin-bottom: 7px;
 }
 
-form input,
-form select {
+form input {
   height: 45px;
   padding: 10px;
   width: 100%;
@@ -82,56 +62,94 @@ form select {
   border: 1px solid #bfbfbf;
 }
 
-form input:focus,
-form select:focus {
+form input:focus {
   border-color: #9a9a9a;
 }
 
-form input.error,
-form select.error {
-  border-color: #f91919;
-  background: #f9f0f1;
-}
-
-form small {
-  font-size: 14px;
-  margin-top: 5px;
-  display: block;
-  color: #f91919;
-}
-
-form .password i {
+.password i {
   position: absolute;
-  right: 0px;
-  height: 45px;
-  top: 28px;
-  font-size: 13px;
-  line-height: 45px;
-  width: 45px;
+  right: 10px;
+  top: 42px;
+  font-size: 16px;
   cursor: pointer;
   color: #939393;
-  text-align: center;
 }
 
-.submit-btn {
-  margin-top: 30px;
+.forgot-password {
+  display: block;
+  text-align: right;
+  color: #1f1f1f;
+  margin-bottom: 15px;
+  text-decoration: none;
 }
 
 .submit-btn input {
-  color: white;
-  border: none;
-  height: auto;
+  width: 100%;
+  padding: 13px;
   font-size: 16px;
-  padding: 13px 0;
+  border: none;
+  color: white;
   border-radius: 5px;
-  cursor: pointer;
-  font-weight: 500;
-  text-align: center;
   background: #6d7fd1;
+  cursor: pointer;
   transition: 0.2s ease;
 }
 
 .submit-btn input:hover {
   background: #ff497a;
   opacity: 0.5;
+}
+
+.link-container {
+  display: flex;
+  justify-content: center;
+}
+
+.noAc {
+  color: rgb(117, 117, 117);
+  text-decoration: none;
+  cursor: default;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.link:hover {
+  color: red;
+}
+
+.image-wrapper {
+  background-image: url("https://img.freepik.com/premium-vector/people-using-sexed-app-human-biology-anatomy-lesson-sex-education-mental-physical-health-contraception-female-reproductive-system-concept-vector-illustration_48369-47260.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 50%;
+  height: 400px;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+  
+  .image-wrapper {
+    display: none;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-wrapper {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 767px) {
+  .form-wrapper {
+    max-width: 100%;
+  }
 }

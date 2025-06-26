@@ -15,7 +15,6 @@
     <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/form.css">
     <link rel="stylesheet" href="/public/css/table.css">
-    <link rel="stylesheet" href="/public/css/menu.css">
     <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,6 +63,86 @@
 
         .btn-link.text-danger {
             color: #dc3545 !important;
+        }
+
+        .container-fluid {
+            margin: auto;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .card-header {
+            background-color: #4e73df !important;
+            color: white !important;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .modal-header {
+            background-color: #4e73df;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .close {
+            color: white;
+            font-size: 1.5rem;
+            padding: 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+            color: #333;
+        }
+
+        .modal-footer {
+            padding: 10px;
+            text-align: right;
+        }
+
+        /* Button Styles */
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-primary {
+            border: none;
+        }
+
+        select#select-option {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        option {
+            padding: 50px;
+        }
+
+        label {
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -121,18 +200,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
                     </form>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary mr-auto" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
                     <ul class="navbar-nav ml-auto">
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -147,11 +215,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    แก้ไขโปรไฟล์
-                                </a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -164,13 +227,14 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-dark">จัดการคำถามบทที่<%= quizData.lessonId %>
+                            <h6 class="m-0 font-weight-bold">จัดการคำถามบทที่<%= quizData.lessonId %>
                                     <%= quizData.status %>
                             </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <button class="btn btn-primary" id="btnCreate" data-toggle="modal"
+                                    style="background-color: #4e73df; color: white;"
                                     data-target="#createQuestionModal">เพิ่มคำถาม</button>
                                 <div class="custom-table">
                                     <% if (question && question.length> 0) { %>
@@ -262,9 +326,20 @@
 
                     </div>
                 </div>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
+
     </div>
+
+
+    <!-- Create Modal-->
     <div class="modal fade" id="createQuestionModal" tabindex="-1" role="dialog"
         aria-labelledby="createQuestionModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -281,33 +356,33 @@
 
                         <div class="form-group">
                             <label for="question">คำถาม:</label>
-                            <textarea name="question" rows="3" class="form-control"></textarea>
+                            <textarea name="question" rows="3" class="form-control" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>คำตอบ:</label>
                             <div class="question-container">
                                 <div class="question">
-                                    <label>a</label>
-                                    <input type="text" name="choiceA" class="form-control">
+                                    <label>ตัวเลือก a :</label>
+                                    <input type="text" name="choiceA" class="form-control" required>
                                 </div>
                                 <div class="question">
-                                    <label>b</label>
-                                    <input type="text" name="choiceB" class="form-control">
+                                    <label>ตัวเลือก b :</label>
+                                    <input type="text" name="choiceB" class="form-control" required>
                                 </div>
                                 <div class="question">
-                                    <label>c</label>
-                                    <input type="text" name="choiceC" class="form-control">
+                                    <label>ตัวเลือก c :</label>
+                                    <input type="text" name="choiceC" class="form-control" required>
 
                                 </div>
                                 <div class="question">
-                                    <label>d</label>
-                                    <input type="text" name="choiceD" class="form-control">
+                                    <label>ตัวเลือก d :</label>
+                                    <input type="text" name="choiceD" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>คำตอบที่ถูกต้อง:</label>
-                            <select id="correctAnswer" name="correctAnswer" class="form-control">
+                            <select id="correctAnswer" name="correctAnswer" class="form-control" required>
                                 <option value="choiceA">a</option>
                                 <option value="choiceB">b</option>
                                 <option value="choiceC">c</option>
@@ -325,6 +400,7 @@
             </div>
         </div>
     </div>
+    
 
     <script> //
         document.addEventListener('DOMContentLoaded', function () {
@@ -422,7 +498,7 @@
     <script src="/public/vendor/jquery/jquery.min.js"></script>
     <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/public/js/sb-admin-2.min.js"></script>
+    <script src="/public/js/sb-admin-2.js"></script>
     <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/public/js/datatables-demo.js"></script>

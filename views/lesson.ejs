@@ -2,222 +2,365 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
-  <link rel="manifest" href="/public/site.webmanifest">
-  <title>จัดการบทเรียน</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-  <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/public/css/form.css">
-  <link rel="stylesheet" href="/public/css/table.css">
-  <link rel="stylesheet" href="/public/css/menu.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-  <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
-  <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link
-    href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-  <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="/public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
-  <style>
-    .lesson-image {
-      height: 200px;
-      object-fit: cover;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16x16.png">
+    <link rel="manifest" href="/public/site.webmanifest">
+    <title>จัดการบทเรียน</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/css/form.css">
+    <link rel="stylesheet" href="/public/css/table.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <script src="https://kit.fontawesome.com/da08a429d6.js" crossorigin="anonymous"></script>
+    <link href="/public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="/public/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-vT5UMPFvujzKqG/Hoj1+0Tk38fANyEelFoOAJu7+8hpA+gSJJi+1WG9CvjKr+J75N8/KDnAMrZbGU9aAAqJ5NA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <style>
+        /* Card and Container Styles */
+        .card-body {
+            padding: 20px;
+        }
+
+        #btnCreate {
+            margin-bottom: 20px;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Styles for the cards */
+        .card {
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-top-right-radius: 10px;
+        }
+
+        .lesson-image {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        /* Card Title */
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Card Footer Styles */
+        .card-footer {
+            border-top: 1px solid #ddd;
+
+        }
+
+        .card-footer a {
+            color: #007bff;
+            font-size: 18px;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .card-footer a:hover {
+            color: #0056b3;
+        }
+
+        .card-footer a i {
+            font-size: 20px;
+        }
+
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 768px) {
+            .row-cols-md-3 {
+                row-gap: 30px;
+            }
+
+            #sidebarToggle {
+                display: none;
+
+            }
+
+
+            .card {
+                margin-bottom: 20px;
+            }
+            .dropdown-menu{
+                width: 50%;
+            }
+        }
+
+        .card-header {
+            background-color: #4e73df !important;
+            color: white !important;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body id="page-top">
-  <div id="wrapper">
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span style="font-size: 12px;">s</span>
-          E-learning</div>
-      </a>
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/dashboard">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <hr class="sidebar-divider">
-      <li class="nav-item active">
-        <a class="nav-link" href="/lesson">
-          <i class="fas fa-book"></i>
-          <span>บทเรียน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/quizAdmin">
-          <i class="fas fa-book-open"></i>
-          <span>แบบทดสอบ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/news">
-          <i class="fas fa-newspaper"></i>
-          <span>บทความ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user">
-          <i class="fas fa-user-group"></i>
-          <span>จัดการผู้ใช้งาน</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/theme/admin">
-          <i class="fas fa-question"></i>
-          <span>กระทู้ถาม-ตอบ</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/report/admin">
-          <i class="bi bi-flag-fill"></i>
-          <span>จัดการรายงาน</span></a>
-      </li>
-    </ul>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-          <form class="form-inline">
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-          </form>
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-10 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="ค้นหา..." aria-label="Search"
-                aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary mr-auto" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          <ul class="navbar-nav ml-auto">
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <div class="d-flex flex-column align-items-end">
-                  <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
-                  <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-                </div>
-                <i class="fa fa-user-circle-o fa-2x"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  แก้ไขโปรไฟล์
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" id="logout" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div>
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-text mx-3" style="font-size: 15.5px;">STD<span
+                        style="font-size: 12px;">s</span> E-learning</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
             </li>
-          </ul>
-        </nav>
-        <div class="container-fluid">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-dark">
-                จัดการบทเรียน
-              </h6>
-            </div>
-            <div class="card-body">
-              <a class="btn btn-primary" href="/lesson/createLesson" id="btnCreate">เพิ่มบทเรียน</a>
+            <hr class="sidebar-divider">
+            <li class="nav-item active">
+                <a class="nav-link" href="/lesson">
+                    <i class="fas fa-book"></i>
+                    <span>บทเรียน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/quizAdmin">
+                    <i class="fas fa-book-open"></i>
+                    <span>แบบทดสอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/news">
+                    <i class="fas fa-newspaper"></i>
+                    <span>บทความ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">
+                    <i class="fas fa-user-group"></i>
+                    <span>จัดการผู้ใช้งาน</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/theme/admin">
+                    <i class="fas fa-question"></i>
+                    <span>กระทู้ถาม-ตอบ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/report/admin">
+                    <i class="bi bi-flag-fill"></i>
+                    <span>จัดการรายงาน</span></a>
+            </li>
+        </ul>
 
-              <div class="row row-cols-1 row-cols-md-3 g-4">
-                <% if (lessons && lessons.length> 0) { %>
-                  <% lessons.forEach(function(lesson) { %>
-                    <div class="col" style="margin-top: 20px;">
-                      <div class="card h-100">
-                        <% if (lesson.image && lesson.image.length> 0) { %>
-                          <img src="data:image/png;base64,<%= lesson.image %>" class="card-img-top lesson-image"
-                            alt="Lesson Image" />
-                          <% } else { %>
-                            <img src="..." class="card-img-top" alt="ไม่พบรูป" />
-                            <% } %>
-                              <div class="card-body">
-                                <h5 class="card-title">
-                                  บทที่ <%= lesson.lessonNum %>
-                                    <%= lesson.lessonName %>
-                                </h5>
-                              </div>
-                              <div class="card-footer d-flex justify-content-end">
-                                <a href="/lesson/viewLesson/<%= lesson._id %>"><i class="fas fa-eye" id="view"></i></a>
-                                <a href="/lesson/edit/<%= lesson._id %>"><i class="fas fa-pen-square"
-                                    id="edit"></i></i></i></a>
-                                <a href="/lesson/delete/<%= lesson._id %>/<%= lesson.lessonNum %>" class="delete-link">
-                                  <i class="fas fa-trash" id="delete"></i>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="d-flex flex-column align-items-end">
+                                    <span id="userFirstname" class="mr-2 d-none d-lg-inline text-gray-800"></span>
+                                    <span id="userRole" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                </div>
+                                <i class="fa fa-user-circle-o fa-2x"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" id="logout" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    ออกจากระบบ
                                 </a>
-                              </div>
-                      </div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold">
+                                จัดการบทเรียน
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <a class="btn btn-primary" href="/lesson/createLesson" id="btnCreate"
+                                style="background-color: #4e73df;">เพิ่มบทเรียน</a>
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                                <% if (lessons && lessons.length> 0) { %>
+                                    <% lessons.forEach(function(lesson) { %>
+                                        <div class="col" style="margin-top: 20px;">
+                                            <div class="card h-100">
+                                                <% if (lesson.image && lesson.image.length> 0) { %>
+                                                    <img src="data:image/png;base64,<%= lesson.image %>"
+                                                        class="card-img-top lesson-image" alt="Lesson Image" />
+                                                    <% } else { %>
+                                                        <img src="..." class="card-img-top" alt="ไม่พบรูป" />
+                                                        <% } %>
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">
+                                                                    บทที่ <%= lesson.lessonNum %>
+                                                                        <%= lesson.lessonName %>
+                                                                </h5>
+                                                            </div>
+                                                            <div class="card-footer d-flex justify-content-end">
+                                                                <a href="/lesson/viewLesson/<%= lesson._id %>"><i
+                                                                        class="fas fa-eye" id="view"></i></a>
+                                                                <a href="/lesson/edit/<%= lesson._id %>"><i
+                                                                        class="fas fa-pen-square"
+                                                                        id="edit"></i></i></i></a>
+                                                                <a href="/lesson/delete/<%= lesson._id %>/<%= lesson.lessonNum %>"
+                                                                    class="delete-link">
+                                                                    <i class="fas fa-trash" id="delete"></i>
+                                                                </a>
+                                                            </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p>No lessons available</p>
+                                                <% } %>
+                            </div><br>
+                            <nav aria-label="Page navigation" class="d-flex justify-content-end">
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <!-- Pagination generated here -->
+                                </ul>
+                            </nav>
+                        </div>
+                        
                     </div>
-                    <% }); %>
-                      <% } else { %>
-                        <p>No lessons available</p>
-                        <% } %>
-              </div>
+                </div>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; STD<span style="font-size: 12px;">s</span> E-learning</span>
+                        </div>
+                    </div>
+                </footer>
+                
+                <script src="/public/vendor/jquery/jquery.min.js"></script>
+                <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+                <script src="/public/js/sb-admin-2.js"></script>
+                <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+                <script src="/public/js/demo/datatables-demo.js"></script>
+                <script>
+                    const paginationContainer = document.getElementById('pagination');
+                    const cardsPerPage = 15;
+                    let currentPage = <%= currentPage %>;  // The current page passed from backend
+                    const totalPages = <%= totalPages %>;  // The total number of pages passed from backend
+                
+                    function renderPagination() {
+                        paginationContainer.innerHTML = "";  // Clear existing pagination
+                
+                        const createPageItem = (page, label, isDisabled = false, isActive = false) => {
+                            const li = document.createElement('li');
+                            li.className = `page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}`;
+                            li.innerHTML = `<button class="page-link" data-page="${page}" onclick="navigateToPage(${page})">${label}</button>`;
+                            return li;
+                        };
+                
+                        // Previous Button
+                        paginationContainer.appendChild(createPageItem(currentPage - 1, '«', currentPage === 1));
+                
+                        // Page Range
+                        for (let i = 1; i <= totalPages; i++) {
+                            paginationContainer.appendChild(createPageItem(i, i, false, currentPage === i));
+                        }
+                
+                        // Next Button
+                        paginationContainer.appendChild(createPageItem(currentPage + 1, '»', currentPage === totalPages));
+                    }
+                
+                    function navigateToPage(page) {
+                        if (page < 1 || page > totalPages) return;
+                        window.location.href = `/lesson?page=${page}`;
+                    }
+                
+                    // Initial rendering
+                    renderPagination();
+                </script>
+                <script src="
+    https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
 
-            </div>
-          </div>
-        </div>
+                <script src="/public/js/profileDetail.js"></script>
+                <script src="/public/js/adminLogout.js"></script>
+                <script>
+                    $(window).resize(function () {
+                        if ($(window).width() < 768) {
+                            $("#sidebarToggle").hide();
+                        } else {
+                            $("#sidebarToggle").show();
+                        }
+                    });
 
-        <script src="/public/js/script.js"></script>
-        <script src="/public/vendor/jquery/jquery.min.js"></script>
-        <script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="/public/js/sb-admin-2.min.js"></script>
-        <script src="/public/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="/public/js/datatables-demo.js"></script>
-        <!-- get user data from token -->
-        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+                </script>
 
-        <script src="/public/js/profileDetail.js"></script>
-        <script type="application/javascript">
-          document.addEventListener("DOMContentLoaded", function () {
-            const deleteLinks = document.querySelectorAll(".delete-link");
+                <script type="application/javascript">
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const deleteLinks = document.querySelectorAll(".delete-link");
 
-            deleteLinks.forEach(link => {
-              link.addEventListener("click", function (event) {
-                event.preventDefault();
-                const href = this.getAttribute("href");
+                        deleteLinks.forEach(link => {
+                            link.addEventListener("click", function (event) {
+                                event.preventDefault();
+                                const href = this.getAttribute("href");
 
-                Swal.fire({
-                  title: 'ต้องการลบบทเรียนนี้ใช่หรือไม่?',
-                  text: 'ข้อมูลที่เกี่ยวข้องกับบทเรียนนี้จะถูกลบด้วย เช่น แบบทดสอบ, คำถามของแบบทดสอบ',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'ใช่, ลบเลย!',
-                  cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.href = href;
-                  }
-                });
-              });
-            });
-          });
-        </script>
-        <script src="/public/js/adminLogin.js"></script>
-        <script src="/public/js/adminLogout.js"></script>
-        <script src="/public/js/adminRoleCheck.js"></script>
+                                Swal.fire({
+                                    title: 'ต้องการลบบทเรียนนี้ใช่หรือไม่?',
+                                    text: 'ข้อมูลที่เกี่ยวข้องกับบทเรียนนี้จะถูกลบด้วย เช่น แบบทดสอบ, คำถามของแบบทดสอบ',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'ใช่, ลบเลย!',
+                                    cancelButtonText: 'ยกเลิก'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = href;
+                                    }
+                                });
+                            });
+                        });
+                    });
+                </script>
+                <script src="/public/js/adminLogin.js"></script>
+                <script src="/public/js/adminLogout.js"></script>
+                <script src="/public/js/adminRoleCheck.js"></script>
+
 </body>
+
+
 
 </html>

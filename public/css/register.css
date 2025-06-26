@@ -1,10 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Noto+Sans+Thai:wght@100..900&family=Sarabun:wght@200&display=swap');
+
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
 }
 
 body {
@@ -134,4 +136,39 @@ form .password i {
 .submit-btn input:hover {
     background: #ff497a;
     opacity: 0.5;
+}
+@media (min-width: 1024px) {
+  body {
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: 89% center;
+    margin-right: 40%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    background: none; /* เอารูปออก */
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  form {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    background: none; /* เอารูปออก */
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  form {
+    max-width: 100%;
+    padding: 20px;
+  }
 }
