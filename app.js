@@ -43,7 +43,9 @@ servers.setTimeout(parseInt(process.env.TIMEOUT))
 global.privateKeyPath = __dirname + "/middleware/PrivateKey.key"
 const privateKey = fs.readFileSync(privateKeyPath, { encoding: "utf8" });
 app.use(cors())
-app.use(express.static("public"));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static("public"))
 app.use(
     bodyParser.urlencoded({
         limit: "20mb",
