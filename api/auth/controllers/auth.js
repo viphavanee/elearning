@@ -13,7 +13,7 @@ function generateRandomPassword() {
         const randomIndex = Math.floor(Math.random() * charset.length);
         password += charset[randomIndex];
     }
-    // Append a random digit
+    //random digit
     const randomDigit = Math.floor(Math.random() * 10);
     password += randomDigit.toString();
     return password;

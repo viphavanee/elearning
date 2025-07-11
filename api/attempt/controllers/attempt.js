@@ -26,22 +26,18 @@ router.route("/createAttempt").post(async (req, res) => {
     const lessonNum = getLessonNum.data.lessonId;
     const getLessonId = await Lfunc.getLessonByLessonNum({ lessonNum });
     const lessonId = getLessonId.data._id;
-    // Get all questions for the given quizId
     const questions = await Qfunc.getQuestionByQId({ quizId: quizId });
 
-    // Ensure questions data exists and is an array
     if (!questions || !Array.isArray(questions.data)) {
       return res.status(400).json({ error: "Invalid questions data" });
     }
-    //{answer_1: chioceA}
 
-    // Correct answers mapping (loop)
+    // mapping (loop)
     const correctAnswers = questions.data.reduce((acc, question) => {
       acc[question.questionNumber] = question.correctAnswer;
       return acc;
     }, {});
 
-    // Prepare attempt data
     const attemptData = {
       studentId,
       quizId,
@@ -50,11 +46,9 @@ router.route("/createAttempt").post(async (req, res) => {
       totalScore,
     };
 
-    // Save attempt data to the database
     const response = await func.createAttempt(attemptData);
-    const attemptId = response.data._id; // Assuming response.data contains the saved attempt data
+    const attemptId = response.data._id; 
 
-    // Collect attempt details
     const attemptDetails = [];
     for (let i = 1; i <= 10; i++) {
       const userAnswer = req.body[`answer_${i}`];
@@ -75,11 +69,10 @@ router.route("/createAttempt").post(async (req, res) => {
       attemptDetails.push(detailData);
     }
 
-    // Save all attempt details in a batch
     await Dfunc.createAttemptDetail(attemptDetails);
     const studentResponse = await Ufunc.getUserById({ id: studentId });
     const roomCode = studentResponse.data.roomCode;
-    // Update the totalScore in attempt data after processing all answers
+
     await func.updateAttempt(attemptId, { totalScore });
     if (attemptType === 'pre') {
       await Pfunc.create({ studentId, lessonId, roomCode });
@@ -162,18 +155,15 @@ router.route("/post/result/:studentId/:quizId/:roomCode").get(async (req, res) =
 
 
 router.route("/list/:id").get(async (req, res) => {
-  const { id } = req.params; // Get the teacher ID from the URL parameters
+  const { id } = req.params; 
 
   try {
-    // Fetch the classroom data by teacher ID
 
     const classroomResponse = await Cfunc.getClassroombyTeacherId({ id });
-    const classroom = classroomResponse?.data || null; // Use optional chaining with fallback to null
-
-    // Fetch the teacher data by ID
+    const classroom = classroomResponse?.data || null; 
     const teacherResponse = await Ufunc.getUserById({ id });
-    const teacher = teacherResponse?.data || null; // Use optional chaining with fallback to null
-    // Render the classroomTeacher view with the classroom and teacher data
+    const teacher = teacherResponse?.data || null; 
+    
     res.render("attemptTchr", { classroom, teacher });
   } catch (error) {
     console.error('Error in getClassroom controller:', error);
@@ -184,11 +174,10 @@ router.route("/list/:id").get(async (req, res) => {
 router.route("/:teacherId/quiz/:roomCode").get(async (req, res) => {
   const { roomCode } = req.params;
   try {
-    // Fetch all quizzes
     let getQuiz = await QuizFunc.getQuiz();
     const classroom = await Cfunc.getByRoomCode({ roomCode });
 
-    // Render the quizzes page (or provide a download link)
+    // Render the quizzes page (provide a download link)
     res.render("score", { quiz: getQuiz.data, roomCode, classroom: classroom.data });
   } catch (error) {
     console.error(error);
@@ -362,41 +351,40 @@ router.route("/generateXlsx/:roomCode/:quizId").get(async (req, res) => {
     // Set row heights
     ws['!rows'] = rows.map((_, idx) => ({ hpt: idx === 5 ? 20 : 15 })); // Header row height 20, others 15
 
-    // Apply Tahoma font to all cells
-
     Object.keys(ws).forEach((cell) => {
       if (ws[cell].v) {
         ws[cell].s = {
           font: {
-            name: "Tahoma", // Set font to Tahoma
-            sz: 12, // Set font size
+            name: "Tahoma", 
+            sz: 12, // font size
           },
           border: {
-            right: { style: "thin", color: { rgb: "000000" } }, // Black right border for all cells
-            left: { style: "thin", color: { rgb: "000000" } },  // Black left border for all cells
-            top: { style: "thin", color: { rgb: "000000" } },   // Black top border for all cells
-            bottom: { style: "thin", color: { rgb: "000000" } }, // Black bottom border for all cells
+            right: { style: "thin", color: { rgb: "000000" } }, 
+            left: { style: "thin", color: { rgb: "000000" } },  
+            top: { style: "thin", color: { rgb: "000000" } },   
+            bottom: { style: "thin", color: { rgb: "000000" } }, 
           }
         };
       }
     });
-    const headerCells = ['A7', 'B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7'];  // Adjust as needed
+    const headerCells = ['A7', 'B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7'];  
     headerCells.forEach(cell => {
       if (ws[cell]) {
         ws[cell].s = {
           fill: {
-            fgColor: { rgb: "FBE2D5" }, // Soft orange background color
+            fgColor: { rgb: "FBE2D5" }, // background color
           },
           font: {
-            name: "Tahoma", // Set font to Tahoma
-            sz: 12, // Set font size
-            weight: "bold", // Set font weight to bold
+            name: "Tahoma",
+            sz: 12, 
+            weight: "bold", 
           },
+          // Black border 
           border: {
-            right: { style: "thin", color: { rgb: "000000" } }, // Black right border for all cells
-            left: { style: "thin", color: { rgb: "000000" } },  // Black left border for all cells
-            top: { style: "thin", color: { rgb: "000000" } },   // Black top border for all cells
-            bottom: { style: "thin", color: { rgb: "000000" } }, // Black bottom border for all cells
+            right: { style: "thin", color: { rgb: "000000" } }, 
+            left: { style: "thin", color: { rgb: "000000" } },  
+            top: { style: "thin", color: { rgb: "000000" } },   
+            bottom: { style: "thin", color: { rgb: "000000" } }, 
           }
         };
       }

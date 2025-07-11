@@ -13,7 +13,7 @@ const createLesson = async (data, imageFile) => {
     if (existingLesson) {
       await client.close();
       return {
-        status_code: "409", // Conflict status code
+        status_code: "409", //Conflict
         status_phrase: "fail",
         message: `บทที่ ${data.lessonNum} มีในระบบแล้ว`,
       };
@@ -55,16 +55,15 @@ const checkLessonNumExists = async () => {
     const existingLesson = await Lesson.findOne({ lessonNum: lessonNum });
 
     if (existingLesson) {
-      // If the lessonNum exists, show the error message
       Swal.fire({
         icon: "error",
         title: "หมายเลขบทเรียนนี้มีอยู่ในระบบแล้ว",
         text: "กรุณากรอกหมายเลขบทเรียนที่ไม่ซ้ำ",
       });
-      return true; // Return true to indicate that the lesson number already exists
+      return true;
     }
 
-    return false; // Return false if the lessonNum does not exist
+    return false;
   } catch (error) {
     console.error("Error checking lessonNum:", error);
     Swal.fire({
@@ -83,7 +82,6 @@ const getLesson = async () => {
 
     const database = client.db("project1");
     const collection = database.collection("lessons");
-
     const lessons = await collection.find({ isDeleted: { $ne: true } }).toArray();
 
     await client.close();
@@ -183,11 +181,10 @@ const softDelete = async (data) => {
     const questionCollect = database.collection("questions");
 
     const objectId = new ObjectId(data.id);
-    const lessonNum = data.lessonNum; // Ensure this matches the database type
+    const lessonNum = data.lessonNum;
 
     console.log("Soft delete started for lesson:", { id: data.id, lessonNum });
 
-    // Find the quiz associated with the lesson
     const quiz = await quizCollect.findOne({ lessonId: lessonNum, isDeleted: { $ne: true } });
 
     if (!quiz) {
@@ -195,14 +192,13 @@ const softDelete = async (data) => {
     } else {
       const quizId = quiz._id.toString();
       
-      // Update the questions associated with the quiz
       const questionResult = await questionCollect.updateMany(
         { quizId, isDeleted: { $ne: true } },
         { $set: { isDeleted: true } }
       );
       console.log("Questions updated:", questionResult.modifiedCount);
   
-      // Update the quiz
+      // Update quiz
       const quizResult = await quizCollect.updateOne(
         { lessonId: lessonNum, isDeleted: { $ne: true } },
         { $set: { isDeleted: true } }

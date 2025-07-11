@@ -18,31 +18,22 @@ router.route("/createAdmin").post(async (req, res) => {
 });
 router.route("/dashboard").get(async (req, res) => {
   try {
-    // Arrays for categorized attempts
     let attemptWithLessonNum = [];
-
-    // Get data from model
     const getStudent = await Ufunc.getUsersByRole({ role: "student" });
     const getTchr = await Ufunc.getUsersByRole({ role: "teacher" });
     const getLesson = await Lfunc.getLesson();
     const getClassroom = await Cfunc.getClassroom();
     const attempt = await Afunc.getAttempt();
 
-
-    // Count students per school
     const uniqueSchools = new Set();
-
-    // Add each school to the Set (duplicates are automatically ignored)
     getStudent.data.forEach((student) => {
       if (student.school) {
         uniqueSchools.add(student.school);
       }
     });
 
-    // Count of unique schools
     const schoolCount = uniqueSchools.size;
 
-    // Filter and categorize attempts
     for (const item of attempt.data) {
       const getQuiz = await Qfunc.getQuizById({ id: item.quizId });
       attemptWithLessonNum.push({
@@ -52,13 +43,11 @@ router.route("/dashboard").get(async (req, res) => {
     }
 
 
-    // Data length
     const stdCount = getStudent.data.length;
     const tchrCount = getTchr.data.length;
     const lessonCount = getLesson.data.length;
     const classroomCount = getClassroom.data.length;
 
-    // Get the latest 5 users
     const getLatestUser = await Ufunc.getLastFiveUsers();
     const latestUser = getLatestUser.data;
 
@@ -73,14 +62,13 @@ router.route("/dashboard").get(async (req, res) => {
     });
 
 
-    // Render adminDashboard view and pass the retrieved data
     res.render("adminDashboard", {
       stdCount,
       tchrCount,
       lessonCount,
       classroomCount,
-      latestUser,  // List of the latest users
-      schoolCount, // School count data
+      latestUser,
+      schoolCount, 
       groupedData,
       attempts: attemptWithLessonNum,
       lesson: getLesson.data,

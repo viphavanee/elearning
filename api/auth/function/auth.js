@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 
 function generateToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY); // Adjust expiresIn as per your requirements
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY); 
 }
 
 const register = async (data) => {

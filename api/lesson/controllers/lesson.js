@@ -13,18 +13,17 @@ const PFunc = require("../../progress/function/progress");
 
 router.route("/").get(async (req, res) => {
   try {
-    const response = await func.getLesson(); // Fetch all lessons
+    const response = await func.getLesson();
     if (response.status_code === "200") {
       let lessons = response.data;
 
       // Pagination
       const page = parseInt(req.query.page) || 1;
-      const limit = 9; // Limit per page
+      const limit = 9;
       const skip = (page - 1) * limit;
       const totalLessons = lessons.length;
       const totalPages = Math.ceil(totalLessons / limit);
 
-      // Search functionality
       const searchQuery = req.query.search ? req.query.search.toLowerCase() : "";
       if (searchQuery) {
         lessons = lessons.filter(lesson =>
@@ -32,8 +31,6 @@ router.route("/").get(async (req, res) => {
           lesson.description.toLowerCase().includes(searchQuery)
         );
       }
-
-      // Paginate the filtered lessons
       const paginatedLessons = lessons.slice(skip, skip + limit);
 
       res.render("lesson", { lessons: paginatedLessons, totalPages, currentPage: page });
@@ -129,8 +126,6 @@ router.route("/tchr").get(async (req, res) => {
     res.status(500).json({ error: error });
   }
 });
-
-
 
 router.route("/createLesson").get(async (req, res) => {
   res.render("createLesson");
@@ -291,9 +286,6 @@ router.route("/edit/:id").post(upload.single("newImage"), async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
-
 
 router.route("/delete/:id/:lesson").get(async (req, res) => {
   try {
